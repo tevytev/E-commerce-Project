@@ -5,8 +5,6 @@ import axios from "../api/axios";
 
 export default function Dashboard({ isLoggedIn, setIsLoggedIn, user, setUser}) {
 
-  const { auth, setAuth } = useAuth();
-
   if (isLoggedIn === null) {
     return <Navigate to={'/login'} />
   } else {

@@ -32,19 +32,6 @@ export const LoginForm = (props) => {
         setErrMsg('');
     }, [username, pwd])
 
-    // useEffect(() => {
-    //     const result = EMAIL_REGEX.test(email);
-    //     console.log(`email: ${email}`);
-    //     setValidEmail(result);
-    // }, [email])
-
-    // useEffect(() => {
-    //     const result = PWD_REGEX.test(password);
-    //     console.log(result);
-    //     console.log(password);
-    //     setValidPassword(result);
-    // }, [password])
-
     return (
         <>
         <div className="flex flex-col items-center h-auto w-1/4 p-6 px-10 drop-shadow-2xl bg-white border-0 rounded-lg">

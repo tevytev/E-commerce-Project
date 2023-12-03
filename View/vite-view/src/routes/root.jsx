@@ -5,14 +5,13 @@ import axios from "../api/axios";
 import useAuth from "../hooks/useAuth";
 import '../index.css';
 
-const LOGOUT_URL = "/api/users/logout"
+const LOGOUT_URL = "/api/users/logout";
 
 export default function Root({ isLoggedIn, setIsLoggedIn, setUser, user }) {
 
   const { auth, setAuth } = useAuth();
 
   const rootElement = document.getElementById('root');
-  // rootElement.style.backgroundColor = 'none';
   
   const navigate = useNavigate();
 
@@ -21,7 +20,7 @@ export default function Root({ isLoggedIn, setIsLoggedIn, setUser, user }) {
   const handleLogout = async () => {
 
     try {
-      const response = await axios.get('/api/users/logout', 
+      const response = await axios.get(LOGOUT_URL,
         {
             headers: { 
                 "Content-Type": "application/json" 
@@ -31,8 +30,6 @@ export default function Root({ isLoggedIn, setIsLoggedIn, setUser, user }) {
     );
 
       if (response) {
-        // window.localStorage.removeItem('isLoggedIn');
-        // window.localStorage.removeItem('userData');
         window.localStorage.clear();
         setIsLoggedIn(null);
         setUser(null);

@@ -7,14 +7,8 @@ import Dashboard from './routes/dashboard';
 import Login from './routes/login';
 import RequireAuth from './routes/RequireAuth';
 import Protected from './routes/protected';
-import useAuth from './hooks/useAuth';
 
 function App() {
-
-  // useEffect(() => {
-    
-
-  // }, [])
 
   const rootElement = document.getElementById('root');
   const body = document.body;
@@ -31,13 +25,8 @@ function App() {
   body.style.justifyContent = 'center';
   body.className = 'font-poppins';
 
-  const { setAuth } = useAuth();
-
   const [isLoggedIn, setIsLoggedIn] = useState(window.localStorage.getItem('isLoggedIn') ? JSON.parse(window.localStorage.getItem('isLoggedIn')) : null);
   const [user, setUser] = useState(window.localStorage.getItem('userData') ? window.localStorage.getItem('userData') : null);
-  // setAuth({
-  //   user: user
-  // });
 
   return (
     <>

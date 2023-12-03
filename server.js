@@ -61,7 +61,7 @@ app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-const corsOptions ={
+const corsOptions = {
   origin:'http://localhost:5173',
   credentials: true,
   optionSuccessStatus: 200,
@@ -87,6 +87,9 @@ const sessionStore = new PostgresqlStore({
 app.use(
   session({
     secret: process.env.SECRETKEY,
+    resave: false,
+    saveUninitialized: false,
+    store: sessionStore,
     cookie: {
       maxAge: 24 * 60 * 60 * 1000,
       secure: false,
@@ -94,13 +97,11 @@ app.use(
       sameSite: 'lax',
       path: '/',
       domain: 'localhost'
-    },
-    resave: false,
-    saveUninitialized: false,
-    store: sessionStore
+    }
   })
 );
 
+// routes for the user API
 app.use('/api/users', userRoutes);
 
 // routes for the product API

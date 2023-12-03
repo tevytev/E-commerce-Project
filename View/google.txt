@@ -1,2 +1,0 @@
-ClientId=115137430214-ek4lrtkvoa3sh8roiln0mp0fiermhtpe.apps.googleusercontent.com
-ClientSecret=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

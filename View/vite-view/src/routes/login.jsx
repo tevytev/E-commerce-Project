@@ -1,16 +1,12 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, Navigate, Link } from "react-router-dom";
 import { LoginForm } from "../features/LoginForm";
-import useAuth from "../hooks/useAuth";
-import { GoogleLogin } from 'react-google-login';
-
 import axios from "../api/axios";
-const LOGIN_URL = "/api/users/login"
-const clientId = "115137430214-ek4lrtkvoa3sh8roiln0mp0fiermhtpe.apps.googleusercontent.com"
+
+const LOGIN_URL = "/api/users/login";
+
 
 export default function Login({ setUser, isLoggedIn, setIsLoggedIn }) {
-
-    const { setAuth } = useAuth();
 
     const [username, setUsername] = useState('Tevin');
     const [pwd, setPwd] = useState('Bridget1003!');
@@ -57,8 +53,6 @@ export default function Login({ setUser, isLoggedIn, setIsLoggedIn }) {
                 window.localStorage.setItem('userData', JSON.stringify(response.data));
                 setUser(window.localStorage.getItem('userData'));
                 const user = response.data;
-                // console.log(user);
-                // setAuth({user: user})
                 navigate('/home');
             }
         } catch (error) {
