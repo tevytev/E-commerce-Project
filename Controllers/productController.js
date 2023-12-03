@@ -4,7 +4,7 @@ const { db } = require('../Models');
 // assigning users to the variable Products
 const Product = db.products;
 
-const getAllProducts = async (req, res) => {
+const getAllProducts = async (req, res, next) => {
     const { category } = req.query;
     if (category) {
             // if pricing query is included in request, filter out all products that do not match category parameter
@@ -56,7 +56,8 @@ const getAllProducts = async (req, res) => {
                 });
     
                 if (products) {
-                    return res.status(200).send(products);
+                    res.status(200).send(products);
+                    next();
                 } else {
                     res.status(404).send("Could not fetch products");
                 }

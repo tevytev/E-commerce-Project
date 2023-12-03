@@ -14,7 +14,7 @@ const getUserInfo = async (req, res) => {
 
         try {
             const user = await User.findOne({
-                attributes: ['userName', 'email'],
+                attributes: ['userName', 'email', 'id'],
                 where: {
                     id: userId
                 }

@@ -10,28 +10,36 @@ const User = db.users;
 //Function to check if username or email already exist in the database
 //this is to avoid having two users with the same username and email
  const saveUser = async (req, res, next) => {
+
+  // if (req.session.authenticated) {
+  //   return res.send('already authenticated');
+  // }
+
+  const { userName, email } = req.body
  //search the database to see if user exist
  try {
    const username = await User.findOne({
      where: {
-       userName: req.body.userName,
+       userName: userName,
      },
    });
    //if username exist in the database respond with a status of 409
    if (username) {
-     return res.json(409).send("username already taken");
+     return res.status(409).send("Username already registered");
+    // next();
    }
 
    //checking if email already exist
    const emailcheck = await User.findOne({
      where: {
-       email: req.body.email,
+       email: email,
      },
    });
 
    //if email exist in the database respond with a status of 409
    if (emailcheck) {
-     return res.json(409).send("Authentication failed");
+     return res.status(409).send("Email already registered");
+    // next();
    }
 
    next();
@@ -40,24 +48,32 @@ const User = db.users;
  }
 };
 
-const userAuthorization = async (req, res, next) => {
-  const token = req.cookies.jwt;
+// const userAuthorization = async (req, res, next) => {
+//   const token = req.cookies.jwt;
 
-  if (token) {
-    try {
-      const data = jwt.verify(token, process.env.secretKey);
-      req.userId = data.id;
-      next();
-    } catch (error) {
-      console.log(error)
-    }
+//   if (token) {
+//     try {
+//       const data = jwt.verify(token, process.env.secretKey);
+//       req.userId = data.id;
+//       next();
+//     } catch (error) {
+//       console.log(error)
+//     }
+//   } else {
+//     return res.status(401).send('Please sign up or login in order to continue');
+//   }
+// };
+
+const userAuthorization = async (req, res, next) => {
+  if (req.session.authenticated === true) {
+    next();
   } else {
-    return res.status(401).send('Please sign up or login in order to continue');
+    res.status(400).send('please sign back in');
   }
 };
 
 //exporting module
  module.exports = {
   saveUser,
-  userAuthorization
+  userAuthorization,
 };

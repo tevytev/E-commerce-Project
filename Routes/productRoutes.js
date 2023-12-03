@@ -5,10 +5,11 @@ const {
     getProductById
 } = productController;
 const { adjustPriceRange } = require('../Middleware/productMiddleware/productPricing')
+const userAuth = require('../Middleware/userMiddleware/userAuth');
 
 const router = express.Router();
 
-router.use('/', adjustPriceRange);
+router.use('/', userAuth.userAuthorization, adjustPriceRange);
 
 // Product Component
 /**

@@ -1,8 +1,11 @@
 const express = require('express');
 const userController = require('../Controllers/registrationController');
-const { signup, login } = require('../Controllers/registrationController');
+const { signup, login, sessionStatus, persistLogin, logout } = require('../Controllers/registrationController');
 const { getUserInfo, editUserInfo } = require('../Controllers/userController');
 const userAuth = require('../Middleware/userMiddleware/userAuth');
+
+
+// userAuth.userAuthorization < Add this back to user info and update
 
 const router = express.Router();
 
@@ -81,7 +84,7 @@ const router = express.Router();
  *                   example: Cookie@example.com
  *       
  */
-router.post('/signup', userAuth.saveUser, signup);
+router.post('/signup', signup);
 
 // login route
 /**
@@ -123,6 +126,14 @@ router.post('/signup', userAuth.saveUser, signup);
  *                   example: Cookie@example.com
  */
 router.post('/login', login);
+
+// auto login route
+router.post('/persist', persistLogin);
+
+router.get('/session', userAuth.userAuthorization, sessionStatus);
+
+// logout route
+router.get('/logout', userAuth.userAuthorization, logout);
 
 // get specific user info
 /**
@@ -197,5 +208,7 @@ router.get('/:userId', userAuth.userAuthorization, getUserInfo);
  *                   example: NewEmail@example.com
  */
 router.put('/update', userAuth.userAuthorization, editUserInfo);
+
+
 
 module.exports = router;
