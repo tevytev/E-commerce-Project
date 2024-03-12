@@ -1,0 +1,176 @@
+.acct-section-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 115px 3rem 0 3rem;
+    height: auto;
+}
+
+.acct-heading-container {
+    padding: 50px 0;
+}
+
+.acct-heading-container h1 {
+    font-weight: bold;
+    font-size: 2rem;
+}
+
+.acct-section-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.info-section-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    height: auto;
+    width: 25%;
+    gap: 1.5rem;
+    /* border: solid red; */
+}
+
+.acct-info-profile-container {
+    /* border: solid green; */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    gap: 1rem;
+    height: auto;
+    /* background-color: rgb(240, 240, 240); */
+    border-radius: 3px;
+}
+
+.acct-avatar-container {
+    /* border: solid red; */
+    height: 100%;
+    width: auto;
+}
+
+.acct-avatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70px;
+    height: 70px;
+    background-color: #161616;
+    color: white;
+    border-radius: 50%;
+    font-size: 1.5rem;
+}
+
+.acct-profile-text-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    /* border: solid blue; */
+    height: 100%;
+    width: 100%;
+}
+
+.acct-username {
+    font-weight: 600;
+    font-size: 1.2rem;
+    line-height: 85%;
+}
+
+.acct-email {
+    font-weight: 300;
+    color: #555555;
+    font-size: 1rem;
+}
+
+.acct-logout {
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: underline;
+}
+
+.address-book-container {
+    width: 100%;
+    background-color: rgb(240, 240, 240);
+    padding: 1rem;
+    border-radius: 3px;
+}
+
+.address-book-container p {
+    text-decoration: underline;
+}
+
+.acct-return-container {
+    width: 100%;
+    background-color: rgb(240, 240, 240);
+    padding: 1rem;
+    border-radius: 3px;
+    margin-bottom: 1rem;
+}
+
+.acct-return-container button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    width: 100%;
+    background-color: #555555;
+    padding: .8rem 0;
+    border-radius: 100px;
+    transition: 100ms ease-out;
+}
+
+.acct-return-container button:hover {
+    background-color: #424141;
+}
+
+.apps-blogs-header {
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+.download-fitness-app-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    width: 100%;
+    height: 500px;
+    background-image: url('../../assets/blog.jpg');
+    background-size: cover;
+    background-position: 40%;
+    border-radius: 3px;
+    position: relative;
+    color: white;
+}
+
+.order-section-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 72%;
+    /* border: solid blue */
+}
+
+.order-header-container {
+    /* border: solid red; */
+    width: 100%;
+
+}
+
+.order-header-container h3 {
+    font-weight: 600;
+    font-size: 1.3rem;
+    line-height: 85%;
+}
+
+.order-feed-container {
+    width: 100%;
+    height: 500px;
+    /* border: solid blue; */
+}

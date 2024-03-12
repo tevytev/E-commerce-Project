@@ -1,0 +1,44 @@
+import menProductImage1 from './men/Maroon-Active-Muscle-Fit-Fast-Dry-Raglan-T-shirt.png';
+import menProductImage2 from './assets/Charcoal-Active-Muscle-Fit-Fast-Dry-Raglan-T-shirt.png';
+import Productimage3 from './assets/Stone-Active-Muscle-Fit-Fast-Dry-Raglan-T-shirt.png';
+import Productimage4 from './assets/Khaki-Active-Muscle-Fit-Fast-Dry-Raglan-T-shirt.png';
+import Productimage5 from './assets/Khaki-Active-Raglan-Muscle-Fit-Compression-Top.png';
+import Productimage6 from './assets/Charcoal-Active-Muscle-Fit-Space-Dye-Long-Top.png';
+import Productimage7 from './assets/Berry-Active-Matte-High-Neck-Compression-Baselayer.png';
+import Productimage8 from './assets/Maroon-Active-Skinny-Stretch-Sweatpants.png';
+import Productimage9 from './assets/Black-Man-Active-Gym-Tapered-Fit-Sweatpants.png';
+import Productimage10 from './assets/Grey-Man-Active-Lightweight-Plain-Track-Pants.png';
+import Productimage11 from './assets/Steel-Man-Active-Gym-Techincal-Cargo-Jogger.png';
+import Productimage12 from './assets/Beige-Man-Active-Gym-Technical-Cargo Jogger.png';
+import Productimage13 from './assets/Light-grey-Active-5-Inch-Fast-Dry-Shorts.png';
+import Productimage14 from './assets/Black-Active-Matte-Stretch-Woven-Side-Split-Short.png';
+
+
+
+import womenProductImage15 from './assets/Stone-beige-DSGN-Studio-Supersoft-Peached-Sculpt-Padded-Sports-Bra.png';
+import womenProductImage16 from './assets/Khaki-DSGN-Studio-Supersoft-Peached-Sculpt-Padded-Sports-Bra.png';
+import womenProductImage17 from './assets/Gray-DSGN-Studio-Supersoft-Peached-Sculpt-Padded-Sports-Bra.png';
+import womenProductImage18 from './assets/Navy-DSGN-Studio-Supersoft-Peached-Sculpt-Padded-Sports-Bra.png';
+import womenProductImage19 from './assets/Ath-Dept-Slogan-Oversized-T-Shirt.png';
+import womenProductImage20 from './assets/Beige-DSGN-Studio-Supersoft-Peached-Sculpt-Top.png';
+import womenProductImage21 from './assets/Ocean-DSGN-Studio-Supersoft-Peached-Sculpt-Top.png';
+import womenProductImage22 from './assets/Dsgn-Studio-Sports-Oversized-Gym-T-Shirt.png';
+import womenProductImage23 from './assets/Black-Long-Sleeve-Woven-Tab-Gym-Top.png';
+import womenProductImage24 from './assets/Stone-beige-Seamless-Contour-Ribbed-Round-Neck-Top.png';
+import womenProductImage25 from './assets/Ribbed-Seamless-Long-Sleeve-Gym-Top.png';
+import womenProductImage26 from './assets/Zebra-DSGN-STUDIO-Piping-Detail-Peached-Active-Legging.png';
+import womenProductImage27 from './assets/Structured-Seamless-Contour-Ribbed-Sculpt-Leggings.png';
+import womenProductImage28 from './assets/Red-Honeycomb-Workout-Leggings.png';
+import womenProductImage29 from './assets/Teal-Woven-Label-Detail-Active-Leggings.png';
+import womenProductImage30 from './assets/Charcoal-grey-Woven-Label-Detail-Active-Leggings.png';
+import womenProductImage31 from './assets/Black-DSGN-Studio-Sports-Workout-Leggings-With-Pocket.png';
+import womenProductImage32 from './assets/Peached-Active-Piping-Detail-Biker-Short.png';
+import womenProductImage33 from './assets/Charcoal-grey-Seamless-Contour-Ribbed-Biker-Short.png';
+import womenProductImage34 from './assets/Sage-green-Overdyed-Ribbed-Booty-Short.png';
+import womenProductImage35 from './assets/Ocean-Wrap-Waist-Band-Active-Gym-Biker-Short.png';
+import menProductImage36 from './assets/Black-Active-Lightweight-Cargo-Shorts.png';
+import menProductImage37 from './assets/Cobalt-Man-Active-Training-Dept-Boxy-Performance-T-shirt.png';
+import menProductImage38 from './assets/Taupe-Active-Training-Dept-Boxy-Performance-T-shirt.png';
+import menProductImage39 from './assets/Cobalt-Active-Performance-Training-Dept-Shorts.png';
+import menProductImage40 from './assets/Taupe-Active-Performance-Training-Dept-Shorts.png';
+import menProductImage41 from './assets/Black-Active-Gym-Tech-Long-Sleeve-Top.png';

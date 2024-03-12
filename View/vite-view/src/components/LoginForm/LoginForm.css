@@ -1,0 +1,51 @@
+.entry-area {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    /* line-height: 40px; */
+    /* background-color: red; */
+}
+
+.entry-area input {
+    position: absolute;
+    width: 100%;
+    outline: none;
+    height: 100%;
+    background-color: transparent;
+    border: 1px solid #CCCCCC;
+    border-radius: 3px;
+    padding: .75rem;
+    transition: 100ms ease-out;
+    z-index: 1111;
+
+}
+
+.labelline {
+    position: absolute;
+    margin: .75rem;
+    transition: 200ms ease-out;
+    background-color: white;
+    padding: 0 5px;
+}
+
+.entry-area input:focus,
+.entry-area input:valid {
+    border: 2px solid #5e5e5e;
+}
+
+.entry-area input:focus + .labelline,
+.entry-area input:valid + .labelline {
+    transform: translate(-5px, -24px) scale(.88);
+    z-index: 1112;
+}
+
+.auth-submit-btn {
+    transition: 200ms ease-out;
+}
+
+.auth-submit-btn:hover {
+    background-color: #313030;
+}
