@@ -1,0 +1,64 @@
+.fitness-blog-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    width: 100%;
+    height: 500px;
+    background-image: url('../../assets/iStock-blog2.jpg');
+    background-size: cover;
+    background-position: 50% 20%;
+    border-radius: 3px;
+    position: relative;
+    color: white;
+}
+
+.fitness-blog-text-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 10;
+    padding: 1rem 1rem 1rem 1rem;
+}
+
+.fitness-blog-text-container h3 {
+    font-weight: 600;
+    font-size: 1.5rem;
+   
+}
+
+.fitness-blog-text-container p {
+    font-size: 1rem;
+    font-weight: 500;
+   
+}
+
+.fitness-blog-text-container button {
+    font-size: 1rem;
+    padding: .8rem 2rem;
+    background-color: rgb(240, 240, 240);
+    color: #161616;
+    font-weight: 600;
+    border-radius: 50px;
+    width:fit-content;
+}
+
+.fitness-blog-text-container button:hover {
+    background-color: rgb(217, 217, 217);
+}
+
+.fitness-blog-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgb(2,0,36);
+    background: linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(0,0,0,0.8183867296918768) 0%, rgba(0,0,0,0.3169861694677871) 49%, rgba(0,0,0,0) 100%);
+    border-radius: 3px;
+    z-index: 5;
+}
+
+@media only screen and (max-width: 767px) {
+    .fitness-blog-text-container button {
+        font-size: .8rem;
+    }
+}

@@ -1,0 +1,33 @@
+.wishlist-empty-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    /* border: solid red; */
+    gap: 20px;
+}
+
+.wishlist-empty-container h3 {
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.product-feed-container-empty {
+    /* border: solid black; */
+}
+
+.empty-wishlist-btn {
+    text-align: center;
+    background-color: #161616;
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 60px;
+    transition: 200ms ease-out;
+    width: 250px;
+}
+
+.empty-wishlist-btn:hover {
+    background-color: #313030;
+    transform: translateY(-2px);
+}
