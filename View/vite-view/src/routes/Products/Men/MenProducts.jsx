@@ -11,9 +11,9 @@ export default function MenProducts(props) {
 
     const { filter } = useParams();
 
-    const { cart, setCart, setWishList, setWishlistBubble, setWishlistPopup } = props;
+    const { isLoggedIn, setIsLoggedIn, setUser, cart, setCart, setWishList, setWishlistBubble, setWishlistPopup } = props;
 
-    const [product, setProduct] = useState('tops');
+    const [product, setProduct] = useState(filter ? '' : 'tops');
     const [productType, setProductType] = useState('');
     const [products, setProducts] = useState([]);
     const [priceFilter, setPriceFilter] = useState(null);
@@ -25,6 +25,7 @@ export default function MenProducts(props) {
     const [userScrollY, setUserScrollY] = useState(window.scrollY);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [activeFilterTotal, setActiveFilterTotal] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         const handleResize = () => {
@@ -51,8 +52,6 @@ export default function MenProducts(props) {
 
     const handleSortByFilterRemove = () => {
         setSortByFilter(null);
-        document.getElementById('new').checked = false;
-        document.getElementById('sale').checked = false;
     };
 
     const handleSizeFilterChange = (e) => {
@@ -81,8 +80,6 @@ export default function MenProducts(props) {
 
     const handlePriceFilterRemove = () => {
         setPriceFilter(null);
-        document.getElementById('low-to-high').checked = false;
-        document.getElementById('high-to-low').checked = false;
     };
 
     const handleClearAllFilters = () => {
@@ -91,10 +88,6 @@ export default function MenProducts(props) {
         setPriceFilter(null);
         setSizeFilter(null);
         setSortByFilter(null);
-        document.getElementById('new').checked = false;
-        document.getElementById('sale').checked = false;
-        document.getElementById('low-to-high').checked = false;
-        document.getElementById('high-to-low').checked = false;
     };
     
     const changeProduct = async (e) => {
@@ -112,6 +105,51 @@ export default function MenProducts(props) {
                       });
     
                       if (response.status === 200) {
+
+                        if (priceFilter === 'high to low') {
+                            const priceAdjustedArr = response.data.sort((a,b) => {
+                            if (b.salePrice && a.salePrice) {
+
+                                return b.salePrice - a.salePrice;
+
+                            } else if (b.salePrice) {
+
+                                return b.salePrice - a.price;
+
+                            } else if (a.salePrice) {
+
+                                return b.price - a.salePrice;
+
+                            } else {
+
+                                return b.price - a.price;
+
+                            }
+                            
+                            })
+                        } else {
+                            const priceAdjustedArr = response.data.sort((a,b) => {
+                            if (b.salePrice && a.salePrice) {
+
+                                return a.salePrice - b.salePrice;
+
+                            } else if (a.salePrice) {
+
+                                return a.salePrice - b.price;
+
+                            } else if (b.salePrice) {
+
+                                return a.price - b.salePrice;
+
+                            } else {
+
+                                return a.price - b.price;
+                                
+                            }
+                            
+                            })
+                        }
+
                         window.scrollTo(0, 0);
                         return setProducts(response.data);
                       }
@@ -188,10 +226,15 @@ export default function MenProducts(props) {
     const handleResponsiveFilterClose = (e) => {
         const overlay = document.getElementById('responsive-filter-overlay');
         const filter = document.getElementById('responsive-filter-container');
-        overlay.classList.toggle('responsive-filter-fixed-container-active');
-        filter.classList.toggle('responsive-filter-container-active');
+        if(overlay.classList.contains('responsive-filter-fixed-container-active')) {
+            overlay.classList.toggle('responsive-filter-fixed-container-active');
+            filter.classList.toggle('responsive-filter-container-active');
+        } else {
+            return;
+        }
+        
         setTimeout(() => {
-          overlay.style.display = 'none';
+          overlay.style.display = null;
         }, 200);
     };
 
@@ -217,33 +260,35 @@ export default function MenProducts(props) {
                 break;
             case 't-shirts': 
                 setProduct('tops');
-                setProductType('t-shirts')
+                setProductType('t-shirts');
                 break;
             case 'longsleeves': 
                 setProduct('tops');
-                setProductType('long sleeves')
+                setProductType('long sleeves');
                 break;
             case 'hoodies': 
                 setProduct('tops');
-                setProductType('hoodies')
+                setProductType('hoodies');
                 break;
             case 'shorts': 
                 setProduct('bottoms');
-                setProductType('shorts')
+                setProductType('shorts');
                 break;
             case 'pants': 
                 setProduct('bottoms');
-                setProductType('pants')
+                setProductType('pants');
                 break;
             case 'sweatpants': 
-                setProductType('sweatpants')
+                setProductType('sweatpants');
                 setProduct('bottoms');
                 break;
             case 'new': 
                 setSortByFilter('new');
+                setProduct('tops');
                 break;
             case 'sale': 
                 setSortByFilter('sale');
+                setProduct('tops');
                 break;
         }
 
@@ -251,24 +296,25 @@ export default function MenProducts(props) {
 
     // RESPONSIVE ITEM VIEW EFFECT
     useEffect(() => {
+        const mainSec = document.getElementById('shopping-section-container');
         const activeDiv = document.getElementById('active-responsive-item-display');
         const doubleItemContainer = document.getElementById('double-item-symbol-container');
         const singleItemSymbol = document.getElementById('single-item-symbol');
         const productFeed = document.getElementById('product-feed');
         
-        if (windowWidth > 766) {
+        if (windowWidth > 766 && mainSec) {
             productFeed.style.gridTemplateColumns = null;
             return;
         }
 
-        if (responsiveItemView === 'double') {
+        if (responsiveItemView === 'double' && mainSec) {
 
             singleItemSymbol.classList.remove('single-item-symbol-active');
             activeDiv.style.transform = null;
             doubleItemContainer.classList.add('double-item-symbol-container-active');
             productFeed.style.gridTemplateColumns = '49% 49%';
 
-        } else {
+        } else if (mainSec) {
 
             doubleItemContainer.classList.remove('double-item-symbol-container-active');
             singleItemSymbol.classList.add('single-item-symbol-active');
@@ -282,13 +328,32 @@ export default function MenProducts(props) {
     // FILTER HEAD DROP SHADOW EFFECT
     useEffect(() => {
         const filterHead = document.getElementById('filter-head');
+        const mainSec = document.getElementById('shopping-section-container');
 
-        if (userScrollY > 50) {
+        if (windowWidth < 767) return;
+
+        if (mainSec) {
+            if (userScrollY > 50) {
             filterHead.style.boxShadow =  "rgba(33, 35, 38, 0.1) 0px 12px 12px -10px";
-        } else {
-            filterHead.style.boxShadow =  "none";
+            } else {
+                filterHead.style.boxShadow =  "none";
+            }
         }
-    }, [userScrollY]);
+
+        
+    }, [userScrollY, windowWidth]);
+
+    // CLOSE MOBILE FILTER IF WINDOW WIDTH GROWS
+    useEffect(() => {
+        const filter = document.getElementById('responsive-filter-container');
+
+        if (filter && windowWidth > 1024) {
+            handleResponsiveFilterClose();
+        } else {
+            return;
+        }
+
+    }, [windowWidth])
 
     // FILTER TOTAL EFFECT
     useEffect(() => {
@@ -322,6 +387,33 @@ export default function MenProducts(props) {
                               });
             
                               if (response.status === 200) {
+
+                                if (priceFilter === 'high to low') {
+                                    const priceAdjustedArr = response.data.sort((a,b) => {
+                                    if (b.salePrice && a.salePrice) {
+                                        return b.salePrice - a.salePrice;
+                                    } else if (b.salePrice) {
+                                        return b.salePrice - a.price;
+                                    } else if (a.salePrice) {
+                                        return b.price - a.salePrice;
+                                    } else {
+                                        return b.price - a.price;
+                                    }
+                                    })
+                                } else {
+                                    const priceAdjustedArr = response.data.sort((a,b) => {
+                                    if (b.salePrice && a.salePrice) {
+                                        return a.salePrice - b.salePrice;
+                                    } else if (a.salePrice) {
+                                        return a.salePrice - b.price;
+                                    } else if (b.salePrice) {
+                                        return a.price - b.salePrice;
+                                    } else {
+                                        return a.price - b.price;
+                                    }
+                                    })
+                                }
+
                                 window.scrollTo(0, 0);
                                 return setProducts(response.data);
                               }
@@ -333,6 +425,7 @@ export default function MenProducts(props) {
                 } else if (!priceFilter && !productType) {
                     (async () => {
                         try {
+
                             const response = await axios.get(`api/products/clothingType/${product}?gender=men`,
                                 {
                                   headers: { 
@@ -340,10 +433,17 @@ export default function MenProducts(props) {
                                   },
                                   withCredentials: true
                               });
+
+                            //   setIsLoading(true);
+
             
                               if (response.status === 200) {
+                                
                                 window.scrollTo(0, 0);
+
+                                // setIsLoading(false);
                                 return setProducts(response.data);
+
                               }
                         } catch (error) {
                             console.log(error)
@@ -367,6 +467,51 @@ export default function MenProducts(props) {
                               });
             
                               if (response.status === 200) {
+
+                                if (priceFilter === 'high to low') {
+                                    const priceAdjustedArr = response.data.sort((a,b) => {
+                                    if (b.salePrice && a.salePrice) {
+
+                                        return b.salePrice - a.salePrice;
+
+                                    } else if (b.salePrice) {
+
+                                        return b.salePrice - a.price;
+
+                                    } else if (a.salePrice) {
+
+                                        return b.price - a.salePrice;
+
+                                    } else {
+
+                                        return b.price - a.price;
+
+                                    }
+                                    
+                                    })
+                                } else {
+                                    const priceAdjustedArr = response.data.sort((a,b) => {
+                                    if (b.salePrice && a.salePrice) {
+
+                                        return a.salePrice - b.salePrice;
+
+                                    } else if (a.salePrice) {
+
+                                        return a.salePrice - b.price;
+
+                                    } else if (b.salePrice) {
+
+                                        return a.price - b.salePrice;
+
+                                    } else {
+
+                                        return a.price - b.price;
+                                        
+                                    }
+                                    
+                                    })
+                                }
+
                                 window.scrollTo(0, 0);
                                 return setProducts(response.data);
                               }
@@ -429,6 +574,35 @@ export default function MenProducts(props) {
                           });
         
                           if (response.status === 200) {
+
+                            if (priceFilter === 'high to low') {
+                                const priceAdjustedArr = response.data.sort((a,b) => {
+                                if (b.salePrice && a.salePrice) {
+                                    return b.salePrice - a.salePrice;
+                                } else if (b.salePrice) {
+                                    return b.salePrice - a.price;
+                                } else if (a.salePrice) {
+                                    return b.price - a.salePrice;
+                                } else {
+                                    return b.price - a.price;
+                                }
+                                
+                                })
+                            } else {
+                                const priceAdjustedArr = response.data.sort((a,b) => {
+                                if (b.salePrice && a.salePrice) {
+                                    return a.salePrice - b.salePrice;
+                                } else if (a.salePrice) {
+                                    return a.salePrice - b.price;
+                                } else if (b.salePrice) {
+                                    return a.price - b.salePrice;
+                                } else {
+                                    return a.price - b.price;
+                                }
+                                
+                                })
+                            }
+
                             window.scrollTo(0, 0);
                             return setProducts(response.data);
                           }
@@ -468,7 +642,11 @@ export default function MenProducts(props) {
 
     // TOTAL PRODUCTS EFFECT
     useEffect(() => {
-        setTotalItems(document.getElementById('product-feed').children.length);
+        const mainSec = document.getElementById('shopping-section-container');
+        if (isLoading) return setTotalItems(0);
+        
+        if (mainSec) setTotalItems(document.getElementById('product-feed').children.length);
+        
     }, [productType, priceFilter, colorFilter, products, sortByFilter]);
 
     const sortByFunc = (productObj) => {
@@ -479,46 +657,11 @@ export default function MenProducts(props) {
         }
     };
 
-    if (products === 'tops' || products === 'bottoms') {
-        <>
-        <section className="shopping-section-container">
-            <div className="component-container">
-                <aside className="filter-container">
-                    <div className="mb-4">
-                        <small>home / men / </small>
-                    </div>
-                    <ul> 
+    if (isLoading) {
 
-                    </ul>
-                </aside>
-                <main className="products-container">
-                    <div className="product-heading-container">
-                        {/* <h1 className="text-3xl">Mens {product.charAt(0).toUpperCase() + category.substring(1)}</h1> */}
-                    </div>
-                    <div className="product-feed-container">
-                        {
-                            sortByFilter ? 
-                            colorFilter ? products.filter(sortByFunc).filter((productArr) => productArr.color === colorFilter).map((product, i) => {
-                                return <ProductCard setWishlistPopup={setWishlistPopup} setWishlistBubble={setWishlistBubble} setWishList={setWishList} cart={cart} setCart={setCart} products={products} product={product} sizeFilter={sizeFilter} />
-                            }) : products.filter(sortByFunc).map((product, i) => {
-                                return <ProductCard setWishlistPopup={setWishlistPopup} setWishlistBubble={setWishlistBubble} setWishList={setWishList} cart={cart} setCart={setCart} product={product} sizeFilter={sizeFilter} />
-                            })
-                            :
-                            colorFilter ? products.filter((productArr) => productArr.color === colorFilter).map((product, i) => {
-                                return <ProductCard setWishlistPopup={setWishlistPopup} setWishlistBubble={setWishlistBubble} setWishList={setWishList} cart={cart} setCart={setCart} products={products} product={product} sizeFilter={sizeFilter} />
-                            }) : products.map((product, i) => {
-                                return <ProductCard setWishlistPopup={setWishlistPopup} setWishlistBubble={setWishlistBubble} setWishList={setWishList} cart={cart} setCart={setCart} product={product} sizeFilter={sizeFilter} />
-                            })
-                        }
-                    </div>
-                </main>
-            </div>
-        </section>
-        </>
-    } else {
         return (
             <>
-            <section className="shopping-section-container">
+            <section id='shopping-section-container' className="shopping-section-container">
                 <RevolvingHeader></RevolvingHeader>
                 <div id="filter-head" className="filter-header-container">
                     <div className="product-heading-container">
@@ -526,7 +669,6 @@ export default function MenProducts(props) {
                         <div className="product-heading-bottom">
                             <h3>{product.toUpperCase()}{productType === '' ? <></> : ` & ${productType.toUpperCase()}`}</h3>
                             {products ? <p>({totalItems} products)</p> : <></>}
-                            
                         </div>
                     </div>
                     <div className="active-filter-container">
@@ -542,7 +684,7 @@ export default function MenProducts(props) {
                                 </div>
                             </button>
                         </div>
-                        <button onClick={handleResponsiveFilterClick} className="responsive-filter-btn"><i class="fa-solid fa-sliders"></i> <p>{windowWidth < 500 ? 'FILTER' : 'FILTER & SORT' }</p>{activeFilterTotal ? <div className="responsive-filter-bubble">{activeFilterTotal}</div> : <></>}</button>
+                        <button onClick={ isLoading === true ? null : handleResponsiveFilterClick} className="responsive-filter-btn"><i class="fa-solid fa-sliders"></i> <p>{windowWidth < 500 ? 'FILTER' : 'FILTER & SORT' }</p>{activeFilterTotal ? <div className="responsive-filter-bubble">{activeFilterTotal}</div> : <></>}</button>
                         {priceFilter ? <div onClick={handlePriceFilterRemove} className="filter-heading-contatiner"><p className="filter-heading"><span>{priceFilter.toUpperCase()}</span></p><i className="fa-solid fa-x"></i></div> : null}
                         {sortByFilter ? <div onClick={handleSortByFilterRemove} className="filter-heading-contatiner"><p className="filter-heading"><span>{sortByFilter.toUpperCase()}</span></p><i className="fa-solid fa-x"></i></div> : null}
                         {sizeFilter ? <div onClick={handleSizeFilterRemove} className="filter-heading-contatiner"><p className="filter-heading"><span>{sizeFilter.toUpperCase()}</span></p><i className="fa-solid fa-x"></i></div> : null}
@@ -567,7 +709,13 @@ export default function MenProducts(props) {
                         </div>
                         </button>
                         <div className="shopping-content">
-                            {product === 'tops' ? topsProductTypeBtns.map((btn, i) => btn) : bottomsProductTypeBtns.map((btn, i) => btn)}
+                            {product === 'tops' ? topsProductTypeBtns.map((btn, i) => {
+
+                                return btn;
+                            }) : bottomsProductTypeBtns.map((btn, i) => {
+
+                                return btn;
+                            })}
                         </div>
                         <button onClick={onCollapseClick} className="shopping-collapsible first-coll font-bold">PRICE
                             <div className="plus-minus-container">
@@ -575,14 +723,18 @@ export default function MenProducts(props) {
                             </div>
                         </button>
                         <div className="shopping-content">
-                            <form action="">
-                                <div className="price-radio-wrapper">
-                                    <input onChange={handlePriceFilterChange} type="radio" name="price-filter" id="low-to-high" value="low to high" />
-                                    <label for="low-to-high">Low to High</label>
-                                </div>
-                                <div className="price-radio-wrapper">
-                                    <input onChange={handlePriceFilterChange} type="radio" name="price-filter" id="high-to-low" value="high to low" />
-                                    <label for="high-to-low">High to Low</label>
+                            <form className="filter-form" action="">
+                                <div class="radio-input-wrapper">
+                                    <label class="label">
+                                        <input onChange={handlePriceFilterChange} checked={priceFilter === 'low to high' ? true : false} type="radio" name="price-filter" id="low-to-high" value="low to high" class="radio-input"></input>
+                                        <div class="radio-design"></div>
+                                        <div class="label-text">Low to High</div>
+                                    </label>
+                                    <label class="label">
+                                        <input onChange={handlePriceFilterChange} checked={priceFilter === 'high to low' ? true : false} type="radio" name="price-filter" id="high-to-low" value="high to low" class="radio-input" ></input>
+                                        <div class="radio-design"></div>
+                                        <div class="label-text">High to Low</div>
+                                    </label>
                                 </div>
                             </form>
                         </div>
@@ -593,13 +745,17 @@ export default function MenProducts(props) {
                         </button>
                         <div className="shopping-content">
                             <form action="">
-                                <div className="price-radio-wrapper">
-                                    <input onChange={handleSortByFilterChange} type="radio" name="sort-by" id="new" value="new" />
-                                    <label for="new">New</label>
-                                </div>
-                                <div className="price-radio-wrapper">
-                                    <input onChange={handleSortByFilterChange} type="radio" name="sort-by" id="sale" value="sale" />
-                                    <label for="sale">Sale</label>
+                                <div class="radio-input-wrapper">
+                                    <label class="label">
+                                        <input onChange={handleSortByFilterChange} checked={sortByFilter === 'new' ? true : false} type="radio" name="sort-by" id="new" value="new" class="radio-input"></input>
+                                        <div class="radio-design"></div>
+                                        <div class="label-text">New</div>
+                                    </label>
+                                    <label class="label">
+                                        <input onChange={handleSortByFilterChange} checked={sortByFilter === 'sale' ? true : false} type="radio" name="sort-by" id="sale" value="sale" class="radio-input" ></input>
+                                        <div class="radio-design"></div>
+                                        <div class="label-text">Sale</div>
+                                    </label>
                                 </div>
                             </form>
                         </div>
@@ -671,26 +827,78 @@ export default function MenProducts(props) {
                             </div>
                         </div>
                         <div id='product-feed' className="product-feed-container">
-                            {
-                                sortByFilter ? 
-                                colorFilter ? products.filter(sortByFunc).filter((productArr) => productArr.color === colorFilter).map((product, i) => {
-                                    return <ProductCard setWishlistPopup={setWishlistPopup} setWishlistBubble={setWishlistBubble} setWishList={setWishList} cart={cart} setCart={setCart} products={products} product={product} sizeFilter={sizeFilter} />
-                                }) : products.filter(sortByFunc).map((product, i) => {
-                                    return <ProductCard setWishlistPopup={setWishlistPopup} setWishlistBubble={setWishlistBubble} setWishList={setWishList} cart={cart} setCart={setCart} product={product} sizeFilter={sizeFilter} />
-                                })
-                                :
-                                colorFilter ? products.filter((productArr) => productArr.color === colorFilter).map((product, i) => {
-                                    return <ProductCard setWishlistPopup={setWishlistPopup} setWishlistBubble={setWishlistBubble} setWishList={setWishList} cart={cart} setCart={setCart} products={products} product={product} sizeFilter={sizeFilter} />
-                                }) : products.map((product, i) => {
-                                    return <ProductCard setWishlistPopup={setWishlistPopup} setWishlistBubble={setWishlistBubble} setWishList={setWishList} cart={cart} setCart={setCart} product={product} sizeFilter={sizeFilter} />
-                                })
-                            }
-
-                            {/* {colorFilter ? products.filter((productArr) => productArr.color === colorFilter).map((product, i) => {
-                                return <ProductCard setWishlistPopup={setWishlistPopup} setWishlistBubble={setWishlistBubble} setWishList={setWishList} cart={cart} setCart={setCart} products={products} product={product} sizeFilter={sizeFilter} />
-                            }) : products.map((product, i) => {
-                                return <ProductCard setWishlistPopup={setWishlistPopup} setWishlistBubble={setWishlistBubble} setWishList={setWishList} cart={cart} setCart={setCart} product={product} sizeFilter={sizeFilter} />
-                            })} */}
+                            <div className="loading-card-container">
+                                <div className="loading-card-image">
+                                    <div class="typing-indicator">
+                                        <div class="typing-circle"></div>
+                                        <div class="typing-circle"></div>
+                                        <div class="typing-circle"></div>
+                                        <div class="typing-shadow"></div>
+                                        <div class="typing-shadow"></div>
+                                        <div class="typing-shadow"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="loading-card-container">
+                                <div className="loading-card-image">
+                                    <div class="typing-indicator">
+                                        <div class="typing-circle"></div>
+                                        <div class="typing-circle"></div>
+                                        <div class="typing-circle"></div>
+                                        <div class="typing-shadow"></div>
+                                        <div class="typing-shadow"></div>
+                                        <div class="typing-shadow"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="loading-card-container">
+                                <div className="loading-card-image">
+                                    <div class="typing-indicator">
+                                        <div class="typing-circle"></div>
+                                        <div class="typing-circle"></div>
+                                        <div class="typing-circle"></div>
+                                        <div class="typing-shadow"></div>
+                                        <div class="typing-shadow"></div>
+                                        <div class="typing-shadow"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="loading-card-container">
+                                <div className="loading-card-image">
+                                    <div class="typing-indicator">
+                                        <div class="typing-circle"></div>
+                                        <div class="typing-circle"></div>
+                                        <div class="typing-circle"></div>
+                                        <div class="typing-shadow"></div>
+                                        <div class="typing-shadow"></div>
+                                        <div class="typing-shadow"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="loading-card-container">
+                                <div className="loading-card-image">
+                                    <div class="typing-indicator">
+                                        <div class="typing-circle"></div>
+                                        <div class="typing-circle"></div>
+                                        <div class="typing-circle"></div>
+                                        <div class="typing-shadow"></div>
+                                        <div class="typing-shadow"></div>
+                                        <div class="typing-shadow"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="loading-card-container">
+                                <div className="loading-card-image">
+                                    <div class="typing-indicator">
+                                        <div class="typing-circle"></div>
+                                        <div class="typing-circle"></div>
+                                        <div class="typing-circle"></div>
+                                        <div class="typing-shadow"></div>
+                                        <div class="typing-shadow"></div>
+                                        <div class="typing-shadow"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </main>
                 </div>
@@ -752,13 +960,17 @@ export default function MenProducts(props) {
                         </button>
                         <div className="shopping-content">
                             <form action="">
-                                <div className="price-radio-wrapper">
-                                    <input onChange={handlePriceFilterChange} type="radio" name="price-filter" id="low-to-high" value="low to high" />
-                                    <label for="low-to-high">Low to High</label>
-                                </div>
-                                <div className="price-radio-wrapper">
-                                    <input onChange={handlePriceFilterChange} type="radio" name="price-filter" id="high-to-low" value="high to low" />
-                                    <label for="high-to-low">High to Low</label>
+                                <div class="radio-input-wrapper">
+                                    <label class="label">
+                                        <input onChange={handlePriceFilterChange} checked={priceFilter === 'low to high' ? true : false} type="radio" name="price-filter" id="low-to-high" value="low to high" class="radio-input"></input>
+                                        <div class="radio-design"></div>
+                                        <div class="label-text">Low to High</div>
+                                    </label>
+                                    <label class="label">
+                                        <input onChange={handlePriceFilterChange} checked={priceFilter === 'high to low' ? true : false} type="radio" name="price-filter" id="high-to-low" value="high to low" class="radio-input" ></input>
+                                        <div class="radio-design"></div>
+                                        <div class="label-text">High to Low</div>
+                                    </label>
                                 </div>
                             </form>
                         </div>
@@ -773,13 +985,17 @@ export default function MenProducts(props) {
                         </button>
                         <div className="shopping-content">
                             <form action="">
-                                <div className="price-radio-wrapper">
-                                    <input onChange={handleSortByFilterChange} type="radio" name="sort-by" id="new" value="new" />
-                                    <label for="new">New</label>
-                                </div>
-                                <div className="price-radio-wrapper">
-                                    <input onChange={handleSortByFilterChange} type="radio" name="sort-by" id="sale" value="sale" />
-                                    <label for="sale">Sale</label>
+                                <div class="radio-input-wrapper">
+                                    <label class="label">
+                                        <input onChange={handleSortByFilterChange} checked={sortByFilter === 'new' ? true : false} type="radio" name="sort-by" id="new" value="new" class="radio-input"></input>
+                                        <div class="radio-design"></div>
+                                        <div class="label-text">New</div>
+                                    </label>
+                                    <label class="label">
+                                        <input onChange={handleSortByFilterChange} checked={sortByFilter === 'sale' ? true : false} type="radio" name="sort-by" id="sale" value="sale" class="radio-input" ></input>
+                                        <div class="radio-design"></div>
+                                        <div class="label-text">Sale</div>
+                                    </label>
                                 </div>
                             </form>
                         </div>
@@ -805,6 +1021,383 @@ export default function MenProducts(props) {
                             <div className="responsive-filter-label-container">
                                 COLOR
                                 <p>{colorFilter ? colorFilter.toUpperCase() : <></>}</p>
+                            </div>
+                        
+                        <div className="plus-minus-container">
+                            <div className="thick-arrow-down"></div>
+                        </div>
+                        </button>
+                        <div id="last-content" className="color-shopping-content">
+                            <div  className="color-bubble-container">
+                                <div onClick={handleColorFilterChange} id={'black'} className="black-color-btn"></div>
+                                <p>Black</p>
+                            </div>
+                            <div className="color-bubble-container">
+                                <div onClick={handleColorFilterChange} id={'blue'} className="blue-color-btn"></div>
+                                <p>Blue</p>
+                            </div>
+                            <div className="color-bubble-container">
+                                <div onClick={handleColorFilterChange} id={'red'} className="red-color-btn"></div>
+                                <p>Red</p>
+                            </div>
+                            <div className="color-bubble-container">
+                                <div onClick={handleColorFilterChange} id={'gray'} className="gray-color-btn"></div>
+                                <p>Gray</p>
+                            </div>
+                            <div className="color-bubble-container">
+                                <div onClick={handleColorFilterChange} id={'green'} className="green-color-btn"></div>
+                                <p>Green</p>
+                            </div>
+                            <div className="color-bubble-container">
+                                <div onClick={handleColorFilterChange} id={'orange'} className="orange-color-btn"></div>
+                                <p>Orange</p>
+                            </div>
+                            <div className="color-bubble-container">
+                                <div onClick={handleColorFilterChange} id={'pink'} className="pink-color-btn"></div>
+                                <p>Pink</p>
+                            </div>
+                            <div className="color-bubble-container">
+                                <div onClick={handleColorFilterChange} id={'purple'} className="purple-color-btn"></div>
+                                <p>Purple</p>
+                            </div>
+                            <div className="color-bubble-container">
+                                <div onClick={handleColorFilterChange} id={'brown'} className="brown-color-btn"></div>
+                                <p>Brown</p>
+                            </div>
+                            <div className="color-bubble-container">
+                                <div onClick={handleColorFilterChange} id={'white'} className="white-color-btn"></div>
+                                <p>White</p>
+                            </div>
+                        </div>
+                    </section>
+                    </div>
+                    <div id="responsive-filter-footer" className="responsive-filter-footer-container">
+                        {totalItems > 0 ? <button onClick={handleSeeProducts}>
+                            SEE PRODUCTS ({totalItems})
+                        </button> : <button disabled onClick={handleSeeProducts}>
+                            SEE PRODUCTS ({totalItems})
+                        </button>}
+                    </div>
+                </div>
+            </div>
+            </>
+        )
+        
+    } else {
+        return (
+            <>
+            <section id="shopping-section-container" className="shopping-section-container">
+                <RevolvingHeader></RevolvingHeader>
+                <div id="filter-head" className="filter-header-container">
+                    <div className="product-heading-container">
+                        <h2 className="font-semibold text-sm">MEN</h2>
+                        <div className="product-heading-bottom">
+                            <h3>{product.toUpperCase()}{productType === '' ? <></> : ` & ${productType.toUpperCase()}`}</h3>
+                            {products ? <p>({totalItems} products)</p> : <></>}
+                            
+                        </div>
+                    </div>
+                    <div className="active-filter-container">
+                        <div className="responsive-item-display-btn">
+                            <div id="active-responsive-item-display" className="active-responsive-item-display"></div> 
+                            <button onClick={handleResponsiveItemViewChange} className="responsive-single-item-view"><div id="single-item-symbol" className="single-item-symbol"></div></button> 
+                            <button onClick={handleResponsiveItemViewChange} className="responsive-double-item-view">
+                                <div id="double-item-symbol-container" className="double-item-symbol-container">
+                                    <div className="double-item-symbol"></div>
+                                    <div className="double-item-symbol"></div>
+                                    <div className="double-item-symbol"></div>
+                                    <div className="double-item-symbol"></div>
+                                </div>
+                            </button>
+                        </div>
+                        <button onClick={handleResponsiveFilterClick} className="responsive-filter-btn"><i class="fa-solid fa-sliders"></i> <p>{windowWidth < 500 ? 'FILTER' : 'FILTER & SORT' }</p>{activeFilterTotal ? <div className="responsive-filter-bubble">{activeFilterTotal}</div> : <></>}</button>
+                        {priceFilter ? <div onClick={handlePriceFilterRemove} className="filter-heading-contatiner"><p className="filter-heading"><span>{priceFilter.toUpperCase()}</span></p><i className="fa-solid fa-x"></i></div> : null}
+                        {sortByFilter ? <div onClick={handleSortByFilterRemove} className="filter-heading-contatiner"><p className="filter-heading"><span>{sortByFilter.toUpperCase()}</span></p><i className="fa-solid fa-x"></i></div> : null}
+                        {sizeFilter ? <div onClick={handleSizeFilterRemove} className="filter-heading-contatiner"><p className="filter-heading"><span>{sizeFilter.toUpperCase()}</span></p><i className="fa-solid fa-x"></i></div> : null}
+                        {colorFilter ? <div onClick={handleColorFilterRemove} className="filter-heading-contatiner"><p className="filter-heading"><span>{colorFilter.toUpperCase()}</span></p><i className="fa-solid fa-x"></i></div> : null}
+                    </div>
+                </div>
+                <div className="component-container">
+                    <div className="filter-container">
+                        <div className='scroll-wrapper'> 
+                        <section className="shopping-dropdown-container">
+                        <button onClick={onCollapseClick} className="shopping-collapsible first-coll font-bold">CATEGORY
+                            <div className="plus-minus-container">
+                                <div className="thick-arrow-down"></div>
+                            </div>
+                        </button>
+                        <div className="shopping-content">
+                            <button onClick={changeProduct} id="tops">Tops</button>
+                            <button onClick={changeProduct} id="bottoms">Bottoms</button>
+                        </div>
+                        <button onClick={onCollapseClick} className="shopping-collapsible font-bold">STYLE<div className="plus-minus-container">
+                            <div className="thick-arrow-down"></div>
+                        </div>
+                        </button>
+                        <div className="shopping-content">
+                            {product === 'tops' ? topsProductTypeBtns.map((btn, i) => {
+
+                                return btn;
+                            }) : bottomsProductTypeBtns.map((btn, i) => {
+
+                                return btn;
+                            })}
+                        </div>
+                        <button onClick={onCollapseClick} className="shopping-collapsible first-coll font-bold">PRICE
+                            <div className="plus-minus-container">
+                                <div className="thick-arrow-down"></div>
+                            </div>
+                        </button>
+                        <div className="shopping-content">
+                            <form className="filter-form" action="">
+                                <div class="radio-input-wrapper">
+                                    <label class="label">
+                                        <input onChange={handlePriceFilterChange} checked={priceFilter === 'low to high' ? true : false} type="radio" name="price-filter" id="low-to-high" value="low to high" class="radio-input"></input>
+                                        <div class="radio-design"></div>
+                                        <div class="label-text">Low to High</div>
+                                    </label>
+                                    <label class="label">
+                                        <input onChange={handlePriceFilterChange} checked={priceFilter === 'high to low' ? true : false} type="radio" name="price-filter" id="high-to-low" value="high to low" class="radio-input" ></input>
+                                        <div class="radio-design"></div>
+                                        <div class="label-text">High to Low</div>
+                                    </label>
+                                </div>
+                            </form>
+                        </div>
+                        <button onClick={onCollapseClick} className="shopping-collapsible first-coll font-bold">SORT BY
+                            <div className="plus-minus-container">
+                                <div className="thick-arrow-down"></div>
+                            </div>
+                        </button>
+                        <div className="shopping-content">
+                            <form action="">
+                                <div class="radio-input-wrapper">
+                                    <label class="label">
+                                        <input onChange={handleSortByFilterChange} checked={sortByFilter === 'new' ? true : false} type="radio" name="sort-by" id="new" value="new" class="radio-input"></input>
+                                        <div class="radio-design"></div>
+                                        <div class="label-text">New</div>
+                                    </label>
+                                    <label class="label">
+                                        <input onChange={handleSortByFilterChange} checked={sortByFilter === 'sale' ? true : false} type="radio" name="sort-by" id="sale" value="sale" class="radio-input" ></input>
+                                        <div class="radio-design"></div>
+                                        <div class="label-text">Sale</div>
+                                    </label>
+                                </div>
+                            </form>
+                        </div>
+                        <button onClick={onCollapseClick} className="shopping-collapsible font-bold">SIZE<div className="plus-minus-container">
+                            <div className="thick-arrow-down"></div>
+                        </div></button>
+                        <div className="shopping-content">
+                            <div className="filter-size-container">
+                                <button onClick={handleSizeFilterChange} id="extra small">XS</button>
+                                <button onClick={handleSizeFilterChange} id="small">S</button>
+                                <button onClick={handleSizeFilterChange} id="medium">M</button>
+                                <button onClick={handleSizeFilterChange} id="large">L</button>
+                                <button onClick={handleSizeFilterChange} id="extra large">XL</button>
+                            </div>
+                        </div>
+                        <button id="last-coll" onClick={onCollapseClick} className="shopping-collapsible last-coll font-bold">COLOR<div className="plus-minus-container">
+                            <div className="thick-arrow-down"></div>
+                        </div></button>
+                        <div id="last-content" className="color-shopping-content">
+                            <div  className="color-bubble-container">
+                                <div onClick={handleColorFilterChange} id={'black'} className="black-color-btn"></div>
+                                <p>Black</p>
+                            </div>
+                            <div className="color-bubble-container">
+                                <div onClick={handleColorFilterChange} id={'blue'} className="blue-color-btn"></div>
+                                <p>Blue</p>
+                            </div>
+                            <div className="color-bubble-container">
+                                <div onClick={handleColorFilterChange} id={'red'} className="red-color-btn"></div>
+                                <p>Red</p>
+                            </div>
+                            <div className="color-bubble-container">
+                                <div onClick={handleColorFilterChange} id={'gray'} className="gray-color-btn"></div>
+                                <p>Gray</p>
+                            </div>
+                            <div className="color-bubble-container">
+                                <div onClick={handleColorFilterChange} id={'green'} className="green-color-btn"></div>
+                                <p>Green</p>
+                            </div>
+                            <div className="color-bubble-container">
+                                <div onClick={handleColorFilterChange} id={'orange'} className="orange-color-btn"></div>
+                                <p>Orange</p>
+                            </div>
+                            <div className="color-bubble-container">
+                                <div onClick={handleColorFilterChange} id={'pink'} className="pink-color-btn"></div>
+                                <p>Pink</p>
+                            </div>
+                            <div className="color-bubble-container">
+                                <div onClick={handleColorFilterChange} id={'purple'} className="purple-color-btn"></div>
+                                <p>Purple</p>
+                            </div>
+                            <div className="color-bubble-container">
+                                <div onClick={handleColorFilterChange} id={'brown'} className="brown-color-btn"></div>
+                                <p>Brown</p>
+                            </div>
+                            <div className="color-bubble-container">
+                                <div onClick={handleColorFilterChange} id={'white'} className="white-color-btn"></div>
+                                <p>White</p>
+                            </div>
+                        </div>
+                    </section>
+                    </div>
+                    </div>
+                    <main className="products-container">
+                        <div id="mens-products-hero" className="products-hero-container">
+                            <div className="products-hero-text-container">
+                                <h1>FITNESS + FASHION = CONFIDENCE</h1>
+                                <h2>CONFIDENCE LOOKS GOOD ON YOU.</h2>
+                            </div>
+                        </div>
+                        {
+
+                        }
+                        <div id='product-feed' className="product-feed-container">
+                            {
+                                sortByFilter ? 
+                                colorFilter ? products.filter(sortByFunc).filter((productArr) => productArr.color === colorFilter).map((product, i) => {
+                                    return <ProductCard isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} setUser={setUser} setWishlistPopup={setWishlistPopup} setWishlistBubble={setWishlistBubble} setWishList={setWishList} cart={cart} setCart={setCart} products={products} product={product} sizeFilter={sizeFilter} />
+                                }) : products.filter(sortByFunc).map((product, i) => {
+                                    return <ProductCard isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} setUser={setUser} setWishlistPopup={setWishlistPopup} setWishlistBubble={setWishlistBubble} setWishList={setWishList} cart={cart} setCart={setCart} product={product} sizeFilter={sizeFilter} />
+                                })
+                                :
+                                colorFilter ? products.filter((productArr) => productArr.color === colorFilter).map((product, i) => {
+                                    return <ProductCard isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} setUser={setUser} setWishlistPopup={setWishlistPopup} setWishlistBubble={setWishlistBubble} setWishList={setWishList} cart={cart} setCart={setCart} products={products} product={product} sizeFilter={sizeFilter} />
+                                }) : products.map((product, i) => {
+                                    return <ProductCard isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} setUser={setUser} setWishlistPopup={setWishlistPopup} setWishlistBubble={setWishlistBubble} setWishList={setWishList} cart={cart} setCart={setCart} product={product} sizeFilter={sizeFilter} />
+                                })
+                            }
+                        </div>
+                        {
+                            totalItems === 0 ? 
+                            isLoading ? <></> : <p>No products found under those filters but keep checking, they're coming soon!</p> 
+                            : 
+                            <></>
+                        }
+                    </main>
+                </div>
+               
+            </section>
+            <div id="responsive-filter-overlay" className="responsive-filter-fixed-container">
+                <div onScroll={() => {
+                    const container = document.getElementById('responsive-filter-container');
+                    const header = document.getElementById('responsive-filter-head');
+
+                    if (container.scrollTop > 0) {
+                        header.style.boxShadow = 'rgba(33, 35, 38, 0.2) 0px 10px 10px -10px';
+                    } else {
+                        header.style.boxShadow = 'none';
+                    }
+                    
+                    // console.log(header);
+                }} id="responsive-filter-container" className="responsive-filter-container">
+                    <div id="responsive-filter-head" className="responsive-filter-header-container">
+                        <h3>FILTER & SORT</h3>
+                        <i onClick={handleResponsiveFilterClose} className="fa-solid fa-x"></i>
+                        <p onClick={handleClearAllFilters} className="responsive-filter-clear">Clear All</p>
+                    </div>
+                    <div className="responsive-dropdown-wrapper">
+                    <section className="shopping-dropdown-container">
+                        <button onClick={onCollapseClick} className="shopping-collapsible first-coll font-bold">
+                            <div className="responsive-filter-label-container">
+                                CATEGORY
+                                <p>{product.toUpperCase()}</p>
+                            </div>
+                            <div className="plus-minus-container">
+                                <div className="thick-arrow-down"></div>
+                            </div>
+                        </button>
+                        <div className="shopping-content">
+                            <button onClick={changeProduct} id="tops">Tops</button>
+                            <button onClick={changeProduct} id="bottoms">Bottoms</button>
+                        </div>
+                        <button onClick={onCollapseClick} className="shopping-collapsible font-bold">
+                            <div className="responsive-filter-label-container">
+                                STYLE
+                                <p>{productType ? productType.toUpperCase() : 'ALL'}</p>
+                            </div>
+                            <div className="plus-minus-container">
+                                <div className="thick-arrow-down"></div>
+                            </div>
+                        </button>
+                        <div className="shopping-content">
+                            {product === 'tops' ? topsProductTypeBtns.map((btn, i) => btn) : bottomsProductTypeBtns.map((btn, i) => btn)}
+                        </div>
+                        <button onClick={onCollapseClick} className="shopping-collapsible first-coll font-bold">
+                            <div className="responsive-filter-label-container">
+                                PRICE
+                                {priceFilter ? <div onClick={handlePriceFilterRemove} className="responsive-filter-heading-contatiner"><p className="filter-heading"><span>{priceFilter.toUpperCase()}</span></p><i className="fa-solid fa-x"></i></div> : <></>}
+                            </div>
+                            <div className="plus-minus-container">
+                                <div className="thick-arrow-down"></div>
+                            </div>
+                        </button>
+                        <div className="shopping-content">
+                            <form action="">
+                                <div class="radio-input-wrapper">
+                                    <label class="label">
+                                        <input onChange={handlePriceFilterChange} checked={priceFilter === 'low to high' ? true : false} type="radio" name="price-filter" id="low-to-high" value="low to high" class="radio-input"></input>
+                                        <div class="radio-design"></div>
+                                        <div class="label-text">Low to High</div>
+                                    </label>
+                                    <label class="label">
+                                        <input onChange={handlePriceFilterChange} checked={priceFilter === 'high to low' ? true : false} type="radio" name="price-filter" id="high-to-low" value="high to low" class="radio-input" ></input>
+                                        <div class="radio-design"></div>
+                                        <div class="label-text">High to Low</div>
+                                    </label>
+                                </div>
+                            </form>
+                        </div>
+                        <button onClick={onCollapseClick} className="shopping-collapsible first-coll font-bold">
+                            <div className="responsive-filter-label-container">
+                                SORT BY
+                                {sortByFilter ? <div onClick={handleSortByFilterRemove} className="responsive-filter-heading-contatiner"><p className="filter-heading"><span>{sortByFilter.toUpperCase()}</span></p><i className="fa-solid fa-x"></i></div> : <></>}
+                            </div>
+                            <div className="plus-minus-container">
+                                <div className="thick-arrow-down"></div>
+                            </div>
+                        </button>
+                        <div className="shopping-content">
+                            <form action="">
+                                <div class="radio-input-wrapper">
+                                    <label class="label">
+                                        <input onChange={handleSortByFilterChange} checked={sortByFilter === 'new' ? true : false} type="radio" name="sort-by" id="new" value="new" class="radio-input"></input>
+                                        <div class="radio-design"></div>
+                                        <div class="label-text">New</div>
+                                    </label>
+                                    <label class="label">
+                                        <input onChange={handleSortByFilterChange} checked={sortByFilter === 'sale' ? true : false} type="radio" name="sort-by" id="sale" value="sale" class="radio-input" ></input>
+                                        <div class="radio-design"></div>
+                                        <div class="label-text">Sale</div>
+                                    </label>
+                                </div>
+                            </form>
+                        </div>
+                        <button onClick={onCollapseClick} className="shopping-collapsible font-bold">
+                            <div className="responsive-filter-label-container">
+                                SIZE
+                                {sizeFilter ? <div onClick={handleSizeFilterRemove} className="responsive-filter-heading-contatiner"><p className="filter-heading"><span>{sizeFilter.toUpperCase()}</span></p><i className="fa-solid fa-x"></i></div> : <></>}
+                            </div>
+                            <div className="plus-minus-container">
+                                <div className="thick-arrow-down"></div>
+                            </div>
+                        </button>
+                        <div className="shopping-content">
+                            <div className="filter-size-container">
+                                <button onClick={handleSizeFilterChange} id="extra small">XS</button>
+                                <button onClick={handleSizeFilterChange} id="small">S</button>
+                                <button onClick={handleSizeFilterChange} id="medium">M</button>
+                                <button onClick={handleSizeFilterChange} id="large">L</button>
+                                <button onClick={handleSizeFilterChange} id="extra large">XL</button>
+                            </div>
+                        </div>
+                        <button id="last-coll" onClick={onCollapseClick} className="shopping-collapsible last-coll font-bold">
+                            <div className="responsive-filter-label-container">
+                                COLOR
+                                {colorFilter ? <div onClick={handleColorFilterRemove} className="responsive-filter-heading-contatiner"><p className="filter-heading"><span>{colorFilter.toUpperCase()}</span></p><i className="fa-solid fa-x"></i></div> : <></>}
                             </div>
                         
                         <div className="plus-minus-container">

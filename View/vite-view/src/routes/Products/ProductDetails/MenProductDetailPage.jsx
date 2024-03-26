@@ -1,6 +1,6 @@
 import "./ProductDetailPage.css";
 import { useEffect, useState, useRef } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import axios from "../../../api/axios";
 import { memImageObj } from '../../../assets/menProductImagesObj';
 import klarnaLogo from '../../../assets/logos/klarna/Klarna.png';
@@ -17,9 +17,9 @@ export default function MenProductDetails(props) {
 
     const mounted = useRef(false);
     
-    const { setCart, setWishList, setWishlistBubble, setWishlistPopup } = props;
+    const { setCart, setWishList, setWishlistBubble, setWishlistPopup, isLoggedIn, setIsLoggedIn, setUser } = props;
     const { productId } = useParams();
-    // const { pathname } = useLocation();
+    const navigate = useNavigate();
 
     const [product, setProduct] = useState({});
     const [productSize, setProductSize] = useState('PLEASE SELECT');
@@ -62,8 +62,6 @@ export default function MenProductDetails(props) {
         
         let galleryWidthTreshold = mobileGalleryWidth / 3;
 
-        console.log(galleryWidthTreshold * 2);
-
         if (userScrollMobileGallery >= 0 && userScrollMobileGallery < (galleryWidthTreshold / 2)) {
             setActiveMobileImg(1);
         } if (userScrollMobileGallery >= (galleryWidthTreshold / 2) && userScrollMobileGallery < galleryWidthTreshold * 1.5) {
@@ -72,7 +70,13 @@ export default function MenProductDetails(props) {
             setActiveMobileImg(3);
         }
 
-    }, [userScrollMobileGallery])
+    }, [userScrollMobileGallery]);
+
+    useEffect(() => {
+        const ymlScrollContainer = document.getElementById('yml-product-container');
+
+        ymlScrollContainer.scrollTo(0,0);
+    }, [product]);
 
     const handleCollapseClick = (e) => {
         const lastContent = document.getElementById('last-content');
@@ -148,14 +152,21 @@ export default function MenProductDetails(props) {
                 handleCartClick();
               }
         } catch (error) {
-            if (error?.response?.status === 401) alert('please sign in')
+
+            if (error.response?.status === 401) {
+                window.localStorage.clear();
+                setIsLoggedIn(null);
+                setUser(null);
+                navigate('/login')
+            }
             console.log(error)
         }
     };
     
     useEffect(() => {
 
-            (async () => {
+            if (productId) {
+                (async () => {
                 try {
                     const response = await axios.get(`api/products/${productId}`,
                         {
@@ -182,6 +193,9 @@ export default function MenProductDetails(props) {
                 }
     
             })();
+            }
+
+            
 
     }, [productId]);
 
@@ -301,6 +315,14 @@ export default function MenProductDetails(props) {
         }
     };
 
+    const handleUnauthorizedAddToCart = () => {
+        navigate('/cart');
+    }
+
+    const handleUnauthorizedAddToWishlist = () => {
+        navigate('/wishlist');
+    }
+
     const handleAddToWishList = async (e) => {
         
         const requestBody = {
@@ -331,6 +353,14 @@ export default function MenProductDetails(props) {
                 console.log(response);
               }
         } catch (error) {
+
+            if (error.response?.status === 401) {
+                window.localStorage.clear();
+                setIsLoggedIn(null);
+                setUser(null);
+                navigate('/login')
+            }
+
             console.log(error)
         }
     };
@@ -353,15 +383,25 @@ export default function MenProductDetails(props) {
                 console.log(response);
               }
         } catch (error) {
+
+            if (error.response?.status === 401) {
+                window.localStorage.clear();
+                setIsLoggedIn(null);
+                setUser(null);
+                navigate('/login')
+            }
+
             console.log(error)
         }
     };
 
     useEffect(() => {
 
+        if (!isLoggedIn) return;
+
         (async () => {
             try {
-                const response = await axios.get(`api/wishlist/${product.id}`,
+                const response = await axios.get(`api/wishlist/${productId}`,
                     {
                       headers: {
                           "Content-Type": "application/json"
@@ -445,8 +485,8 @@ export default function MenProductDetails(props) {
                         </ul>
                     </div>
                     <div className="btn-container mt-4 mb-4">
-                        <button disabled={productSize != 'PLEASE SELECT' ? false : true} onClick={handleAddToCart} className="add-to-cart-btn text-white text-sm disabled:opacity-75 disabled:cursor-not-allowed"><i class="fa-solid fa-cart-plus mr-4"></i>ADD TO CART</button>
-                        {wishedFor ? <button onClick={handleRemoveFromWishlist} className="add-to-wish-list-btn text-sm"><i className="fa-solid fa-heart mr-4"></i>REMOVE FROM WISHLIST</button> : <button onClick={handleAddToWishList} className="add-to-wish-list-btn text-sm"><i className="fa-regular fa-heart mr-4"></i>ADD TO WISHLIST</button> }
+                        <button disabled={productSize != 'PLEASE SELECT' ? false : true} onClick={isLoggedIn ? handleAddToCart : handleUnauthorizedAddToCart} className="add-to-cart-btn text-white text-sm disabled:opacity-75 disabled:cursor-not-allowed"><i class="fa-solid fa-cart-plus mr-4"></i>ADD TO CART</button>
+                        {wishedFor ? <button onClick={handleRemoveFromWishlist} className="add-to-wish-list-btn text-sm"><i className="fa-solid fa-heart mr-4"></i>REMOVE FROM WISHLIST</button> : <button onClick={isLoggedIn ? handleAddToWishList : handleUnauthorizedAddToWishlist} className="add-to-wish-list-btn text-sm"><i className="fa-regular fa-heart mr-4"></i>ADD TO WISHLIST</button> }
                     </div>
                     <div className="product-detail-below-btn-container">
                         <div className="product-description-container mb-4">
@@ -497,7 +537,7 @@ export default function MenProductDetails(props) {
                         </div>
                             <div className="product-detail-card-container mb-4">
                                 <div className="detail-card-wrapper">
-                                    <h2 className="font-semibold">CHECKOUT TODAY. INTEREST FREE.</h2>
+                                    <h2 className="font-bold">CHECKOUT TODAY. INTEREST FREE.</h2>
                                     <div className='product-detail-icon-card-container'>
                                         <div className='product-detail-icon-row'>
                                             <div className='product-detail-icon'>
@@ -522,7 +562,7 @@ export default function MenProductDetails(props) {
                                     </div>
                                 </div>
                                 <div className="detail-card-wrapper">
-                                    <h2 className="font-semibold">DELIVERED TO YOUR DOOR.</h2>
+                                    <h2 className="font-bold">DELIVERED TO YOUR DOOR.</h2>
                                     <div className='product-detail-icon-card-container'>
                                         <div className='product-detail-icon-row'>
                                             <div className='product-detail-icon'>
@@ -554,7 +594,7 @@ export default function MenProductDetails(props) {
                     </div>
                 </div>
             </section>
-            <YouMightLike setCart={setCart} product={product} />
+            <YouMightLike setWishlistBubble={setWishlistBubble} setWishList={setWishList} isLoggedIn={isLoggedIn} setCart={setCart} product={product} />
             <section className="product-detail-app-section">
                 <h3>OUR APPS</h3>
                 <div className="product-detail-app-container">

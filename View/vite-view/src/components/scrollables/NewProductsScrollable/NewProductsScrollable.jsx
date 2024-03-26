@@ -6,9 +6,10 @@ import './NewProductsScrollable.css'
 
 export default function NewProductsScrollable(props) {
 
-    const { setWishlistPopup, setWishlistBubble, setCart, setWishList } = props;
+    const { setWishlistPopup, setWishlistBubble, setCart, setWishList, isLoggedIn, setIsLoggedIn, setUser } = props;
 
     const [newProducts, setNewProducts] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const snapScrollLeft = (e) => {
         const scrollContainer = document.getElementById('new-product-container');
@@ -47,38 +48,133 @@ export default function NewProductsScrollable(props) {
                         withCredentials: true
                     });
 
+                    setIsLoading(true);
+
                     if (response.status === 200) {
-                        setNewProducts(response.data.slice(0,8));
-                    console.log(response)
+
+                        setIsLoading(false);
+                        return setNewProducts(response.data.slice(0,8));
                     }
             } catch (error) {
                 console.log(error)
             }
         })();
-    }, [])
+    }, []);
 
-    return (
-        <>
-        <section className="new-main-container">
-            <div className='new-header-container'>
-                <div className="new-header-wrapper">
-                    <h6>MENS</h6>
-                    <div><h5>NEW THIS MONTH</h5> <Link to={'/men/products/filter/new'}>View All</Link></div>
+    if (isLoading) {
+        return (
+            <>
+            <section className="new-main-container">
+                <div className='new-header-container'>
+                    <div className="new-header-wrapper">
+                        <h6>MENS</h6>
+                        <div><h5>NEW THIS MONTH</h5> <Link to={'/men/products/filter/new'}>View All</Link></div>
+                    </div>
+                    
+                    <div className='new-btn-container'>
+                        <button id='new-prev-btn' className='new-prev-btn' onClick={snapScrollLeft}><div className="arrow-left"></div></button>
+                        <button id='new-next-btn' className='new-next-btn' onClick={snapScrollRight}><div className="arrow-right"></div></button>
+                    </div>
                 </div>
-                
-                <div className='new-btn-container'>
-                    <button id='new-prev-btn' className='new-prev-btn' onClick={snapScrollLeft}><div className="arrow-left"></div></button>
-                    <button id='new-next-btn' className='new-next-btn' onClick={snapScrollRight}><div className="arrow-right"></div></button>
+                <div id='sale-product-container' className='sale-product-container x mandatory-scroll-snapping'>
+                    <div className="loading-card-container">
+                        <div className="loading-card-image">
+                            <div class="typing-indicator">
+                                <div class="typing-circle"></div>
+                                <div class="typing-circle"></div>
+                                <div class="typing-circle"></div>
+                                <div class="typing-shadow"></div>
+                                <div class="typing-shadow"></div>
+                                <div class="typing-shadow"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="loading-card-container">
+                        <div className="loading-card-image">
+                            <div class="typing-indicator">
+                                <div class="typing-circle"></div>
+                                <div class="typing-circle"></div>
+                                <div class="typing-circle"></div>
+                                <div class="typing-shadow"></div>
+                                <div class="typing-shadow"></div>
+                                <div class="typing-shadow"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="loading-card-container">
+                        <div className="loading-card-image">
+                            <div class="typing-indicator">
+                                <div class="typing-circle"></div>
+                                <div class="typing-circle"></div>
+                                <div class="typing-circle"></div>
+                                <div class="typing-shadow"></div>
+                                <div class="typing-shadow"></div>
+                                <div class="typing-shadow"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="loading-card-container">
+                        <div className="loading-card-image">
+                            <div class="typing-indicator">
+                                <div class="typing-circle"></div>
+                                <div class="typing-circle"></div>
+                                <div class="typing-circle"></div>
+                                <div class="typing-shadow"></div>
+                                <div class="typing-shadow"></div>
+                                <div class="typing-shadow"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="loading-card-container">
+                        <div className="loading-card-image">
+                            <div class="typing-indicator">
+                                <div class="typing-circle"></div>
+                                <div class="typing-circle"></div>
+                                <div class="typing-circle"></div>
+                                <div class="typing-shadow"></div>
+                                <div class="typing-shadow"></div>
+                                <div class="typing-shadow"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="loading-card-container">
+                        <div className="loading-card-image">
+                            <div class="typing-indicator">
+                                <div class="typing-circle"></div>
+                                <div class="typing-circle"></div>
+                                <div class="typing-circle"></div>
+                                <div class="typing-shadow"></div>
+                                <div class="typing-shadow"></div>
+                                <div class="typing-shadow"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div id='new-product-container' className='new-product-container x mandatory-scroll-snapping'>
-                {newProducts.map((product, i) => {
-                    return <ProductCard key={i} setWishlistPopup={setWishlistPopup} setWishlistBubble={setWishlistBubble} setWishList={setWishList} setCart={setCart} product={product} />
-                })}
-            </div>
-            {/* <div className='yml-overlay'></div> */}
-        </section>
-        </>
-    )
-
+            </section>
+            </>
+        )
+    } else {
+        return (
+            <>
+            <section className="new-main-container">
+                <div className='new-header-container'>
+                    <div className="new-header-wrapper">
+                        <h6>MENS</h6>
+                        <div><h5>NEW THIS MONTH</h5> <Link to={'/men/products/filter/new'}>View All</Link></div>
+                    </div>
+                    
+                    <div className='new-btn-container'>
+                        <button id='new-prev-btn' className='new-prev-btn' onClick={snapScrollLeft}><div className="arrow-left"></div></button>
+                        <button id='new-next-btn' className='new-next-btn' onClick={snapScrollRight}><div className="arrow-right"></div></button>
+                    </div>
+                </div>
+                <div id='new-product-container' className='new-product-container x mandatory-scroll-snapping'>
+                    {newProducts.map((product, i) => {
+                        return <ProductCard key={i} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} setUser={setUser} setWishlistPopup={setWishlistPopup} setWishlistBubble={setWishlistBubble} setWishList={setWishList} setCart={setCart} product={product} />
+                    })}
+                </div>
+            </section>
+            </>
+        )
+    }
 }

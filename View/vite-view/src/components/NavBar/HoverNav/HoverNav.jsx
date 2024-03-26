@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import './HoverNav.css';
 
 
 export default function HoverNav(props) {
 
     const navigate = useNavigate();
+    const location = useLocation();
 
     const { currentNavHover, setCurrentNavHover } = props;
 
@@ -78,17 +79,17 @@ export default function HoverNav(props) {
                 <div className='nav-hover-preserver'>
                     <Link onClick={() => {
                         setMenHover(false);
-                    }} to={'/men/products'} id='men-nav-active-btn' className='men-nav-btn-preserve'>Men</Link>
+                    }} to={'/men/products'} id='men-nav-active-btn' className='men-nav-btn-preserve'>MEN</Link>
                     <div onMouseEnter={() => {
                         setMenHover(false);
                         setWomenHover(true);
                         setCurrentNavHover('women');
-                    }} className='women-nav-btn-preserve'></div>
+                    }} className='women-nav-btn-preserve'>WOMEN</div>
                     <div onMouseEnter={() => {
                         setMenHover(false);
                         setAccessoryHover(true);
                         setCurrentNavHover('accessory');
-                    }} className='accessory-nav-btn-preserve'></div>
+                    }} className='accessory-nav-btn-preserve'>ACCESSORIES</div>
                 </div>
                 <div id='nav-hover-bottom-container' className='nav-hover-bottom-container'>
                 <div className='nav-hover-bottom-left-container'>
@@ -97,9 +98,16 @@ export default function HoverNav(props) {
                         </header>
                         <section className='nav-hover-options-container'>
                             <div className='nav-option-wrapper'>
-                                <h4>Tops</h4>
+                                <h4>TOPS</h4>
                                 <ul>
-                                    <li className='nav-option'>All</li>
+                                    <li className='nav-option'>
+                                        <Link onClick={() => {
+                                        setMenHover(false);
+                                        setCurrentNavHover('');
+                                    }} to={'/men/products/filter/tops'}>
+                                        All Tops
+                                        </Link>
+                                        </li>
                                     <li className='nav-option'><Link onClick={() => {
                                         setMenHover(false);
                                         setCurrentNavHover('');
@@ -115,9 +123,16 @@ export default function HoverNav(props) {
                                 </ul>
                             </div>
                             <div className='nav-option-wrapper'>
-                                <h4>Bottoms</h4>
+                                <h4>BOTTOMS</h4>
                                 <ul>
-                                    <li className='nav-option'>All</li>
+                                    <li className='nav-option'>
+                                        <Link onClick={() => {
+                                        setMenHover(false);
+                                        setCurrentNavHover('');
+                                    }} to={'/men/products/filter/bottoms'}>
+                                        All Bottoms
+                                        </Link>
+                                        </li>
                                     <li className='nav-option'><Link onClick={() => {
                                         setMenHover(false);
                                         setCurrentNavHover('');
@@ -133,7 +148,7 @@ export default function HoverNav(props) {
                                 </ul>
                             </div>
                             <div className='nav-option-wrapper'>
-                                <h4>Trending</h4>
+                                <h4>TRENDING</h4>
                                 <ul>
                                     <li className='nav-option'><Link onClick={() => {
                                         setMenHover(false);
@@ -194,15 +209,15 @@ export default function HoverNav(props) {
                         setWomenHover(false);
                         setMenHover(true);
                         setCurrentNavHover('men');
-                    }} className='men-nav-btn-preserve'></div>
+                    }} className='men-nav-btn-preserve'>MEN</div>
                     <Link onClick={() => {
                         setWomenHover(false);
-                    }} to={'/women/products'} id='women-nav-active-btn' className='women-nav-btn-preserve'>Women</Link>
+                    }} to={'/women/products'} id='women-nav-active-btn' className='women-nav-btn-preserve'>WOMEN</Link>
                     <div onMouseEnter={() => {
                         setWomenHover(false);
                         setAccessoryHover(true)
                         setCurrentNavHover('accessory');
-                    }} className='accessory-nav-btn-preserve'></div>
+                    }} className='accessory-nav-btn-preserve'>ACCESSORIES</div>
                 </div>
                 <div id='nav-hover-bottom-container' className='nav-hover-bottom-container'>
                     <div className='nav-hover-bottom-left-container'>
@@ -211,9 +226,16 @@ export default function HoverNav(props) {
                         </header>
                         <section className='nav-hover-options-container'>
                             <div className='nav-option-wrapper'>
-                                <h4>Tops</h4>
+                                <h4>TOPS</h4>
                                 <ul>
-                                    <li className='nav-option'>All</li>
+                                    <li className='nav-option'>
+                                    <Link onClick={() => {
+                                        setWomenHover(false);
+                                        setCurrentNavHover('');
+                                        }} to={'/women/products/filter/tops'}>
+                                        All Tops
+                                    </Link>
+                                    </li>
                                     <li className='nav-option'><Link onClick={() => {
                                         setWomenHover(false);
                                         setCurrentNavHover('');
@@ -233,9 +255,15 @@ export default function HoverNav(props) {
                                 </ul>
                             </div>
                             <div className='nav-option-wrapper'>
-                                <h4>Bottoms</h4>
+                                <h4>BOTTOMS</h4>
                                 <ul>
-                                    <li className='nav-option'>All</li>
+                                    <li className='nav-option'>
+                                        <Link onClick={() => {
+                                        setWomenHover(false);
+                                        setCurrentNavHover('');
+                                        }} to={'/women/products/filter/bottoms'}>
+                                            All Bottoms
+                                        </Link></li>
                                     <li className='nav-option'><Link onClick={() => {
                                         setWomenHover(false);
                                         setCurrentNavHover('');
@@ -251,7 +279,7 @@ export default function HoverNav(props) {
                                 </ul>
                             </div>
                             <div className='nav-option-wrapper'>
-                                <h4>Trending</h4>
+                                <h4>TRENDING</h4>
                                 <ul>
                                     <li className='nav-option'><Link onClick={() => {
                                         setWomenHover(false);
@@ -311,38 +339,107 @@ export default function HoverNav(props) {
                     <div onMouseEnter={() => {
                         setAccessoryHover(false);
                         setMenHover(true);
-                    }} className='men-nav-btn-preserve'></div>
+                        setCurrentNavHover('men');
+                    }} className='men-nav-btn-preserve'>MEN</div>
                     <div onMouseEnter={() => {
                         setAccessoryHover(false);
                         setWomenHover(true);
-                    }} to={'/men/products'} className='women-nav-btn-preserve'></div>
-                    <div onClick={() => {
-                        setAccessoryHover(false);
-                    }} className='accessory-nav-btn-preserve'></div>
+                        setCurrentNavHover('women');
+                    }} className='women-nav-btn-preserve'>WOMEN</div>
+                    <Link onClick={() => {
+                    }} id='accessory-nav-active-btn' className='accessory-nav-btn-preserve'>ACCESSORIES</Link>
                 </div>
-                <div className='nav-hover-bottom-container'>
+                <div id='nav-hover-bottom-container' className='nav-hover-bottom-container'>
+                    <div className='nav-hover-bottom-left-container'>
+                        <header className='nav-hover-header-container'>
+                            <h3>ACCESSORIES</h3>
+                        </header>
+                        <section className='nav-hover-options-container'>
+                            <div className='nav-option-wrapper'>
+                                <h4>BAGS</h4>
+                                <ul>
+                                    <li className='nav-option'>All Bags</li>
+                                    <li className='nav-option'>
+                                        <Link onClick={() => {
+                                        setWomenHover(false);
+                                        setCurrentNavHover('');
+                                        }} >Backpacks</Link>
+                                    </li>
+                                    <li className='nav-option'>
+                                        <Link onClick={() => {
+                                        setWomenHover(false);
+                                        setCurrentNavHover('');
+                                        }} >Duffle Bags</Link>
+                                    </li>
+                                    <li className='nav-option'>
+                                        <Link onClick={() => {
+                                        setWomenHover(false);
+                                        setCurrentNavHover('');
+                                        }} >Tote Bags</Link>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div className='nav-option-wrapper'>
+                                <h4>UNDERWEAR</h4>
+                                <ul>
+                                    <li className='nav-option'>All Underwear</li>
+                                    <li className='nav-option'><Link onClick={() => {
+                                        setWomenHover(false);
+                                        setCurrentNavHover('');
+                                        }} >Men's Underwear</Link></li>
+                                    <li className='nav-option'><Link onClick={() => {
+                                        setWomenHover(false);
+                                        setCurrentNavHover('');
+                                        }}>Women's Underwear</Link></li>
+                                </ul>
+                            </div>
+                            <div className='nav-option-wrapper'>
+                                <h4>EQUIPMENT</h4>
+                                <ul>
+                                    <li className='nav-option'><Link onClick={() => {
+                                        setWomenHover(false);
+                                        setCurrentNavHover('');
+                                        }} >All Equipment</Link></li>
+                                    <li className='nav-option'><Link onClick={() => {
+                                        setWomenHover(false);
+                                        setCurrentNavHover('');
+                                        }} >Lifting Equipment</Link></li>
+                                    <li className='nav-option'><Link onClick={() => {
+                                        setWomenHover(false);
+                                        setCurrentNavHover('');
+                                        }} >Bottles</Link></li>
+                                </ul>
+                            </div>
+                        </section>
+                    </div>
+
+                    <div className='nav-hover-bottom-right-container'>
                     <header className='nav-hover-header-container'>
-                        <h3>ACCESSORIES</h3>
-                    </header>
-                    <section className='nav-hover-options-container'>
-                        <div className='nav-option-wrapper'>
-                            <h4>Tops</h4>
-                            <ul>
-                                <li className='nav-option'>All</li>
-                                <li className='nav-option'>T-shirts</li>
-                                <li className='nav-option'>Long Sleeves</li>
-                                <li className='nav-option'>Hoodies</li>
-                            </ul>
-                        </div>
-                        <div className='nav-option-wrapper'>
-                            <h4>Bottoms</h4>
-                            <ul>
-                                <li className='nav-option'>All</li>
-                                <li className='nav-option'>Pants</li>
-                                <li className='nav-option'>Sweatpants</li>
-                            </ul>
-                        </div>
-                    </section>
+                            <h3>FEATURED</h3>
+                        </header>
+                        <section className='nav-hover-featured-container'>
+                            <Link onClick={() => {
+                                        setWomenHover(false);
+                                        setCurrentNavHover('');
+                                    }} id='accessory-training-app' className='nav-featured-new-container'>
+                                <div className='featured-overlay'></div>
+                                <p>TRAINING APP</p>
+                            </Link>
+                            <Link onClick={() => {
+                                        setWomenHover(false);
+                                        setCurrentNavHover('');
+                                    }} id='accessory-training-blog' className='nav-featured-sale-container'>
+                                <div className='featured-overlay'></div>
+                                <p>TRAINING BLOG</p>
+                            </Link>
+                        </section>
+                    </div>
+                </div>
+                <div onMouseEnter={() => {
+                    setWomenHover(false);
+                    setCurrentNavHover('');
+                }} className='nav-hover-overlay'>
+                    
                 </div>
             </div>
         )

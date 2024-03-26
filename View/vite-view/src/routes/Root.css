@@ -14,6 +14,7 @@ body {
     height: 80px;
     background-color: white;
     border-bottom-width: 2px;
+    transition: 200ms ease-out;
 }
 
 .header-wrapper {
@@ -43,6 +44,9 @@ body {
 }
 
 .user-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     /* border: solid red; */
     height: 100%;
     width: 60px;
@@ -364,6 +368,10 @@ body {
     #root-header {
         padding: 0 0 0 1rem;
     }
+
+    .secondary-root-header {
+        padding: 0 1rem 0 0;
+    }
 }
 
 @media only screen and (max-width: 1024px) {
@@ -410,12 +418,12 @@ body {
 
     .user-icon {
         width: auto;
-        padding: 0 .8rem;
+        padding: 0 1rem;
         font-size: 1rem;
     }
 
     .cart-icon {
-        padding: 0 1rem 0 10px;
+        padding: 0 1rem;
         width: auto;
         font-size: 1rem;
     }

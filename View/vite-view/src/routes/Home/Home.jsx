@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Navigate, Link } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
 import axios from "../../api/axios";
 import RevolvingHeader from "../../components/RevolvingHeader/RevolvingHeader";
 import BlogCard from "../../components/BlogCard/BlogCard";
@@ -13,7 +12,7 @@ import "./Home.css";
 
 const PERSIST_URL = '/api/users/persist'
 
-export default function Home({ setWishlistPopup, setWishlistBubble, setWishList, setCart, isLoggedIn, setIsLoggedIn, user, setUser}) {
+export default function Home({ setWishlistPopup, setWishlistBubble, setWishList, setCart, isLoggedIn, setIsLoggedIn, setUser}) {
 
   const navigate = useNavigate();
 
@@ -31,7 +30,7 @@ export default function Home({ setWishlistPopup, setWishlistBubble, setWishList,
           </div>
         </section>
         <section className="home-new-this-month-section-container">
-          <NewProductsScrollable setWishlistPopup={setWishlistPopup} setWishlistBubble={setWishlistBubble} setWishList={setWishList} setCart={setCart} />
+          <NewProductsScrollable isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} setUser={setUser} setWishlistPopup={setWishlistPopup} setWishlistBubble={setWishlistBubble} setWishList={setWishList} setCart={setCart} />
         </section>
         <section id="hero2" className="hero-section-container">
           <div className="hero-text">
@@ -44,12 +43,12 @@ export default function Home({ setWishlistPopup, setWishlistBubble, setWishList,
           </div>
         </section>
         <section className="home-new-this-month-section-container">
-          <SaleProductsScrollable setWishlistPopup={setWishlistPopup} setWishlistBubble={setWishlistBubble} setWishList={setWishList} setCart={setCart} />
+          <SaleProductsScrollable isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} setUser={setUser} setWishlistPopup={setWishlistPopup} setWishlistBubble={setWishlistBubble} setWishList={setWishList} setCart={setCart} />
           {/* <getSaleProducts setWishlistPopup={setWishlistPopup} setWishlistBubble={setWishlistBubble} setWishList={setWishList} setCart={setCart} /> */}
         </section>
         <section id="hero3" className="hero-section-container">
           <div className="hero-text">
-            <h1>DSGN STUDIO’s <br /> SIGNATURE SERIES IS HERE</h1>
+            <h1>DSGN STUDIO’S <br /> SIGNATURE SERIES IS HERE</h1>
             <p>DSGN studio’s touch on their favourite originals. Even a bad day is still a luxury, but let’s make today a good one.</p>
             <div className="hero-btn-container">
               <Link to={'/women/products/filter/DSGN'}><button id="hero3-btn">SHOP NOW</button></Link>
@@ -57,7 +56,7 @@ export default function Home({ setWishlistPopup, setWishlistBubble, setWishList,
           </div>
         </section>
         <section className="home-new-this-month-section-container">
-          <DsgnScrollable setWishlistPopup={setWishlistPopup} setWishlistBubble={setWishlistBubble} setWishList={setWishList} setCart={setCart} />
+          <DsgnScrollable isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} setUser={setUser} setWishlistPopup={setWishlistPopup} setWishlistBubble={setWishlistBubble} setWishList={setWishList} setCart={setCart} />
         </section>
         <section className="home-app-container">
           <h1>OUR APPS</h1>

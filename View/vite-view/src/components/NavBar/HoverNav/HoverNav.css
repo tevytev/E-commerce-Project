@@ -28,10 +28,8 @@
     gap: 3rem;
     height: 100%;
     width: auto;
-    /* border: solid blue; */
     opacity: 0;
     transition: 300ms ease-out;
-    /* animation: animate-in 300ms ease; */
 }
 
 .animate-in {
@@ -43,18 +41,16 @@
     justify-content: flex-start;
     align-items: center;
     flex-direction: column;
-    /* border: solid red; */
 }
 
 .nav-hover-header-container {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    /* border: green solid; */
     padding: 0 0 1rem 0;
     width: 100%;
     height: auto;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 600;
     border-bottom: solid #EBEBEB;
 }
@@ -64,7 +60,6 @@
     justify-content: flex-start;
     align-items: flex-start;
     padding: 1rem 0;
-    /* border: solid red; */
     width: 100%;
     gap: 3rem;
 }
@@ -74,7 +69,6 @@
     justify-content: flex-start;
     align-items: flex-start;
     flex-direction: column;
-    /* border: solid blue; */
 }
 
 .nav-option-wrapper ul {
@@ -86,7 +80,7 @@
 }
 
 .nav-option {
-    font-weight: 600;
+    font-weight: 500;
     color: #6e6e6e;
     cursor: pointer;
 }
@@ -96,7 +90,7 @@
 }
 
 .nav-option-wrapper h4 {
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 600;
     color: black;
 }
@@ -107,13 +101,11 @@
     align-items: center;
     height: 78px;
     width: auto;
-    /* border: solid red; */
     position: absolute;
-    top: -9.2%;
+    top: -9.3%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 100;
-    color: white;
     font-weight: 600;
 }
 
@@ -122,9 +114,10 @@
     justify-content: center;
     align-items: center;
     height: 100%;
-    width: 102.32px;
+    width: 98.66px;
     padding: 0 2rem;
-    /* border: solid blue; */
+    color: #aaaaaa;
+    background-color: white;
 }
 
 .women-nav-btn-preserve {
@@ -132,9 +125,10 @@
     justify-content: center;
     align-items: center;
     height: 100%;
-    width: 132.85px;
+    width: 127.6px;
     padding: 0 2rem;
-    /* border: solid green; */
+    color: #aaaaaa;
+    background-color: white;
 }
 
 .accessory-nav-btn-preserve {
@@ -142,17 +136,26 @@
     justify-content: center;
     align-items: center;
     height: 100%;
-    width: 168px;
+    width: 173.56px;
     padding: 0 2rem;
-    /* border: solid orange; */
+    cursor: pointer;
+    color: #aaaaaa;
+    background-color: white;
 }
 
 #men-nav-active-btn {
-    background-color: #393D3F;
+    background-color: #fff;
+    color: black;
 }
 
 #women-nav-active-btn {
-    background-color: #393D3F;
+    background-color: #fff;
+    color: black;
+}
+
+#accessory-nav-active-btn {
+    background-color: #fff;
+    color: black;
 }
 
 .nav-hover-featured-container {
@@ -161,7 +164,6 @@
     align-items: flex-start;
     flex-direction: column;
     padding: 1rem 0;
-    /* border: solid red; */
     width: 100%;
     gap: 1rem;
 }
@@ -173,10 +175,9 @@
     background-color: #EBEBEB;
     position: relative;
     background-size: cover;
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 600;
     color: white;
-    /* background: linear-gradient(0deg, rgba(0,0,0,0.4808517156862745) 0%, rgba(255,255,255,0) 50%); */
 }
 
 .nav-featured-sale-container {
@@ -189,7 +190,6 @@
     font-size: 1.1rem;
     font-weight: 600;
     color: white;
-    /* background: linear-gradient(0deg, rgba(0,0,0,0.4808517156862745) 0%, rgba(255,255,255,0) 50%); */
 }
 
 #men-new-releases {
@@ -203,12 +203,19 @@
 
 #women-new-releases {
     background-image: url(../../../assets/iStock-5.jpg);
-    /* background-position: center; */
 }
 
 #women-sale-this-month {
     background-image: url(../../../assets/iStock-6.jpg);
     background-position: center;
+}
+
+#accessory-training-app {
+    background-image: url(../../../assets/nav-accessory.jpg);
+}
+
+#accessory-training-blog {
+    background-image: url(../../../assets/squat.jpg);
 }
 
 .nav-featured-new-container p {

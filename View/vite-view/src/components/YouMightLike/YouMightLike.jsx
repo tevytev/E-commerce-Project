@@ -5,9 +5,8 @@ import axios from '../../api/axios';
 
 export default function YouMightLike(props) {
 
-    const { product, setCart } = props;
+    const { product, setCart, setWishList, setWishlistBubble, isLoggedIn } = props;
 
-    // const [productsScroll, setProductsScroll] = useState(null);
     const [recommendedProducts, setRecommendedProducts] = useState([]);
     const [detailedProduct, setDetailedProduct] = useState();
 
@@ -51,7 +50,6 @@ export default function YouMightLike(props) {
 
                     if (response.status === 200) {
                     setRecommendedProducts(response.data.filter((arrProduct) => arrProduct.id !== product.id).slice(0, 6));
-                    console.log(response)
                     }
             } catch (error) {
                 console.log(error)
@@ -59,20 +57,9 @@ export default function YouMightLike(props) {
         })();
     }, [product])
 
-    // useEffect(() => {
-    //     if (productsScroll === 1) {
-    //         document.getElementById('yml-product-container').style.opacity = .5;
-    //     } else if (productsScroll === 0) {
-
-    //     }
-
-    // }, [productsScroll])
-
-    // console.log(product);
-
     return (
         <>
-        <section className="yml-main-container">
+        <section id='yml-main-container' className="yml-main-container">
             <div className='yml-header-container'>
                 <h5>YOU MIGHT ALSO LIKE</h5>
                 <div className='yml-btn-container'>
@@ -82,17 +69,9 @@ export default function YouMightLike(props) {
             </div>
             <div id='yml-product-container' className='yml-product-container x mandatory-scroll-snapping'>
                 {recommendedProducts.map((product, i) => {
-                    return <ProductCard key={i} setCart={setCart} product={product} />
+                    return <ProductCard key={i} setWishlistBubble={setWishlistBubble} setWishList={setWishList} isLoggedIn={isLoggedIn} setCart={setCart} product={product} />
                 })}
-                {/* <div className='placeholder-card'></div>
-                <div className='placeholder-card'></div>
-                <div className='placeholder-card'></div>
-                <div className='placeholder-card'></div>
-                <div className='placeholder-card'></div>
-                <div className='placeholder-card'></div>
-                <div className='placeholder-card'></div> */}
             </div>
-            {/* <div className='yml-overlay'></div> */}
         </section>
         </>
     )

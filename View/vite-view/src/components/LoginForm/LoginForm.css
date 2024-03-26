@@ -1,3 +1,24 @@
+.login-form-inner-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: auto;
+    width: 100%;
+
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    width: 100%;
+}
+
+
+
+
 .entry-area {
     position: relative;
     width: 100%;

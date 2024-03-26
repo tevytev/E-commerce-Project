@@ -4,9 +4,6 @@ import BlogCard from '../../components/BlogCard/BlogCard';
 import RevolvingHeader from '../../components/RevolvingHeader/RevolvingHeader';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import { memImageObj } from '../../assets/menProductImagesObj';
-import { womenImageObj } from '../../assets/womenProductImagesObj';
-import loadingSvg from '../../assets/Pulse.svg'
 import CartItem from '../../components/CartItem/CartItem';
 import klarnaLogo from '../../assets/logos/klarna/Klarna.png';
 import afterpayLogo from '../../assets/logos/afterpay/Afterpay.jpeg';
@@ -17,7 +14,7 @@ const CART_URL = '/api/cart/';
 
 export default function Cart(props) {
     
-    const { cart, setCart, setWishList } = props;
+    const { isLoggedIn, cart, setCart, setWishList } = props;
 
     const [cartItems, setCartItems] = useState([]);
     const [total, setTotal] = useState(0);
@@ -41,14 +38,10 @@ export default function Cart(props) {
             setSubtotal(prev => prev + priceToAddToSubtotal);
             setDiscount(prev => prev + discountToAdd);
             setTotal(prev => prev + priceToAddToTotal);
-            console.log(itemObj);
           return itemObj;
         });
-    
 
-            setCartItems(newCartArr);
-            console.log(cartItems);
-
+        setCartItems(newCartArr);
 
           return () => {
 
@@ -80,6 +73,8 @@ export default function Cart(props) {
     };
 
     useEffect(() => {
+        if (!isLoggedIn) return;
+
         (async () => {
             try {
               const response = await axios.get(CART_URL,
@@ -100,12 +95,25 @@ export default function Cart(props) {
     }, []);
 
 
-    // console.log(cartItems)
-    if (cart.length === 0) {
+    if (!isLoggedIn) {
+        return (
+            <>
+            <section className="unauthorized-container">
+                <RevolvingHeader />
+                <div className="unauthorized-wrapper">
+                    <div className="unauthorized-header"><i className="fa-solid fa-cart-shopping"></i> <h2>ADD TO CART</h2></div>
+                    <p>Ever wanted to buy some elite quality fitness apparel to have another excuse to go to gym? Look no further 💪🏼 .</p>
+                    <div className="unauthorized-btn-container"><Link to={'/signup'} id="unauthorized-create-acct-btn">CREATE ACCOUNT</Link><Link to={'/login'} id="unauthorized-login-btn">LOG IN</Link></div>
+                </div>
+            </section>
+            </>
+        )
+    } else {
+        if (cart.length === 0) {
         return (
             <>
             <main className="empty-main-cart-container">
-                <div className='main-cart-wrapper'>
+                <div className='empty-main-cart-wrapper'>
                     <div className='flex flex-col gap-4 text-center'>
                         <p className='font-bold text-lg'>YOUR CART IS EMPTY</p>
                         <p className='font-light text-sm'>There are no products in your cart</p>
@@ -123,8 +131,8 @@ export default function Cart(props) {
             <RevolvingHeader />
             <div className='main-cart-wrapper'>
                 <section className='main-cart-left-container'>
-                    <h2 className='text-3xl font-bold'>YOUR CART</h2>
-                    <p> <i class="fa-solid fa-circle-info"></i> <span className='decoration-solid'>Your items aren’t reserved</span>, checkout quickly to make sure you don’t miss out!</p>
+                    <h2 className=' font-bold'>YOUR CART</h2>
+                    <p> <i class="fa-solid fa-circle-info"></i> <span className='font-bold'>Your items aren’t reserved</span>, checkout quickly to make sure you don’t miss out!</p>
                     <div className='main-cart-item-wrapper'>
                         {cartItems.map((itemObj, i) => {
                         return <CartItem setWishList={setWishList} cart={cart} setCart={setCart} key={i} setTotal={setTotal} subtotal={subtotal} setSubtotal={setSubtotal} setDiscount={setDiscount} cartItems={cartItems} setCartItems={setCartItems} itemObj={itemObj} initialQuantity={itemObj.quantity}  />
@@ -142,53 +150,59 @@ export default function Cart(props) {
                         <div className="total-wrapper font-bold"><p>Total</p> <p>${total}</p></div>
                     </div>
                     <button className='main-cart-checkout-btn'><i class="fa-solid fa-tags mr-3"></i>PROCEED TO CHECKOUT</button>
-                    <h3 className='font-bold text-xl'>CHECKOUT TODAY. INTEREST FREE.</h3>
-                    <div className='main-cart-icon-card-container'>
-                        <div className='main-cart-icon-row'>
-                            <div className='main-cart-icon'>
-                                <img src={klarnaLogo} alt="" />
-                            </div>
-                            <div className='main-cart-icon-text'>
-                                <p>Pay in 4 installments</p>
-                                <p className='font-light text-xs'>Minimum order value of $35</p>
-                                <p className='underline underline-offset-2 hover:cursor-pointer text-sm inline-block'>Learn more</p>
-                            </div>
-                        </div>
-                        <div className='main-cart-icon-row'>
-                            <div className='main-cart-icon'>
-                                <img className='rounded-md' src={afterpayLogo} alt="" />
-                            </div>
-                            <div className='main-cart-icon-text'>
-                                <p>Pay in 4 installments</p>
-                                <p className='font-light text-xs'>Minimum order value of $35</p>
-                                <p className='underline underline-offset-2 hover:cursor-pointer text-sm inline-block'>Learn more</p>
-                            </div>
-                        </div>
-                    </div>
-                    <h3 className='font-bold text-xl'>DELIVERED TO YOUR DOOR.</h3>
-                    <div className='main-cart-icon-card-container'>
-                        <div className='main-cart-icon-row'>
-                            <div className='main-cart-icon'>
-                                <i class="fa-solid fa-rotate-left text-2xl text-black"></i>
-                            </div>
-                            <div className='main-cart-icon-text'>
-                                <p>Free 30-Day Return Policy! Excluding Final Sale Items</p>
+                    <div className='main-cart-icon-section'>
+                        <div className='main-cart-icon-wrapper'>
+                            <h3 className='font-bold'>CHECKOUT TODAY. INTEREST FREE.</h3>
+                            <div className='main-cart-icon-card-container'>
+                                <div className='main-cart-icon-row'>
+                                    <div className='main-cart-icon'>
+                                        <img src={klarnaLogo} alt="" />
+                                    </div>
+                                    <div className='main-cart-icon-text'>
+                                        <p>Pay in 4 installments</p>
+                                        <p className='font-light text-xs'>Minimum order value of $35</p>
+                                        <p className='underline underline-offset-2 hover:cursor-pointer text-sm inline-block'>Learn more</p>
+                                    </div>
+                                </div>
+                                <div className='main-cart-icon-row'>
+                                    <div className='main-cart-icon'>
+                                        <img className='rounded-md' src={afterpayLogo} alt="" />
+                                    </div>
+                                    <div className='main-cart-icon-text'>
+                                        <p>Pay in 4 installments</p>
+                                        <p className='font-light text-xs'>Minimum order value of $35</p>
+                                        <p className='underline underline-offset-2 hover:cursor-pointer text-sm inline-block'>Learn more</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div className='main-cart-icon-row'>
-                            <div className='main-cart-icon'>
-                                <i class="fa-solid fa-box text-2xl text-black"></i>
-                            </div>
-                            <div className='main-cart-icon-text'>
-                                <p>Free Standard Shipping Over $75</p>
-                            </div>
-                        </div>
-                        <div className='main-cart-icon-row'>
-                            <div className='main-cart-icon'>
-                                <i class="fa-solid fa-truck-fast text-2xl text-black"></i>
-                            </div>
-                            <div className='main-cart-icon-text'>
-                                <p>Free Express Delivery over $150</p>
+                        <div className='main-cart-icon-wrapper'>
+                            <h3 className='font-bold'>DELIVERED TO YOUR DOOR.</h3>
+                            <div className='main-cart-icon-card-container'>
+                                <div className='main-cart-icon-row'>
+                                    <div className='main-cart-icon'>
+                                        <i class="fa-solid fa-rotate-left text-2xl text-black"></i>
+                                    </div>
+                                    <div className='main-cart-icon-text'>
+                                        <p>Free 30-Day Return Policy! Excluding Final Sale Items</p>
+                                    </div>
+                                </div>
+                                <div className='main-cart-icon-row'>
+                                    <div className='main-cart-icon'>
+                                        <i class="fa-solid fa-box text-2xl text-black"></i>
+                                    </div>
+                                    <div className='main-cart-icon-text'>
+                                        <p>Free Standard Shipping Over $75</p>
+                                    </div>
+                                </div>
+                                <div className='main-cart-icon-row'>
+                                    <div className='main-cart-icon'>
+                                        <i class="fa-solid fa-truck-fast text-2xl text-black"></i>
+                                    </div>
+                                    <div className='main-cart-icon-text'>
+                                        <p>Free Express Delivery over $150</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -214,4 +228,6 @@ export default function Cart(props) {
         </main>
         </>
     )
+    }
+    
 }

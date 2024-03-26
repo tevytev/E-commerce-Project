@@ -220,6 +220,18 @@
     position: relative;
 }
 
+#responsive-nav-app-accessory {
+    background-image: url('../../assets/nav-accessory.jpg');
+    background-position: center;
+    position: relative;
+}
+
+#responsive-nav-blog-accessory {
+    background-image: url('../../assets/squat.jpg');
+    background-position: center;
+    position: relative;
+}
+
 .responsive-nav-dropdown-container {
     padding: 0 1rem;
 }
@@ -336,14 +348,24 @@
   }
 
   @media only screen and (max-width: 500px) {
+
+  }
+
+  @media only screen and (max-width: 500px) {
+
     .responsive-nav-featured-item {
         height: 250px;
     }
 
     .responsive-nav-burger {
         width: auto;
-        padding: 0 10px 0 1rem;
+        padding: 0 1rem 0 1rem;
         font-size: 1.2rem;
+    }
+
+    .responsive-nav-featured-container p {
+        left: 1rem;
+        bottom: 1rem;
     }
 
 }

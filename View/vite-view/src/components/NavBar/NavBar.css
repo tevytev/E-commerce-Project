@@ -18,32 +18,15 @@
     height: 100%;
     width:max-content;
     padding: 0 2rem;
-    font-size: 1.1rem;
-}
-
-#test {
-    display: none;
-}
-
-.men-navlink {
-    
-}
-
-.men-navlink:hover #test{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    background-color: white;
-    margin-top: 1px;
-    top: 100%;
-    /* left: -140%; */
-    width: 100vw;
-    height: 400px;
+    font-size: 1rem;
 }
 
 .responsive-main-nav {
     display: none;
+}
+
+#logo-2 {
+    width: 50px;
 }
 
 @media only screen and (max-width: 1024px) {

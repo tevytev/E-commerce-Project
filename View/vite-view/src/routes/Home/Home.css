@@ -223,7 +223,7 @@
     
 }
 
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
 
     .hero-section-container {
         /* height: calc(100vh - 7rem); */
@@ -233,6 +233,10 @@
         flex-direction: column;
         position: initial;
         padding: 1rem 1rem;
+    }
+
+    .home-main-container {
+        padding: 80px 0 1rem 0;
     }
 
     .hero-text {

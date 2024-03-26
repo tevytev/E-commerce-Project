@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import "./ProductCard.css";
 import { memImageObj } from '../../assets/menProductImagesObj';
@@ -9,7 +9,9 @@ const WISHLIST_URL = '/api/wishlist/';
 
 export default function ProductCard (props){
 
-    const { product, cart, setCart, products, sizeFilter, setWishList, setWishlistBubble, setWishlistPopup, responsiveSearchProduct, handleResponsiveSearchClose, searchProduct, handleSearchClose } = props;
+    const location = useLocation();
+
+    const { isLoggedIn, setIsLoggedIn, setUser, product, cart, setCart, products, sizeFilter, setWishList, setWishlistBubble, setWishlistPopup, responsiveSearchProduct, handleResponsiveSearchClose, searchProduct, handleSearchClose } = props;
 
     const [cardProduct, setCardProduct] = useState(product);
     const [wishedFor, setWishedFor] = useState(null);
@@ -31,6 +33,7 @@ export default function ProductCard (props){
             window.removeEventListener("resize", handleResize);
         };
     }, []);
+
     const navigate = useNavigate();
 
     const handleCardClick = (e) => {
@@ -41,8 +44,6 @@ export default function ProductCard (props){
             handleResponsiveSearchClose();
         }
         navigate(`/${product.gender}/products/${product.id}`);
-
-        console.log('hello')
     }
 
     // Card MouseOver image change and quick add animations
@@ -53,9 +54,15 @@ export default function ProductCard (props){
             const highlight = document.getElementById(`highlight-${product.id}`);
 
         const animateInQuickAdd = () => {
+
+            if (quickAdd.classList.contains('quick-add-section')) {
+                quickAdd.classList.remove('quick-add-section');
+                quickAdd.classList.add('quick-add-section-active');
+            } else {
+                quickAdd.classList.remove('filtered-size-quick-add-section');
+                quickAdd.classList.add('filtered-size-quick-add-section-active');
+            }
             
-            quickAdd.classList.remove('quick-add-section');
-            quickAdd.classList.add('quick-add-section-active');
             highlight.classList.toggle('card-highlight-info-active');
         }
 
@@ -76,7 +83,6 @@ export default function ProductCard (props){
         }
         // Quick add animate in
         startQuickAddTimeout('start');
-        // console.log(e);
     };
 
     const cardMouseLeave = (e) => {
@@ -92,13 +98,20 @@ export default function ProductCard (props){
         const quickAdd = document.getElementById(`quick-add-${product.id}`);
         const highlight = document.getElementById(`highlight-${product.id}`);
 
-        // console.log(quickAdd.getBoundingClientRect().top)
-
         if (quickAdd.classList.contains('quick-add-section-active')) {
+
             quickAdd.classList.remove('quick-add-section-active');
             quickAdd.classList.add('quick-add-section');
             highlight.classList.remove('card-highlight-info-active');
+
+        } else if (quickAdd.classList.contains('filtered-size-quick-add-section-active')) {
+
+            quickAdd.classList.remove('filtered-size-quick-add-section-active');
+            quickAdd.classList.add('filtered-size-quick-add-section');
+            highlight.classList.remove('card-highlight-info-active');
+
         } else {
+
             startQuickAddTimeout('stop');
         }
     }
@@ -139,6 +152,7 @@ export default function ProductCard (props){
             }
           }
         } catch (error) {
+            
           console.log(error);
         }
     }
@@ -186,7 +200,13 @@ export default function ProductCard (props){
                     handleCartClick();
                 }
             } catch (error) {
-                if (error?.response?.status === 401) alert('please sign in')
+                
+                if (error.response?.status === 401) {
+                    window.localStorage.clear();
+                    setIsLoggedIn(null);
+                    setUser(null);
+                    navigate('/login')
+                }
                 console.log(error)
             }
 
@@ -198,8 +218,6 @@ export default function ProductCard (props){
                 size: productSize
             }
 
-            
-            
             try {
                 const response = await axios.post(`api/cart/${cardProduct.id}`,
                     JSON.stringify(requestBody),
@@ -214,10 +232,34 @@ export default function ProductCard (props){
                     handleCartClick();
                 }
             } catch (error) {
-                if (error?.response?.status === 401) alert('please sign in')
+                if (error.response?.status === 401) {
+                    window.localStorage.clear();
+                    setIsLoggedIn(null);
+                    setUser(null);
+                    navigate('/login')
+                }
                 console.log(error)
             }
         }
+    }
+
+    const handleUnauthorizedAddToCart = () => {
+        if (searchedProduct) {
+            handleSearchClose();
+        } else if (responsiveSearchProduct) {
+            handleResponsiveSearchClose();
+        }
+        navigate('/cart');
+    }
+
+    const handleUnauthorizedAddToWishlist = (e) => {
+        if (searchedProduct) {
+            handleSearchClose();
+        } else if (responsiveSearchProduct) {
+            handleResponsiveSearchClose();
+        }
+        e.stopPropagation();
+        navigate('/wishlist');
     }
 
     useEffect(() => {
@@ -230,6 +272,10 @@ export default function ProductCard (props){
     }, [sizeFilter])
 
     useEffect(() => {
+
+        if (!isLoggedIn) {
+            return;
+        }
 
         (async () => {
             try {
@@ -284,7 +330,7 @@ export default function ProductCard (props){
               if (response.status === 201) {
                 setWishedFor(true);
                 setWishList(response.data.products);
-                setWishlistBubble(true);
+                if (location.pathname !== '/wishlist') setWishlistBubble(true);
                 document.getElementById(`${product.name}-wishlist-icom`).style.animation = 'wish-animate 400ms';
 
                 setWishlistPopup(true);
@@ -292,11 +338,15 @@ export default function ProductCard (props){
                 setTimeout(() => {
                     setWishlistPopup(false);
                 }, 5000);
-
-                console.log(response);
               }
 
         } catch (error) {
+            if (error.response?.status === 401) {
+                window.localStorage.clear();
+                setIsLoggedIn(null);
+                setUser(null);
+                navigate('/login')
+            }
             console.log(error)
         }
     };
@@ -318,9 +368,14 @@ export default function ProductCard (props){
                 setWishedFor(false);
                 setWishList(response.data.products);
                 setWishlistBubble(false);
-                console.log(response);
               }
         } catch (error) {
+            if (error.response?.status === 401) {
+                window.localStorage.clear();
+                setIsLoggedIn(null);
+                setUser(null);
+                navigate('/login')
+            }
             console.log(error)
         }
     };
@@ -365,29 +420,29 @@ export default function ProductCard (props){
             return (
                 <>
                 <div 
-                onMouseEnter={cardMouseOver}
-                onMouseLeave={cardMouseLeave} 
+                onMouseEnter={windowWidth > 768 ? cardMouseOver : null}
+                onMouseLeave={windowWidth > 768 ? cardMouseLeave : null} 
                 onClick={handleCardClick} className="card-container">
                     <div className="card-image-container">
                         <img id={product.id} className="card-img" src={memImageObj[product.id][0]} alt="" />
                         {
                         filteredSize ? 
                         <div onClick={stopParentBubble} id={`quick-add-${product.id}`} className='filtered-size-quick-add-section'>
-                            <button className='filtered-size-btn' onClick={handleQuickAddToCart}>ADD TO CART</button>
+                            <button className='filtered-size-btn' onClick={isLoggedIn ? handleQuickAddToCart : handleUnauthorizedAddToCart}>ADD TO CART</button>
                         </div>
                             : 
                         <div onClick={stopParentBubble} id={`quick-add-${product.id}`} className='quick-add-section'>
-                            <button className='unfiltered-size-btn' onClick={handleQuickAddToCart} value={'extraSmall'}>XS</button>
-                            <button className='unfiltered-size-btn' onClick={handleQuickAddToCart} value={'small'}>S</button>
-                            <button className='unfiltered-size-btn' onClick={handleQuickAddToCart} value={'medium'}>M</button>
-                            <button className='unfiltered-size-btn' onClick={handleQuickAddToCart} value={'large'}>L</button>
-                            <button className='unfiltered-size-btn' onClick={handleQuickAddToCart} value={'extraLarge'}>XL</button>
+                            <button className='unfiltered-size-btn' onClick={isLoggedIn ? handleQuickAddToCart : handleUnauthorizedAddToCart} value={'extraSmall'}>XS</button>
+                            <button className='unfiltered-size-btn' onClick={isLoggedIn ? handleQuickAddToCart : handleUnauthorizedAddToCart} value={'small'}>S</button>
+                            <button className='unfiltered-size-btn' onClick={isLoggedIn ? handleQuickAddToCart : handleUnauthorizedAddToCart} value={'medium'}>M</button>
+                            <button className='unfiltered-size-btn' onClick={isLoggedIn ? handleQuickAddToCart : handleUnauthorizedAddToCart} value={'large'}>L</button>
+                            <button className='unfiltered-size-btn' onClick={isLoggedIn ? handleQuickAddToCart : handleUnauthorizedAddToCart} value={'extraLarge'}>XL</button>
                         </div>
                         }
 
                         {
                         wishedFor ? <button onClick={handleRemoveFromWishlist} className='card-wishlist-btn'><i className="fa-solid fa-heart"></i></button> 
-                        : <button onClick={handleAddToWishList} className='card-wishlist-btn'><i id={`${product.name}-wishlist-icom`} className="fa-regular fa-heart"></i></button>
+                        : <button onClick={isLoggedIn ? handleAddToWishList : handleUnauthorizedAddToWishlist} className='card-wishlist-btn'><i id={`${product.name}-wishlist-icom`} className="fa-regular fa-heart"></i></button>
                         }
 
                         <div id={`highlight-${product.id}`} className='card-highlight-info'>SALE <i class="fa-solid fa-fire text-red-500"></i></div>
@@ -406,28 +461,28 @@ export default function ProductCard (props){
             return (
             <>
             <div 
-            onMouseEnter={cardMouseOver}
-            onMouseLeave={cardMouseLeave} 
+            onMouseEnter={windowWidth > 768 ? cardMouseOver : null}
+            onMouseLeave={windowWidth > 768 ? cardMouseLeave : null} 
             onClick={handleCardClick} className="card-container">
                 <div className="card-image-container">
                     <img id={product.id} className="card-img" src={memImageObj[product.id][0]} alt="" />
                     {
                     filteredSize ? 
                     <div onClick={stopParentBubble} id={`quick-add-${product.id}`} className='filtered-size-quick-add-section'>
-                        <button className='filtered-size-btn' onClick={handleQuickAddToCart}>ADD TO CART</button>
+                        <button className='filtered-size-btn' onClick={isLoggedIn ? handleQuickAddToCart : handleUnauthorizedAddToCart}>ADD TO CART</button>
                     </div>
                         : 
                     <div onClick={stopParentBubble} id={`quick-add-${product.id}`} className='quick-add-section'>
-                         <button className='unfiltered-size-btn' onClick={handleQuickAddToCart} value={'extraSmall'}>XS</button>
-                         <button className='unfiltered-size-btn' onClick={handleQuickAddToCart} value={'small'}>S</button>
-                         <button className='unfiltered-size-btn' onClick={handleQuickAddToCart} value={'medium'}>M</button>
-                         <button className='unfiltered-size-btn' onClick={handleQuickAddToCart} value={'large'}>L</button>
-                         <button className='unfiltered-size-btn' onClick={handleQuickAddToCart} value={'extraLarge'}>XL</button>
+                         <button className='unfiltered-size-btn' onClick={isLoggedIn ? handleQuickAddToCart : handleUnauthorizedAddToCart} value={'extraSmall'}>XS</button>
+                         <button className='unfiltered-size-btn' onClick={isLoggedIn ? handleQuickAddToCart : handleUnauthorizedAddToCart} value={'small'}>S</button>
+                         <button className='unfiltered-size-btn' onClick={isLoggedIn ? handleQuickAddToCart : handleUnauthorizedAddToCart} value={'medium'}>M</button>
+                         <button className='unfiltered-size-btn' onClick={isLoggedIn ? handleQuickAddToCart : handleUnauthorizedAddToCart} value={'large'}>L</button>
+                         <button className='unfiltered-size-btn' onClick={isLoggedIn ? handleQuickAddToCart : handleUnauthorizedAddToCart} value={'extraLarge'}>XL</button>
                      </div>
                         }
                         {
                         wishedFor ? <button onClick={handleRemoveFromWishlist} className='card-wishlist-btn'><i className="fa-solid fa-heart"></i></button> 
-                        : <button onClick={handleAddToWishList} className='card-wishlist-btn'><i id={`${product.name}-wishlist-icom`} className="fa-regular fa-heart"></i></button>
+                        : <button onClick={isLoggedIn ? handleAddToWishList : handleUnauthorizedAddToWishlist} className='card-wishlist-btn'><i id={`${product.name}-wishlist-icom`} className="fa-regular fa-heart"></i></button>
                         }
                         {
                         newProduct ? <div id={`highlight-${product.id}`} className='card-highlight-info'>NEW</div> : <></>
@@ -448,28 +503,28 @@ export default function ProductCard (props){
             return (
                 <>
                 <div 
-                onMouseEnter={cardMouseOver}
-                onMouseLeave={cardMouseLeave} 
+                onMouseEnter={windowWidth > 768 ? cardMouseOver : null}
+                onMouseLeave={windowWidth > 768 ? cardMouseLeave : null} 
                 onClick={handleCardClick} className="card-container">
                     <div className="card-image-container">
                         <img id={product.id} className="card-img" src={womenImageObj[product.id][0]} alt="" />
                         {
                         filteredSize ? 
                         <div onClick={stopParentBubble} id={`quick-add-${product.id}`} className='filtered-size-quick-add-section'>
-                            <button className='filtered-size-btn' onClick={handleQuickAddToCart}>ADD TO CART</button>
+                            <button className='filtered-size-btn' onClick={isLoggedIn ? handleQuickAddToCart : handleUnauthorizedAddToCart}>ADD TO CART</button>
                         </div>
                             : 
                         <div onClick={stopParentBubble} id={`quick-add-${product.id}`} className='quick-add-section'>
-                            <button className='unfiltered-size-btn' onClick={handleQuickAddToCart} value={'extraSmall'}>XS</button>
-                            <button className='unfiltered-size-btn' onClick={handleQuickAddToCart} value={'small'}>S</button>
-                            <button className='unfiltered-size-btn' onClick={handleQuickAddToCart} value={'medium'}>M</button>
-                            <button className='unfiltered-size-btn' onClick={handleQuickAddToCart} value={'large'}>L</button>
-                            <button className='unfiltered-size-btn' onClick={handleQuickAddToCart} value={'extraLarge'}>XL</button>
+                            <button className='unfiltered-size-btn' onClick={isLoggedIn ? handleQuickAddToCart : handleUnauthorizedAddToCart} value={'extraSmall'}>XS</button>
+                            <button className='unfiltered-size-btn' onClick={isLoggedIn ? handleQuickAddToCart : handleUnauthorizedAddToCart} value={'small'}>S</button>
+                            <button className='unfiltered-size-btn' onClick={isLoggedIn ? handleQuickAddToCart : handleUnauthorizedAddToCart} value={'medium'}>M</button>
+                            <button className='unfiltered-size-btn' onClick={isLoggedIn ? handleQuickAddToCart : handleUnauthorizedAddToCart} value={'large'}>L</button>
+                            <button className='unfiltered-size-btn' onClick={isLoggedIn ? handleQuickAddToCart : handleUnauthorizedAddToCart} value={'extraLarge'}>XL</button>
                         </div>
                         }
                         {
                         wishedFor ? <button onClick={handleRemoveFromWishlist} className='card-wishlist-btn'><i className="fa-solid fa-heart"></i></button> 
-                        : <button onClick={handleAddToWishList} className='card-wishlist-btn'><i id={`${product.name}-wishlist-icom`} className="fa-regular fa-heart"></i></button>
+                        : <button onClick={isLoggedIn ? handleAddToWishList : handleUnauthorizedAddToWishlist} className='card-wishlist-btn'><i id={`${product.name}-wishlist-icom`} className="fa-regular fa-heart"></i></button>
                         }
                         <div id={`highlight-${product.id}`} className='card-highlight-info'>SALE <i class="fa-solid fa-fire text-red-500"></i></div>
                     </div>
@@ -486,28 +541,28 @@ export default function ProductCard (props){
             return (
                 <>
                 <div 
-                onMouseEnter={cardMouseOver}
-                onMouseLeave={cardMouseLeave} 
+                onMouseEnter={windowWidth > 768 ? cardMouseOver : null}
+                onMouseLeave={windowWidth > 768 ? cardMouseLeave : null} 
                 onClick={handleCardClick} className="card-container">
                     <div className="card-image-container">
                         <img id={product.id} className="card-img" src={womenImageObj[product.id][0]} alt="" />
                         {
                         filteredSize ? 
                         <div onClick={stopParentBubble} id={`quick-add-${product.id}`} className='filtered-size-quick-add-section'>
-                            <button className='filtered-size-btn' onClick={handleQuickAddToCart}>ADD TO CART</button>
+                            <button className='filtered-size-btn' onClick={isLoggedIn ? handleQuickAddToCart : handleUnauthorizedAddToCart}>ADD TO CART</button>
                         </div>
                             : 
                         <div onClick={stopParentBubble} id={`quick-add-${product.id}`} className='quick-add-section'>
-                            <button className='unfiltered-size-btn' onClick={handleQuickAddToCart} value={'extraSmall'}>XS</button>
-                            <button className='unfiltered-size-btn' onClick={handleQuickAddToCart} value={'small'}>S</button>
-                            <button className='unfiltered-size-btn' onClick={handleQuickAddToCart} value={'medium'}>M</button>
-                            <button className='unfiltered-size-btn' onClick={handleQuickAddToCart} value={'large'}>L</button>
-                            <button className='unfiltered-size-btn' onClick={handleQuickAddToCart} value={'extraLarge'}>XL</button>
+                            <button className='unfiltered-size-btn' onClick={isLoggedIn ? handleQuickAddToCart : handleUnauthorizedAddToCart} value={'extraSmall'}>XS</button>
+                            <button className='unfiltered-size-btn' onClick={isLoggedIn ? handleQuickAddToCart : handleUnauthorizedAddToCart} value={'small'}>S</button>
+                            <button className='unfiltered-size-btn' onClick={isLoggedIn ? handleQuickAddToCart : handleUnauthorizedAddToCart} value={'medium'}>M</button>
+                            <button className='unfiltered-size-btn' onClick={isLoggedIn ? handleQuickAddToCart : handleUnauthorizedAddToCart} value={'large'}>L</button>
+                            <button className='unfiltered-size-btn' onClick={isLoggedIn ? handleQuickAddToCart : handleUnauthorizedAddToCart} value={'extraLarge'}>XL</button>
                         </div>
                         }
                         {
                         wishedFor ? <button onClick={handleRemoveFromWishlist} className='card-wishlist-btn'><i className="fa-solid fa-heart"></i></button> 
-                        : <button onClick={handleAddToWishList} className='card-wishlist-btn'><i id={`${product.name}-wishlist-icom`} className="fa-regular fa-heart"></i></button>
+                        : <button onClick={isLoggedIn ? handleAddToWishList : handleUnauthorizedAddToWishlist} className='card-wishlist-btn'><i id={`${product.name}-wishlist-icom`} className="fa-regular fa-heart"></i></button>
                         }
                         {
                         newProduct ? <div id={`highlight-${product.id}`} className='card-highlight-info'>NEW</div> : <></>

@@ -1,6 +1,6 @@
 import "./ProductDetailPage.css";
 import { useEffect, useState } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import klarnaLogo from '../../../assets/logos/klarna/Klarna.png';
 import afterpayLogo from '../../../assets/logos/afterpay/afterpay.jpeg';
 import axios from "../../../api/axios";
@@ -14,9 +14,9 @@ const WISHLIST_URL = '/api/wishlist/';
 
 export default function WomenProductDetails(props) {
     
-    const { setCart, setWishList, setWishlistBubble, setWishlistPopup } = props;
+    const { setCart, setWishList, setWishlistBubble, setWishlistPopup, isLoggedIn, setIsLoggedIn, setUser } = props;
     const { productId } = useParams();
-    // const { pathname } = useLocation();
+    const navigate = useNavigate();
 
     const [product, setProduct] = useState({});
     const [productSize, setProductSize] = useState('PLEASE SELECT');
@@ -94,7 +94,7 @@ export default function WomenProductDetails(props) {
     };
     
     const handleCartClick = async (e) => {
-
+        
         try {
           const response = await axios.get(CART_URL,
                         {
@@ -124,6 +124,10 @@ export default function WomenProductDetails(props) {
       }
 
     const handleAddToCart = async () => {
+
+        if (!isLoggedIn) {
+            return;
+        }
         
         const requestBody = {
             quantity: 1,
@@ -145,14 +149,26 @@ export default function WomenProductDetails(props) {
                 handleCartClick();
               }
         } catch (error) {
-            if (error?.response?.status === 401) alert('please sign in')
+            
+            if (error.response?.status === 401) {
+                window.localStorage.clear();
+                setIsLoggedIn(null);
+                setUser(null);
+                navigate('/login')
+            }
             console.log(error)
         }
     };
+
+    useEffect(() => {
+        const ymlScrollContainer = document.getElementById('yml-product-container');
+
+        ymlScrollContainer.scrollTo(0,0);
+    }, [product]);
     
     useEffect(() => {
-        let mounted = true;
-        if (mounted) {
+        
+        if (productId) {
             (async () => {
                 try {
                     const response = await axios.get(`api/products/${productId}`,
@@ -183,7 +199,7 @@ export default function WomenProductDetails(props) {
         }
 
         return () => {
-            mounted = false
+
         }
     }, [productId]);
 
@@ -281,6 +297,14 @@ export default function WomenProductDetails(props) {
         }
     }, [productId]);
 
+    const handleUnauthorizedAddToCart = () => {
+        navigate('/cart');
+    }
+
+    const handleUnauthorizedAddToWishlist = () => {
+        navigate('/wishlist');
+    }
+
     const selectProductSize = (e) => {
         
         const elementSize = e.target.value;
@@ -306,6 +330,10 @@ export default function WomenProductDetails(props) {
     };
 
     const handleAddToWishList = async (e) => {
+
+        if (!isLoggedIn) {
+            return;
+        }
         
         const requestBody = {
             productId: productId
@@ -335,6 +363,13 @@ export default function WomenProductDetails(props) {
                 console.log(response);
               }
         } catch (error) {
+
+            if (error.response?.status === 401) {
+                window.localStorage.clear();
+                setIsLoggedIn(null);
+                setUser(null);
+                navigate('/login')
+            }
             console.log(error)
         }
     };
@@ -357,11 +392,20 @@ export default function WomenProductDetails(props) {
                 console.log(response);
               }
         } catch (error) {
+
+            if (error.response?.status === 401) {
+                window.localStorage.clear();
+                setIsLoggedIn(null);
+                setUser(null);
+                navigate('/login')
+            }
             console.log(error)
         }
     };
 
     useEffect(() => {
+
+        if (!isLoggedIn) return;
 
         (async () => {
             try {
@@ -447,8 +491,8 @@ export default function WomenProductDetails(props) {
                         </ul>
                     </div>
                     <div className="btn-container mt-4 mb-6">
-                        <button  disabled={productSize != 'PLEASE SELECT' ? false : true} onClick={handleAddToCart} className="add-to-cart-btn text-white text-sm disabled:opacity-75 disabled:cursor-not-allowed"><i class="fa-solid fa-cart-plus mr-4"></i>ADD TO CART</button>
-                        {wishedFor ? <button onClick={handleRemoveFromWishlist} className="add-to-wish-list-btn text-sm"><i className="fa-solid fa-heart mr-4"></i>REMOVE FROM WISHLIST</button> : <button onClick={handleAddToWishList} className="add-to-wish-list-btn text-sm"><i className="fa-regular fa-heart mr-4"></i>ADD TO WISHLIST</button> }
+                        <button  disabled={productSize != 'PLEASE SELECT' ? false : true} onClick={isLoggedIn ? handleAddToCart : handleUnauthorizedAddToCart} className="add-to-cart-btn text-white text-sm disabled:opacity-75 disabled:cursor-not-allowed"><i class="fa-solid fa-cart-plus mr-4"></i>ADD TO CART</button>
+                        {wishedFor ? <button onClick={handleRemoveFromWishlist} className="add-to-wish-list-btn text-sm"><i className="fa-solid fa-heart mr-4"></i>REMOVE FROM WISHLIST</button> : <button onClick={isLoggedIn ? handleAddToWishList : handleUnauthorizedAddToWishlist} className="add-to-wish-list-btn text-sm"><i className="fa-regular fa-heart mr-4"></i>ADD TO WISHLIST</button> }
                     </div>
                     <div className="product-detail-below-btn-container">
                         <div className="product-description-container mb-4">
@@ -556,7 +600,7 @@ export default function WomenProductDetails(props) {
                     </div>
                 </div>
             </section>
-            <YouMightLike setCart={setCart} product={product} />
+            <YouMightLike setWishlistBubble={setWishlistBubble} setWishList={setWishList} isLoggedIn={isLoggedIn} setCart={setCart} product={product} />
             <section className="product-detail-app-section">
                 <h3>OUR APPS</h3>
                 <div className="product-detail-app-container">
