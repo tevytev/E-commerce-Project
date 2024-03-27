@@ -2,8 +2,8 @@
   "name": "vite-view",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://tevytev.github.io/E-commerce-Project/",
   "type": "module",
+  "homepage": "https://tevytev.github.io/E-commerce-Project/",
   "scripts": {
     "predeploy" : "npm run build",
     "deploy" : "gh-pages -d dist",
