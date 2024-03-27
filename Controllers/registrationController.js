@@ -49,7 +49,6 @@ const signup = async (req, res, next) => {
       req.session.authenticated = true;
       req.session.save();
       console.log(req.session);
-      userData.newUser = true;
       res.status(201).send(userData);
     } else {
       return res.status(409).send("Username already registered");
