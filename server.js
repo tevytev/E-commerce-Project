@@ -1,7 +1,7 @@
 // importing modules
+const dotenv = require('dotenv').config();
 const express = require('express');
 const sequelize = require('sequelize');
-const dotenv = require('dotenv').config();
 const cookieParser = require('cookie-parser');
 const { db } = require('./Models');
 const userRoutes = require('./Routes/userRoutes');

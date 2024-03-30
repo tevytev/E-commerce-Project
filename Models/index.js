@@ -1,4 +1,5 @@
 // importing modules
+const dotenv = require('dotenv').config();
 const { Sequelize, DataTypes } = require('sequelize');
 const { UserModel } = require('./User/userModel.js');
 const { ProductModel } = require('./Product/productModel.js');
@@ -9,8 +10,6 @@ const { OAuth2Model } = require('./User/oAuthModel.js');
 const { WishListModel } = require('./WishList/wishListModel.js');
 const { DsgnModel } = require('./DSGN/DsgnModel.js');
 const { SessionModel } = require('./Session/SessionModel.js');
-
-// const dotenv = require('dotenv').config();
 
 //Database connection with dialect of postgres specifying the database we are using
 //port for my database is 5432
