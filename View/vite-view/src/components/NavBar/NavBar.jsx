@@ -12,11 +12,13 @@ export default function NavBar(props) {
               <NavLink onMouseOver={handleHoverChange} id={'men'} className='main-navlink font-semibold' style={({ isActive, isPending, isTransitioning }) => {
     return {
       borderBottom: isActive ? "solid #393D3F 1px" : "",
+      marginBottom: isActive ? "-1px" : ""
     };
   }} to={'/men/products'}>MEN </NavLink>
               <NavLink onMouseOver={handleHoverChange} id={'women'} className='main-navlink font-semibold' style={({ isActive, isPending, isTransitioning }) => {
     return {
       borderBottom: isActive ? "solid #393D3F 1px" : "",
+      marginBottom: isActive ? "-1px" : ""
     };
   }} to={'/women/products'}>WOMEN</NavLink>
               <NavLink onMouseOver={handleHoverChange} id={'accessories'} className='main-navlink font-semibold' style={({ isActive, isPending, isTransitioning }) => {
