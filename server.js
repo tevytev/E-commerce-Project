@@ -91,14 +91,11 @@ app.use((req, res, next) => {
 
 app.use(cors(corsOptions));
 
-// const memoryStore = new session.MemoryStore();
-
 const PostgresqlStore = genFunc(session);
 const sessionStore = new PostgresqlStore({
   conString: process.env.DB_CONNECTION,
 });
 
-// 24 * 60 * 60 * 1000
 app.use(
   session({
     secret: process.env.SECRETKEY,
