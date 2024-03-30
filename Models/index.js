@@ -1,6 +1,5 @@
 // importing modules
-const dotenv = require('dotenv').config();
-const env = dotenv;
+require('dotenv').config();
 const { Sequelize, DataTypes } = require('sequelize');
 const { UserModel } = require('./User/userModel.js');
 const { ProductModel } = require('./Product/productModel.js');
@@ -16,7 +15,9 @@ const { SessionModel } = require('./Session/SessionModel.js');
 //port for my database is 5432
 //database name is newecom
 
-const sequelize = new Sequelize(process.env.DB_CONNECTION, { dialect: "postgres" });
+const DbConnection = process.env.DB_CONNECTION;
+
+const sequelize = new Sequelize(DbConnection, { dialect: "postgres" });
 
 // checking if connection is done
 sequelize.authenticate().then(() => {
