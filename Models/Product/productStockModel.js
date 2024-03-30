@@ -11,26 +11,6 @@ const ProductStockeModel = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             allowNull: false
         }
-        // extraSmall: {
-        //     type: DataTypes.STRING,
-        //     allowNull: true,
-        // },
-        // small: {
-        //     type: DataTypes.STRING,
-        //     allowNull: true,
-        // },
-        // medium: {
-        //     type: DataTypes.STRING,
-        //     allowNull: true,
-        // },
-        // large: {
-        //     type: DataTypes.STRING,
-        //     allowNull: true,
-        // },
-        // extraLarge: {
-        //     type: DataTypes.STRING,
-        //     allowNull: true,
-        // }
     })
     return ProductStock
 };

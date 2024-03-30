@@ -8,6 +8,7 @@ const { OrderModel } = require('./Order/orderModel.js');
 const { OAuth2Model } = require('./User/oAuthModel.js');
 const { WishListModel } = require('./WishList/wishListModel.js');
 const { DsgnModel } = require('./DSGN/DsgnModel.js');
+const { SessionModel } = require('./Session/SessionModel.js');
 
 // const dotenv = require('dotenv').config();
 
@@ -35,6 +36,7 @@ db.oAuthUsers = OAuth2Model(sequelize, DataTypes);
 db.stock = ProductStockeModel(sequelize, DataTypes);
 db.wishlist = WishListModel(sequelize, DataTypes);
 db.dsgn = DsgnModel(sequelize, DataTypes);
+db.session = SessionModel(sequelize, DataTypes);
 
 // Users and Carts one-to-one association
 db.users.hasOne(db.carts);
