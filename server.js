@@ -1,5 +1,6 @@
 // importing modules
 const dotenv = require('dotenv').config();
+const env = dotenv;
 const express = require('express');
 const sequelize = require('sequelize');
 const cookieParser = require('cookie-parser');

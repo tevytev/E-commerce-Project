@@ -1,5 +1,6 @@
 // importing modules
 const dotenv = require('dotenv').config();
+const env = dotenv;
 const { Sequelize, DataTypes } = require('sequelize');
 const { UserModel } = require('./User/userModel.js');
 const { ProductModel } = require('./Product/productModel.js');
