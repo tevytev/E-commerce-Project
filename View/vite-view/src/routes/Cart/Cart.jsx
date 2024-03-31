@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import CartItem from '../../components/CartItem/CartItem';
 import klarnaLogo from '../../assets/logos/klarna/Klarna.png';
-import afterpayLogo from '../../assets/logos/afterpay/Afterpay.jpeg';
+import afterpayLogo from '../../assets/logos/afterpay/afterpay.jpeg';
 import { useEffect } from 'react';
 import axios from '../../api/axios';
 const CART_URL = '/api/cart/';
