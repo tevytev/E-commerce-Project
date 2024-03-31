@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import Root from './routes/Root';
 import Home from './routes/Home/Home';
-import Signup from './routes/authRoutes/SignUp/Signup';
+import Signup from './routes/authRoutes/SignUpRoute/Signup';
 import Login from './routes/authRoutes/Login/Login';
 import Protected from './routes/protected'
 import MenProducts from './routes/Products/Men/MenProducts';
