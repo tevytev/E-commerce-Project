@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Navigate, Link } from "react-router-dom";
-import { SignupForm } from "../../../components/SignupForm/SignupForm"
+import SignupForm from "../../../components/SignupForm/SignupForm";
 import axios from "../../../api/axios";
 
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
