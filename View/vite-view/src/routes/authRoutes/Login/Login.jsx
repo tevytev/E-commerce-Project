@@ -8,9 +8,6 @@ const LOGIN_URL = "/api/users/login";
 const GOOGLE_LOGIN_URL = '/api/users/auth/google';
 const PERSIST_URL = '/api/users/persist'
 
-
-
-
 export default function Login({ setUser, isLoggedIn, setIsLoggedIn, breadCrumb }) {
 
     const [username, setUsername] = useState('');
