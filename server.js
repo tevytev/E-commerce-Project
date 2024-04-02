@@ -108,7 +108,7 @@ app.use(
       httpOnly: true,
       sameSite: 'lax',
       path: '/',
-      domain: 'e-commerce-project-server.onrender.com'
+      domain: '.e-commerce-project-server.onrender.com'
     }
   })
 );
