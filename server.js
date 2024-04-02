@@ -73,6 +73,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 const corsOptions = {
   origin:'https://e-commerce-project-7uyv.onrender.com',
+  methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
   credentials: true,
   optionSuccessStatus: 200,
   allowedHeaders: [
@@ -106,7 +107,7 @@ app.use(
       maxAge: 24 * 60 * 60 * 1000,
       secure: true,
       httpOnly: true,
-      sameSite: false,
+      sameSite: 'lax',
       path: '/',
       domain: 'e-commerce-project-server.onrender.com'
     }
