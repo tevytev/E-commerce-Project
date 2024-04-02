@@ -80,7 +80,8 @@ const corsOptions = {
     "Content-Type",
     "Access-Control-Allow-Origin",
     "Access-Control-Allow-Credentials",
-    "withCredentials"
+    "withCredentials",
+    "credentials"
   ]
 };
 
@@ -104,9 +105,9 @@ app.use(
     store: sessionStore,
     cookie: {
       maxAge: 24 * 60 * 60 * 1000,
-      secure: false,
+      secure: true,
       httpOnly: true,
-      sameSite: 'lax',
+      sameSite: 'None',
       path: '/',
       domain: '.e-commerce-project-server.onrender.com'
     }
