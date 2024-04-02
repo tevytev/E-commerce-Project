@@ -19,7 +19,7 @@ const LocalStrategy = require("passport-local").Strategy;
 const GoogleStrategy = require('passport-google-oauth2').Strategy;
 
 const bcrypt = require('bcrypt');
-const genFunc = require('connect-pg-simple')
+const genFunc = require('connect-pg-simple');
 // const MemoryStore = require('memorystore')(session)
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
@@ -72,7 +72,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 const corsOptions = {
-  origin:['https://tevytev.github.io', 'http://localhost:5173'],
+  origin:['https://tevytev.github.io', 'http://localhost:5173', 'https://e-commerce-project-client.onrender.com'],
   credentials: true,
   optionSuccessStatus: 200,
   allowedHeaders: [
@@ -85,7 +85,7 @@ const corsOptions = {
 };
 
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", ['https://tevytev.github.io', 'http://localhost:5173']);
+  res.setHeader("Access-Control-Allow-Origin", ['https://tevytev.github.io', 'http://localhost:5173', 'https://e-commerce-project-client.onrender.com']);
   next();
 })
 
@@ -143,6 +143,7 @@ const strategy = new LocalStrategy({
   passwordField: 'password',
 }, 
 async (username, password, done) => {
+  
     try{
         let user = await User.findOne({ where: { userName: username } })
         if (!user) {
@@ -163,8 +164,11 @@ async (username, password, done) => {
         });
 
         return done(null, user);
+
     } catch(err) {
+
         return done(err);
+
     }
   }
 );
