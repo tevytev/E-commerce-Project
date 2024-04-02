@@ -4,7 +4,7 @@ import axios from "../../../api/axios";
 import ProductCard from "../../../components/ProductCard/ProductCard";
 import RevolvingHeader from "../../../components/RevolvingHeader/RevolvingHeader";
 import "../ShoppingStyles/shoppingStyles.css";
-import './wishlist.css';
+import './wishList.css';
 
 export default function WishList(props) {
 
