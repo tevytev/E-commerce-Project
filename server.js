@@ -72,7 +72,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 const corsOptions = {
-  origin:['https://tevytev.github.io', 'http://localhost:5173', 'https://e-commerce-project-7uyv.onrender.com'],
+  origin:'https://e-commerce-project-7uyv.onrender.com',
   credentials: true,
   optionSuccessStatus: 200,
   allowedHeaders: [
@@ -85,7 +85,7 @@ const corsOptions = {
 };
 
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", ['https://tevytev.github.io', 'http://localhost:5173', 'https://e-commerce-project-7uyv.onrender.com']);
+  res.setHeader("Access-Control-Allow-Origin", 'https://e-commerce-project-7uyv.onrender.com');
   next();
 })
 
@@ -106,8 +106,8 @@ app.use(
       maxAge: 24 * 60 * 60 * 1000,
       secure: true,
       httpOnly: true,
-      sameSite: 'None',
-      // path: '/',
+      sameSite: false,
+      path: '/',
       domain: 'e-commerce-project-server.onrender.com'
     }
   })
