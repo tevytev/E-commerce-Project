@@ -91,6 +91,11 @@ app.use((req, res, next) => {
 
 app.use(cors(corsOptions));
 
+const PostgresqlStore = genFunc(session);
+const sessionStore = new PostgresqlStore({
+  conString: process.env.DB_CONNECTION,
+});
+
 app.use(
   session({
     secret: process.env.SECRETKEY,
@@ -107,11 +112,6 @@ app.use(
     }
   })
 );
-
-const PostgresqlStore = genFunc(session);
-const sessionStore = new PostgresqlStore({
-  conString: process.env.DB_CONNECTION,
-});
 
 app.use(passport.initialize());
 app.use(passport.session());
