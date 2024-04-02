@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { faCheck, faTimes, faInfoCircle, faCircleCheck, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const EMAIL_REGEX = /^\S+@\S+\.\S+$/;
@@ -88,36 +86,36 @@ export default function SignupForm(props) {
             <form onSubmit={handleSubmit} className='h-auto w-full flex flex-col justify-center items-stretch text-center'>
                 <label className={formStarted ? 'mt-4' : "hidden"} htmlFor="username">
                     <span className={validName && validEmail && validPwd && validMatch && !errMsg ? "text-green-500 text-2xl" : "hidden"}>
-                        <FontAwesomeIcon size='xl' icon={faCircleCheck} />
+                    <i class="fa-solid fa-circle-check text-3xl"></i>
                     </span>
                     <span className={!validName || !validEmail || !validPwd || !validMatch && !errMsg? " text-red-500 text-2xl" : "hidden"}>
-                        <FontAwesomeIcon size='xl' icon={faCircleXmark} />
+                        <i class="fa-solid fa-circle-xmark text-3xl"></i>
                     </span>
                 </label>
 
                 <div className='entry-area mb-6 mt-6'>
-                <input 
-                onChange={(e) => {
-                    setUsername(e.target.value);
-                }}
-                type="text"
-                id='username'
-                ref={userRef}
-                autoComplete='off'
-                required
-                value={username}
-                aria-invalid={validName ? "false" : "true"}
-                aria-describedby='uidnote'
-                onFocus={() => setUserFocus(true)}
-                onBlur={() => setUserFocus(false)}
-                />
+                    <input 
+                    onChange={(e) => {
+                        setUsername(e.target.value);
+                    }}
+                    type="text"
+                    id='username'
+                    ref={userRef}
+                    autoComplete='off'
+                    required
+                    value={username}
+                    aria-invalid={validName ? "false" : "true"}
+                    aria-describedby='uidnote'
+                    onFocus={() => setUserFocus(true)}
+                    onBlur={() => setUserFocus(false)}
+                    />
                     <div className='labelline'>Username</div>
                 </div>
                 <p
                 id='uidnote'
-                className={userFocus && username && !validName ? "text-left bg-night text-white p-2 mb-6 rounded-sm font-light text-xs" : "hidden"}
+                className={username && !validName ? "text-left bg-night text-white p-2 mb-6 rounded-sm font-light text-xs" : "hidden"}
                 >
-                <FontAwesomeIcon icon={faInfoCircle} />
+                <i class="fa-solid fa-circle-info"></i>
                 4 to 24 characters.<br />
                 Must begin with a letter.<br />
                 Letters, numbers, underscores, hyphens allowed.
@@ -127,8 +125,8 @@ export default function SignupForm(props) {
                     <input onChange={(e) => {
                         setEmail(e.target.value);
                     }} 
-                    type="email" 
-                    id='email' 
+                    type="text" 
+                    id='email'
                     value={email} 
                     required
                     autoComplete='off'
@@ -141,9 +139,9 @@ export default function SignupForm(props) {
                 </div>
                 <p
                 id='emailnote'
-                className={emailFocus && !validEmail ? "text-left bg-night text-white p-2 mb-6 rounded-sm font-light text-xs" : "hidden"}
+                className={email && !validEmail ? "text-left bg-night text-white p-2 mb-6 rounded-sm font-light text-xs" : "hidden"}
                 >
-                <FontAwesomeIcon icon={faInfoCircle} />
+                <i class="fa-solid fa-circle-info"></i>
                 Must be a valid email.
                 </p>
 
@@ -165,9 +163,9 @@ export default function SignupForm(props) {
                 </div>
                 <p
                 id='pwdnote'
-                className={pwdFocus && !validPwd ? "text-left bg-night text-white p-2 mb-6 rounded-sm font-light text-xs" : "hidden"}
+                className={pwd && !validPwd ? "text-left bg-night text-white p-2 mb-6 rounded-sm font-light text-xs" : "hidden"}
                 >
-                <FontAwesomeIcon icon={faInfoCircle} />
+                <i class="fa-solid fa-circle-info"></i>
                 8 to 24 characters.<br />
                 Must include uppercase and lowercase letters, a number, and a special character.<br />
                 Allowed special characters: <span aria-label='exclamation mark'>!</span>
@@ -195,9 +193,9 @@ export default function SignupForm(props) {
                 </div>
                 <p
                 id='confirmnote'
-                className={matchFocus && !validMatch ? "text-left bg-night text-white p-2 mb-6 rounded-sm font-light text-xs" : "hidden"}
+                className={matchPwd && !validMatch ? "text-left bg-night text-white p-2 mb-6 rounded-sm font-light text-xs" : "hidden"}
                 >
-                <FontAwesomeIcon icon={faInfoCircle} />
+                <i class="fa-solid fa-circle-info"></i>
                 Must match the first password input field.
                 </p>
 

@@ -22,19 +22,19 @@ export default function Signup({ isLoggedIn, setIsLoggedIn, setUser, breadCrumb 
         }
     }, [isLoggedIn]);
 
-    const [username, setUsername] = useState('Tevin');
+    const [username, setUsername] = useState('');
     const [validName, setValidName] = useState(false);
     const [userFocus, setUserFocus] = useState(false);
 
-    const [email, setEmail] = useState('tev@gmail.com');
+    const [email, setEmail] = useState('');
     const [validEmail, setValidEmail] = useState(false);
     const [emailFocus, setEmailFocus] = useState(false);
 
-    const [pwd, setPwd] = useState('Bridget1003!');
+    const [pwd, setPwd] = useState('');
     const [validPwd, setValidPwd] = useState(false);
     const [pwdFocus, setPwdFocus] = useState(false);
 
-    const [matchPwd, setMatchPwd] = useState('Bridget1003!');
+    const [matchPwd, setMatchPwd] = useState('');
     const [validMatch, setValidMatch] = useState(false);
     const [matchFocus, setMatchFocus] = useState(false);
     
