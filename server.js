@@ -107,7 +107,7 @@ app.use(
       maxAge: 24 * 60 * 60 * 1000,
       secure: true,
       httpOnly: true,
-      sameSite: 'None',
+      sameSite: 'Strict',
       path: '/',
       domain: '.e-commerce-project-server.onrender.com'
     }
