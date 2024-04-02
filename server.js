@@ -106,9 +106,9 @@ app.use(
       maxAge: 24 * 60 * 60 * 1000,
       secure: false,
       httpOnly: true,
-      sameSite: 'strict',
-      // path: '/',
-      // domain: 'github.io'
+      sameSite: 'lax',
+      path: '/',
+      domain: 'e-commerce-project-server.onrender.com'
     }
   })
 );
