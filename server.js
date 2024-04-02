@@ -72,7 +72,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 const corsOptions = {
-  origin:['https://tevytev.github.io', 'http://localhost:5173', 'https://e-commerce-project-client.onrender.com'],
+  origin:['https://tevytev.github.io', 'http://localhost:5173', 'https://e-commerce-project-7uyv.onrender.com'],
   credentials: true,
   optionSuccessStatus: 200,
   allowedHeaders: [
@@ -85,16 +85,11 @@ const corsOptions = {
 };
 
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", ['https://tevytev.github.io', 'http://localhost:5173', 'https://e-commerce-project-client.onrender.com']);
+  res.setHeader("Access-Control-Allow-Origin", ['https://tevytev.github.io', 'http://localhost:5173', 'https://e-commerce-project-7uyv.onrender.com']);
   next();
 })
 
 app.use(cors(corsOptions));
-
-const PostgresqlStore = genFunc(session);
-const sessionStore = new PostgresqlStore({
-  conString: process.env.DB_CONNECTION,
-});
 
 app.use(
   session({
@@ -112,6 +107,11 @@ app.use(
     }
   })
 );
+
+const PostgresqlStore = genFunc(session);
+const sessionStore = new PostgresqlStore({
+  conString: process.env.DB_CONNECTION,
+});
 
 app.use(passport.initialize());
 app.use(passport.session());
