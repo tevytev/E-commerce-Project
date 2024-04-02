@@ -106,9 +106,9 @@ app.use(
     cookie: {
       maxAge: 24 * 60 * 60 * 1000,
       secure: true,
-      httpOnly: true,
+      httpOnly: false,
       sameSite: 'none',
-      path: '/',
+      // path: '/',
       // domain: '.e-commerce-project-server.onrender.com'
     }
   })
