@@ -101,7 +101,7 @@ app.use(
   session({
     secret: process.env.SECRETKEY,
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     store: sessionStore,
     name: 'ecom-app',
     cookie: {
@@ -109,8 +109,8 @@ app.use(
       secure: true,
       httpOnly: false,
       sameSite: 'none',
-      path: '/',
-      domain: 'e-commerce-project-7uyv.onrender.com'
+      // path: '/',
+      // domain: 'e-commerce-project-7uyv.onrender.com'
     }
   })
 );
