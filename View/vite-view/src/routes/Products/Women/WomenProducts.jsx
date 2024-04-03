@@ -24,7 +24,7 @@ export default function WomenProducts(props) {
     const [userScrollY, setUserScrollY] = useState(window.scrollY);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [activeFilterTotal, setActiveFilterTotal] = useState(0);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const handleResize = () => {
@@ -171,12 +171,18 @@ export default function WomenProducts(props) {
                             },
                             withCredentials: true
                         });
+
+                        if (!isLoading) {
+                            setIsLoading(true);
+                        }
         
                         if (response.status === 200) {
+                            setIsLoading(false);
                             window.scrollTo(0, 0);
                             return setProducts(response.data);
                         }
                     } catch (error) {
+                        setIsLoading(false);
                         console.log(error);
                     }
                 } else {
@@ -188,8 +194,12 @@ export default function WomenProducts(props) {
                             },
                             withCredentials: true
                         });
+                        if (!isLoading) {
+                            setIsLoading(true);
+                          }
 
                         if (response.status === 200) {
+                            setIsLoading(false);
                             window.scrollTo(0, 0);
                             return setProducts(response.data);
                         }
@@ -207,12 +217,17 @@ export default function WomenProducts(props) {
                             },
                             withCredentials: true
                         });
+                        if (!isLoading) {
+                            setIsLoading(true);
+                          }
         
                         if (response.status === 200) {
+                            setIsLoading(false);
                             window.scrollTo(0, 0);
                             return setProducts(response.data);
                         }
                     } catch (error) {
+                        setIsLoading(false);
                         console.log(error);
                     }
                 } else {
@@ -224,12 +239,17 @@ export default function WomenProducts(props) {
                             },
                             withCredentials: true
                         });
+                        if (!isLoading) {
+                            setIsLoading(true);
+                          }
 
                         if (response.status === 200) {
+                            setIsLoading(false);
                             window.scrollTo(0, 0);
                             return setProducts(response.data);
                         }
                     } catch (error) {
+                        setIsLoading(false);
                         console.log(error)
                     }
                 }
@@ -371,8 +391,12 @@ export default function WomenProducts(props) {
                                       },
                                       withCredentials: true
                                   });
+                                  if (!isLoading) {
+                                    setIsLoading(true);
+                                  }
                 
                                   if (response.status === 200) {
+                                    setIsLoading(false);
 
                                     if (priceFilter === 'high to low') {
                                         const priceAdjustedArr = response.data.sort((a,b) => {
@@ -422,6 +446,7 @@ export default function WomenProducts(props) {
                                     return setProducts(response.data);
                                   }
                             } catch (error) {
+                                setIsLoading(false);
                                 console.log(error);
                             }
                 
@@ -436,13 +461,18 @@ export default function WomenProducts(props) {
                                       },
                                       withCredentials: true
                                   });
+                                  if (!isLoading) {
+                                    setIsLoading(true);
+                                  }
                 
                                   if (response.status === 200) {
+                                    setIsLoading(false);
                                     window.scrollTo(0, 0);
                                     console.log(response.data);
                                     return setProducts(response.data);
                                   }
                             } catch (error) {
+                                setIsLoading(false);
                                 console.log(error)
                             }
                 
@@ -462,8 +492,12 @@ export default function WomenProducts(props) {
                                       },
                                       withCredentials: true
                                   });
+                                  if (!isLoading) {
+                                    setIsLoading(true);
+                                  }
                 
                                   if (response.status === 200) {
+                                    setIsLoading(false);
 
                                     if (priceFilter === 'high to low') {
                                         const priceAdjustedArr = response.data.sort((a,b) => {
@@ -513,6 +547,7 @@ export default function WomenProducts(props) {
                                     return setProducts(response.data);
                                   }
                             } catch (error) {
+                                setIsLoading(false);
                                 console.log(error);
                             }
                 
@@ -527,12 +562,17 @@ export default function WomenProducts(props) {
                                       },
                                       withCredentials: true
                                   });
+                                  if (!isLoading) {
+                                    setIsLoading(true);
+                                  }
                 
                                   if (response.status === 200) {
+                                    setIsLoading(false);
                                     window.scrollTo(0, 0);
                                     return setProducts(response.data);
                                   }
                             } catch (error) {
+                                setIsLoading(false);
                                 console.log(error)
                             }
                 
@@ -553,8 +593,12 @@ export default function WomenProducts(props) {
                                     },
                                     withCredentials: true
                                 });
+                                if (!isLoading) {
+                                    setIsLoading(true);
+                                  }
                 
                                 if (response.status === 200) {
+                                    setIsLoading(false);
 
                                     if (priceFilter === 'high to low') {
                                         const priceAdjustedArr = response.data.sort((a,b) => {
@@ -604,6 +648,7 @@ export default function WomenProducts(props) {
                                     return setProducts(response.data);
                                 }
                             } catch (error) {
+                                setIsLoading(false);
                                 console.log(error);
                             }
                 
@@ -618,18 +663,20 @@ export default function WomenProducts(props) {
                                     },
                                     withCredentials: true
                                 });
-                                // setIsLoading(true);
+                                if (!isLoading) {
+                                    setIsLoading(true);
+                                  }
                 
                                 if (response.status === 200) {
 
+                                    setIsLoading(false);
                                     window.scrollTo(0, 0);
-
-                                    // setIsLoading(false);
                                     return setProducts(response.data); 
 
                                     
                                 }
                             } catch (error) {
+                                setIsLoading(false);
                                 console.log(error)
                             }
                 
@@ -649,8 +696,13 @@ export default function WomenProducts(props) {
                                     },
                                     withCredentials: true
                                 });
+                                if (!isLoading) {
+                                    setIsLoading(true);
+                                  }
                 
                                 if (response.status === 200) {
+
+                                    setIsLoading(false);
 
                                     if (priceFilter === 'high to low') {
                                         const priceAdjustedArr = response.data.sort((a,b) => {
@@ -700,6 +752,7 @@ export default function WomenProducts(props) {
                                     return setProducts(response.data);
                                 }
                             } catch (error) {
+                                setIsLoading(false);
                                 console.log(error);
                             }
                 
@@ -714,12 +767,17 @@ export default function WomenProducts(props) {
                                     },
                                     withCredentials: true
                                 });
+                                if (!isLoading) {
+                                    setIsLoading(true);
+                                  }
                 
                                 if (response.status === 200) {
+                                    setIsLoading(false);
                                     window.scrollTo(0, 0);
                                     return setProducts(response.data);
                                 }
                             } catch (error) {
+                                setIsLoading(false);
                                 console.log(error)
                             }
                 
@@ -758,8 +816,13 @@ export default function WomenProducts(props) {
                                     },
                                     withCredentials: true
                                 });
+                                if (!isLoading) {
+                                    setIsLoading(true);
+                                  }
                 
                                 if (response.status === 200) {
+                                    
+                                    setIsLoading(false);
 
                                     if (priceFilter === 'high to low') {
                                         const priceAdjustedArr = response.data.sort((a,b) => {
@@ -809,6 +872,7 @@ export default function WomenProducts(props) {
                                     return setProducts(response.data);
                                 }
                             } catch (error) {
+                                setIsLoading(false);
                                 console.log(error)
                             }
                 
@@ -823,12 +887,17 @@ export default function WomenProducts(props) {
                                     },
                                     withCredentials: true
                                 });
+                                if (!isLoading) {
+                                    setIsLoading(true);
+                                  }
             
                                 if (response.status === 200) {
+                                setIsLoading(false);
                                 window.scrollTo(0, 0);
                                 return setProducts(response.data);
                                 }
                         } catch (error) {
+                            setIsLoading(false);
                             console.log(error)
                         }
             
@@ -845,8 +914,13 @@ export default function WomenProducts(props) {
                                     },
                                     withCredentials: true
                                 });
+                                if (!isLoading) {
+                                    setIsLoading(true);
+                                  }
                 
                                 if (response.status === 200) {
+                                    
+                                    setIsLoading(false);
 
                                     if (priceFilter === 'high to low') {
                                         const priceAdjustedArr = response.data.sort((a,b) => {
@@ -896,6 +970,7 @@ export default function WomenProducts(props) {
                                     return setProducts(response.data);
                                 }
                             } catch (error) {
+                                setIsLoading(false);
                                 console.log(error)
                             }
                 
@@ -910,12 +985,17 @@ export default function WomenProducts(props) {
                                     },
                                     withCredentials: true
                                 });
+                                if (!isLoading) {
+                                    setIsLoading(true);
+                                  }
             
                                 if (response.status === 200) {
+                                    setIsLoading(false);
                                 window.scrollTo(0, 0);
                                 return setProducts(response.data);
                                 }
                         } catch (error) {
+                            setIsLoading(false);
                             console.log(error)
                         }
             
@@ -1619,13 +1699,13 @@ export default function WomenProducts(props) {
                                     return <ProductCard isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} setUser={setUser} setWishlistPopup={setWishlistPopup} setWishlistBubble={setWishlistBubble} setWishList={setWishList} cart={cart} setCart={setCart} product={product} sizeFilter={sizeFilter} />
                                 })
                             }
+                        </div>
                             {
                                 totalItems === 0 ? 
                                 isLoading ? <></> : <p>No products found under those filters but keep checking, they're coming soon!</p> 
                                 : 
                                 <></>
                             }
-                        </div>
                     </main>
                 </div>
             </section>
