@@ -110,7 +110,7 @@ app.use(
       httpOnly: false,
       sameSite: 'none',
       path: '/',
-      domain: 'onrender.com'
+      domain: 'e-commerce-project-server.onrender.com'
     }
   })
 );
