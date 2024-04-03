@@ -444,6 +444,10 @@
     display: none;
   }
 
+  .image-index-container {
+    display: none;
+  }
+
   @media only screen and (max-width: 1244px) {
     .product-detail-card-container {
       flex-direction: column;
@@ -571,8 +575,6 @@
       align-items: center;
       width: 100%;
       height: auto;
-      /* padding: 1rem 0; */
-      /* transform: translateY(-100px); */
     }
 
     .image-index-bar {
