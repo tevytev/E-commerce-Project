@@ -5,7 +5,7 @@ import klarnaLogo from '../../../assets/logos/klarna/Klarna.png';
 import afterpayLogo from '../../../assets/logos/afterpay/afterpay.jpeg';
 import axios from "../../../api/axios";
 import { womenImageObj } from '../../../assets/womenProductImagesObj';
-import swipeIcon from '../../../assets/swipe.png';
+import swipeIcon from '../../../assets/arrow.png';
 import RevolvingHeader from "../../../components/RevolvingHeader/RevolvingHeader";
 import AppCard from "../../../components/AppCard/AppCard";
 import BlogCard from "../../../components/BlogCard/BlogCard";
