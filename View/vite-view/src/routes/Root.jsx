@@ -24,6 +24,9 @@ export default function Root({ isLoggedIn, setIsLoggedIn, setUser, user, cart, s
   const [currentNavHover, setCurrentNavHover] = useState('');
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [navVisible, setNavVisible] = useState(true);
+  
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (location.pathname === '/') navigate('/home');
@@ -40,8 +43,7 @@ export default function Root({ isLoggedIn, setIsLoggedIn, setUser, user, cart, s
     };
 }, []);
  
-  const location = useLocation();
-  const navigate = useNavigate();
+  
 
   const rootElement = document.getElementById('root');
 
