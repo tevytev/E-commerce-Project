@@ -9,7 +9,7 @@ export default function DsgnScrollable(props) {
     const { setWishlistPopup, setWishlistBubble, setCart, setWishList, isLoggedIn, setIsLoggedIn, setUser } = props;
 
     const [dsgnProducts, setDsgnProducts] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     const snapScrollLeft = (e) => {
         const scrollContainer = document.getElementById('dsgn-product-container');
@@ -48,7 +48,9 @@ export default function DsgnScrollable(props) {
                         withCredentials: true
                     });
 
-                    setIsLoading(true);
+                    if (!isLoading) {
+                        setIsLoading(true);
+                    }
 
                     if (response.status === 200) {
                         

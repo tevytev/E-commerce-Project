@@ -5,6 +5,7 @@ import klarnaLogo from '../../../assets/logos/klarna/Klarna.png';
 import afterpayLogo from '../../../assets/logos/afterpay/afterpay.jpeg';
 import axios from "../../../api/axios";
 import { womenImageObj } from '../../../assets/womenProductImagesObj';
+import swipeIcon from '../../../assets/swipe.png';
 import RevolvingHeader from "../../../components/RevolvingHeader/RevolvingHeader";
 import AppCard from "../../../components/AppCard/AppCard";
 import BlogCard from "../../../components/BlogCard/BlogCard";
@@ -455,9 +456,7 @@ export default function WomenProductDetails(props) {
                 </div>
                 <div className="image-index-container">
                     <div className="image-index-bar">
-                        <div className={activeMobileImg === 1 ? 'image-index-active' : 'image-index'}></div>
-                        <div className={activeMobileImg === 2 ? 'image-index-active' : 'image-index'}></div>
-                        <div className={activeMobileImg === 3 ? 'image-index-active' : 'image-index'}></div>
+                        <img src={swipeIcon} alt="" />
                     </div>
                 </div>
                 <div className="product-info-container">

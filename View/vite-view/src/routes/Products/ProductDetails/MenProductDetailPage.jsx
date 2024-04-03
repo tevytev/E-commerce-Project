@@ -5,6 +5,7 @@ import axios from "../../../api/axios";
 import { memImageObj } from '../../../assets/menProductImagesObj';
 import klarnaLogo from '../../../assets/logos/klarna/Klarna.png';
 import afterpayLogo from '../../../assets/logos/afterpay/afterpay.jpeg';
+import swipeIcon from '../../../assets/swipe.png';
 import AppCard from "../../../components/AppCard/AppCard";
 import BlogCard from "../../../components/BlogCard/BlogCard";
 import RevolvingHeader from "../../../components/RevolvingHeader/RevolvingHeader";
@@ -431,7 +432,6 @@ export default function MenProductDetails(props) {
             <main className="detail-main-container">
                 <RevolvingHeader />
                 <section className="detail-component-container">
-                
                 <div className="product-image-container">
                     <img className="image" id="primary-img" src={memImageObj[productId][0]} alt="" />
                     <div className="gallery-container">
@@ -449,9 +449,7 @@ export default function MenProductDetails(props) {
                 </div>
                 <div className="image-index-container">
                     <div className="image-index-bar">
-                        <div className={activeMobileImg === 1 ? 'image-index-active' : 'image-index'}></div>
-                        <div className={activeMobileImg === 2 ? 'image-index-active' : 'image-index'}></div>
-                        <div className={activeMobileImg === 3 ? 'image-index-active' : 'image-index'}></div>
+                        <img src={swipeIcon} alt="" />
                     </div>
                 </div>
                 <div className="product-info-container">

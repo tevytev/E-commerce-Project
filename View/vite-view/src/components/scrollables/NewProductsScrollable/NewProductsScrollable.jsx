@@ -9,7 +9,7 @@ export default function NewProductsScrollable(props) {
     const { setWishlistPopup, setWishlistBubble, setCart, setWishList, isLoggedIn, setIsLoggedIn, setUser } = props;
 
     const [newProducts, setNewProducts] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     const snapScrollLeft = (e) => {
         const scrollContainer = document.getElementById('new-product-container');
@@ -48,7 +48,9 @@ export default function NewProductsScrollable(props) {
                         withCredentials: true
                     });
 
-                    setIsLoading(true);
+                    if (!isLoading) {
+                        setIsLoading(true);
+                    }
 
                     if (response.status === 200) {
 
