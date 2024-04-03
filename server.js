@@ -100,7 +100,7 @@ const sessionStore = new PostgresqlStore({
 app.use(
   session({
     secret: process.env.SECRETKEY,
-    resave: false,
+    resave: true,
     saveUninitialized: false,
     store: sessionStore,
     name: 'ecom-app',
