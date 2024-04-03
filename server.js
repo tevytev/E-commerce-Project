@@ -105,7 +105,7 @@ app.use(
     store: sessionStore,
     cookie: {
       maxAge: 24 * 60 * 60 * 1000,
-      secure: false,
+      secure: true,
       httpOnly: true,
       sameSite: 'none',
       path: '/',
