@@ -103,13 +103,14 @@ app.use(
     resave: false,
     saveUninitialized: false,
     store: sessionStore,
+    name: 'ecom-app',
     cookie: {
       maxAge: 24 * 60 * 60 * 1000,
-      secure: false,
+      secure: true,
       httpOnly: true,
       sameSite: 'none',
-      path: '/',
-      domain: 'e-commerce-project-server.onrender.com'
+      // path: '/',
+      // domain: 'e-commerce-project-server.onrender.com'
     }
   })
 );
