@@ -108,7 +108,7 @@ app.use(
       secure: true,
       httpOnly: true,
       sameSite: 'none',
-      path: '/',
+      // path: '/',
       domain: 'e-commerce-project-server.onrender.com'
     }
   })
