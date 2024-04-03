@@ -1,5 +1,6 @@
 import axios from "axios";
 
 export default axios.create({
-    baseURL: 'https://e-commerce-project-server.onrender.com'
+    baseURL: 'https://e-commerce-project-server.onrender.com',
+    withCredentials: true
 });

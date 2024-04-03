@@ -95,10 +95,9 @@ export default function Root({ isLoggedIn, setIsLoggedIn, setUser, user, cart, s
                     {
                       headers: { 
                           "Content-Type": "application/json" 
-                      }
-                  }, {
-                    withCredentials: true,
-                    credentials: 'include'
+                      },
+                      withCredentials: true,
+                      credentials: 'include'
                   });
       
       if (response.status === 200) {
