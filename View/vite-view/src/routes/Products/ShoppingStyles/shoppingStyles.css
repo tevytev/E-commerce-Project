@@ -1008,3 +1008,10 @@ li button:hover {
 
     
 }
+
+
+@media only screen and (max-width: 500px) {
+    .responsive-filter-container {
+        height: 75vh;
+    }
+}
