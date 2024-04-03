@@ -100,14 +100,14 @@ const sessionStore = new PostgresqlStore({
 app.use(
   session({
     secret: process.env.SECRETKEY,
-    resave: true,
+    resave: false,
     saveUninitialized: false,
     store: sessionStore,
     name: 'ecom-app',
     cookie: {
       maxAge: 24 * 60 * 60 * 1000,
       secure: true,
-      httpOnly: true,
+      httpOnly: false,
       sameSite: 'none',
       // path: '/',
       // domain: 'e-commerce-project-server.onrender.com'
