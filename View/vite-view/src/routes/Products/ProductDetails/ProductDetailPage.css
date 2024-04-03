@@ -580,13 +580,14 @@
       justify-content: center;
       align-items: center;
       position: absolute;
-      transform: translateY(-25px);
-      width: 90px;
-      height: 90px;
+      transform: translateY(-35px);
+      width: 40px;
+      height: 40px;
       border-radius: 100px;
-      background-color: rgba(249, 249, 249, 0.7);
-      padding: 0 8px;
-    }
+      background-color: #ffffff82;
+      padding: 0 7px;
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  }
 
     .image-index-bar img {
       height: 80%;

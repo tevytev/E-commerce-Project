@@ -5,7 +5,7 @@ import axios from "../../../api/axios";
 import { memImageObj } from '../../../assets/menProductImagesObj';
 import klarnaLogo from '../../../assets/logos/klarna/Klarna.png';
 import afterpayLogo from '../../../assets/logos/afterpay/afterpay.jpeg';
-import swipeIcon from '../../../assets/arrow.png';
+import arrowIcon from '../../../assets/arrow.png';
 import AppCard from "../../../components/AppCard/AppCard";
 import BlogCard from "../../../components/BlogCard/BlogCard";
 import RevolvingHeader from "../../../components/RevolvingHeader/RevolvingHeader";
@@ -449,7 +449,7 @@ export default function MenProductDetails(props) {
                 </div>
                 <div className="image-index-container">
                     <div className="image-index-bar">
-                        <img src={swipeIcon} alt="" />
+                        <img src={arrowIcon} alt="" />
                     </div>
                 </div>
                 <div className="product-info-container">
