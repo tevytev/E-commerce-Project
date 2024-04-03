@@ -538,7 +538,8 @@ const getNewProducts = async (req, res) => {
         const products = await Product.findAll({
             attributes: ['name', 'price', 'category', 'salePrice', 'id', 'gender', 'color', 'new'],
             where: {
-                new: { [Op.eq]: true }
+                new: { [Op.eq]: true },
+                gender: 'men'
             }
         });
 
