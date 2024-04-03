@@ -72,7 +72,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 const corsOptions = {
-  origin:'https://e-commerce-project-7uyv.onrender.com',
+  origin:'https://tevdev-ecommerce.com',
   methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
   credentials: true,
   optionSuccessStatus: 200,
@@ -86,7 +86,7 @@ const corsOptions = {
 };
 
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", 'https://e-commerce-project-7uyv.onrender.com');
+  res.setHeader("Access-Control-Allow-Origin", 'https://tevdev-ecommerce.com');
   next();
 })
 
@@ -103,13 +103,13 @@ app.use(
     resave: false,
     saveUninitialized: false,
     store: sessionStore,
-    name: 'ecom-cookie',
+    name: 'auth-cookie',
     proxy: true,
     cookie: {
       maxAge: 24 * 60 * 60 * 1000,
       secure: true,
       httpOnly: true,
-      sameSite: 'none',
+      sameSite: 'lax',
       // domain: 'e-commerce-project-server.onrender.com'
     }
   })
