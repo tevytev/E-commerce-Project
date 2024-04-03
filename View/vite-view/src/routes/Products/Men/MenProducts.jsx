@@ -25,7 +25,7 @@ export default function MenProducts(props) {
     const [userScrollY, setUserScrollY] = useState(window.scrollY);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [activeFilterTotal, setActiveFilterTotal] = useState(0);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const handleResize = () => {
@@ -434,14 +434,12 @@ export default function MenProducts(props) {
                                   withCredentials: true
                               });
 
-                            //   setIsLoading(true);
-
             
                               if (response.status === 200) {
                                 
                                 window.scrollTo(0, 0);
 
-                                // setIsLoading(false);
+                                setIsLoading(false);
                                 return setProducts(response.data);
 
                               }
