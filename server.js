@@ -105,10 +105,10 @@ app.use(
     store: sessionStore,
     cookie: {
       maxAge: 24 * 60 * 60 * 1000,
-      secure: true,
+      secure: false,
       httpOnly: true,
       sameSite: 'none',
-      // path: '/',
+      path: '/',
       domain: 'e-commerce-project-server.onrender.com'
     }
   })
