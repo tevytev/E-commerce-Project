@@ -103,8 +103,14 @@ export default function MenProducts(props) {
                           },
                           withCredentials: true
                       });
+
+                      if (!isLoading) {
+                        setIsLoading(true);
+                      }
     
                       if (response.status === 200) {
+
+                        setIsLoading(false);
 
                         if (priceFilter === 'high to low') {
                             const priceAdjustedArr = response.data.sort((a,b) => {
@@ -154,6 +160,7 @@ export default function MenProducts(props) {
                         return setProducts(response.data);
                       }
                 } catch (error) {
+                    setIsLoading(false);
                     console.log(error);
                 }
             } else {
@@ -166,12 +173,19 @@ export default function MenProducts(props) {
                       withCredentials: true
                   });
 
+                  if (!isLoading) {
+                    setIsLoading(true);
+                  }
+
                   if (response.status === 200) {
+
+                    setIsLoading(false);
                     window.scrollTo(0, 0);
                     console.log(response.data);
                     return setProducts(response.data);
                   }
             } catch (error) {
+                setIsLoading(false);
                 console.log(error)
             }
             }
@@ -385,8 +399,14 @@ export default function MenProducts(props) {
                                   },
                                   withCredentials: true
                               });
+
+                              if (!isLoading) {
+                                setIsLoading(true);
+                              }
             
                               if (response.status === 200) {
+
+                                setIsLoading(false);
 
                                 if (priceFilter === 'high to low') {
                                     const priceAdjustedArr = response.data.sort((a,b) => {
@@ -418,6 +438,7 @@ export default function MenProducts(props) {
                                 return setProducts(response.data);
                               }
                         } catch (error) {
+                            setIsLoading(false);
                             console.log(error);
                         }
             
@@ -434,6 +455,10 @@ export default function MenProducts(props) {
                                   withCredentials: true
                               });
 
+                              if (!isLoading) {
+                                setIsLoading(true);
+                              }
+
             
                               if (response.status === 200) {
                                 
@@ -444,6 +469,7 @@ export default function MenProducts(props) {
 
                               }
                         } catch (error) {
+                            setIsLoading(false);
                             console.log(error)
                         }
             
@@ -463,8 +489,14 @@ export default function MenProducts(props) {
                                   },
                                   withCredentials: true
                               });
+
+                              if (!isLoading) {
+                                setIsLoading(true);
+                              }
             
                               if (response.status === 200) {
+
+                                setIsLoading(false);
 
                                 if (priceFilter === 'high to low') {
                                     const priceAdjustedArr = response.data.sort((a,b) => {
@@ -514,6 +546,7 @@ export default function MenProducts(props) {
                                 return setProducts(response.data);
                               }
                         } catch (error) {
+                            setIsLoading(false);
                             console.log(error);
                         }
             
@@ -528,12 +561,18 @@ export default function MenProducts(props) {
                                   },
                                   withCredentials: true
                               });
+
+                              if (!isLoading) {
+                                setIsLoading(true);
+                              }
             
                               if (response.status === 200) {
+                                setIsLoading(false);
                                 window.scrollTo(0, 0);
                                 return setProducts(response.data);
                               }
                         } catch (error) {
+                            setIsLoading(false);
                             console.log(error)
                         }
             
@@ -570,8 +609,14 @@ export default function MenProducts(props) {
                               },
                               withCredentials: true
                           });
+
+                          if (!isLoading) {
+                            setIsLoading(true);
+                          }
         
                           if (response.status === 200) {
+
+                            setIsLoading(false);
 
                             if (priceFilter === 'high to low') {
                                 const priceAdjustedArr = response.data.sort((a,b) => {
@@ -605,6 +650,8 @@ export default function MenProducts(props) {
                             return setProducts(response.data);
                           }
                     } catch (error) {
+
+                        setIsLoading(false);
                         console.log(error)
                     }
         
@@ -619,12 +666,18 @@ export default function MenProducts(props) {
                             },
                             withCredentials: true
                         });
+
+                        if (!isLoading) {
+                            setIsLoading(true);
+                          }
     
                         if (response.status === 200) {
+                        setIsLoading(false);
                         window.scrollTo(0, 0);
                         return setProducts(response.data);
                         }
                 } catch (error) {
+                    setIsLoading(false);
                     console.log(error)
                 }
     
