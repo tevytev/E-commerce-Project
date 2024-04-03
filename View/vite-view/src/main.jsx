@@ -8,7 +8,7 @@ import { BrowserRouter, Route, Routes, Link, NavLink, useLocation } from 'react-
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter basename='./'>
+    <BrowserRouter basename='/'>
         <Routes>
           <Route path='/*' element={<App />} />
         </Routes>
