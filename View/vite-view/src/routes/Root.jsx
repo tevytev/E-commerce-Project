@@ -26,6 +26,10 @@ export default function Root({ isLoggedIn, setIsLoggedIn, setUser, user, cart, s
   const [navVisible, setNavVisible] = useState(true);
 
   useEffect(() => {
+    if (location.pathname === '/') navigate('/home');
+  }, [location]);
+
+  useEffect(() => {
     const handleResize = () => {
         setWindowWidth(window.innerWidth);
     };
