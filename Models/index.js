@@ -149,7 +149,7 @@ const DSGN = db.dsgn;
 
 
 (async () => {
-    await db.sequelize.sync({ force: true }).then(() => {
+    await db.sequelize.sync().then(() => {
 
         console.log("db has been re sync");
 
