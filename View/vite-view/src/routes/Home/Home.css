@@ -5,13 +5,11 @@
     flex-direction: column;
     height: auto;
     padding: 115px 0 3rem 0;
-    /* border: solid 2px red; */
 }
 
 .hero-section-container {
     height: 500px;
     width: 100vw;
-    /* border: solid blue 2px; */
     background-size: cover;
     background-position: 0% 50%;
     background-repeat: no-repeat;
@@ -119,7 +117,6 @@
     height: auto;
     width: 100vw;
     margin-bottom: 200px;
-    /* border: solid red; */
 }
 
 .home-app-container h1 {
@@ -136,19 +133,16 @@
     gap: 1rem;
     width: 100%;
     height: auto;
-    /* border: solid blue; */
 }
 
 .home-app1-container {
     width: 50%;
     height: 100%;
-    /* border: solid black; */
 }
 
 .home-app2-container {
     width: 50%;
     height: 100%;
-    /* border: solid black; */
 }
 
 .home-bottom-shop-container {
@@ -174,8 +168,6 @@
     justify-content: flex-start;
     align-items: flex-end;
     width: 30vw;
-    /* height: max-content; */
-    /* border: solid red; */
     padding: .8rem;
     background-size: cover;
     background-repeat: no-repeat;

@@ -10,7 +10,6 @@
     justify-content: flex-start;
     align-items: flex-start;
     padding: 2rem 0 0 0;
-    /* margin-top: 3rem; */
     display: flex;
 
 }
@@ -21,7 +20,6 @@
     align-items: flex-start;
     height: auto;
     width: 100%;
-    /* border: solid red; */
     color: black;
     padding: 0 3rem;
 }
@@ -31,11 +29,9 @@
     justify-content: flex-start;
     align-items: flex-start;
     gap: 5rem;
-    /* border: solid green; */
 }
 
 .footer-help-links-container ul {
-    /* border: solid black; */
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -56,7 +52,6 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    /* border: solid blue; */
     height: 100%;
     width: 550px;
 }
@@ -65,21 +60,17 @@
     display: grid;
     grid-template-columns: 32% 32% 32%;
     justify-content: space-between;
-    /* align-items: center; */
     gap: .8rem;
     width: 100%;
     height: auto;
-    /* border: solid green; */
 }
 
 .right-link-container1 {
     aspect-ratio: 3 / 2;
     width: 100%;
     height: 100%;
-    /* border: red solid; */
     background-image: url('../../assets/iStock-blog.jpg');
     background-size: cover;
-    /* background-position: right; */
     background-repeat: no-repeat;
     display: flex;
     justify-content: center;
@@ -91,7 +82,6 @@
     aspect-ratio: 3 / 2;
     width: 100%;
     height: 100%;
-    /* border: red solid; */
     background-image: url('../../assets/hero4.jpg');
     background-size: cover;
     background-position: center;
@@ -106,7 +96,6 @@
     aspect-ratio: 3 / 2;
     width: 100%;
     height: 100%;
-    /* border: red solid; */
     background-image: url('../../assets/email.jpg');
     background-size: cover;
     background-position: bottom;
@@ -140,7 +129,6 @@
     align-items: center;
     height: auto;
     width: 100%;
-    /* border: solid blue; */
     padding: 2rem 3rem;
 }
 
@@ -151,7 +139,6 @@
     gap: 10px;
     height: 50px;
     width: auto;
-    /* border: solid green; */
 }
 
 .footer-payment-container img {
@@ -166,7 +153,6 @@
     gap: 1.5rem;
     height: 50px;
     width: auto;
-    /* border: solid red; */
 }
 
 .footer-socials-container img {
@@ -191,7 +177,6 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    /* border: solid red; */
     width: auto;
 }
 
@@ -199,7 +184,6 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    /* border: solid blue; */
     width: auto;
 }
 
@@ -427,6 +411,7 @@
 
     .links-right-wrapper {
         min-width: 550px;
+        min-height: 117px;
         grid-template-columns: 32% 32% 32%;
         /* grid-auto-rows: 32%; */
         column-gap: .5rem;
