@@ -397,7 +397,6 @@
     .links-right-wrapper {
         min-width: 550px;
         grid-template-columns: 32% 32% 32%;
-        /* grid-auto-rows: 32%; */
         column-gap: .5rem;
     }
 

@@ -142,41 +142,39 @@ router.get('/auth/google',
 
 router.get('/google/callback',
     passport.authenticate( 'google', {
-        successRedirect: 'http://localhost:5173/home',
+        successRedirect: 'https://tevdev-ecommerce.com',
         failureRedirect: '/auth/failure',
     })
 );
 
-// http://localhost:5173/home
+// router.get('/protected', isLoggedIn, (req, res) => {
+//     res.json(req.user);
+// });
 
-router.get('/protected', isLoggedIn, (req, res) => {
-    res.json(req.user);
-});
-
-router.get('/otherprotected', (req, res) => {
-    // res.json(req.user);
-    if (req.session.passport) {
-        res.send('hello world');
-    } else {
-        res.sendStatus(401);
-    }
-})
+// router.get('/otherprotected', (req, res) => {
+//     // res.json(req.user);
+//     if (req.session.passport) {
+//         res.send('hello world');
+//     } else {
+//         res.sendStatus(401);
+//     }
+// })
 
 router.get('/auth/failure', (req, res) => {
     res.send('something went wrong..');
 })
 
-router.get('/persist', (req, res) => {
-    if (req.session.passport) {
-        // res.json({
-        //     "userName": req.session.passport.user.userName,
-        //     "email": req.session.passport.user.email,
-        // });
-        res.json(req.session.passport.user);
-    } else {
-        res.sendStatus(401);
-    }
-})
+// router.get('/persist', (req, res) => {
+//     if (req.session.passport) {
+//         // res.json({
+//         //     "userName": req.session.passport.user.userName,
+//         //     "email": req.session.passport.user.email,
+//         // });
+//         res.json(req.session.passport.user);
+//     } else {
+//         res.sendStatus(401);
+//     }
+// })
 
 
 // logout route
