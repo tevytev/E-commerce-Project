@@ -178,7 +178,7 @@ async (username, password, done) => {
 const googleStrategy = new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: "https://api.tevdev-ecommerce.com/api/users/google/callback",
+  callbackURL: "https://api.tevdev-ecommerce.com/api/users/google/oauth2/callback",
   passReqToCallback: true
 },
 async function(request, accessToken, refreshToken, profile, done) {

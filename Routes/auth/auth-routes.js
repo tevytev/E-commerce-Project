@@ -135,12 +135,12 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
     res.send(req.session.passport.user);
 });
 
-router.get('/auth/google',
+router.get('/oauth2/google',
   passport.authenticate('google', { scope:
       [ 'email', 'profile' ] }
 ));
 
-router.get('/google/callback',
+router.get('/google/oauth2/callback',
     passport.authenticate( 'google', {
         successRedirect: 'https://tevdev-ecommerce.com',
         failureRedirect: '/auth/failure',
