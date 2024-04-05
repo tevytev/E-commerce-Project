@@ -12,6 +12,9 @@ import youtubeIcon from '../../assets/logos/youtube.png';
 import instagramIcon from '../../assets/logos/instagram.png';
 import twitterIcon from '../../assets/logos/twitter.png';
 import tiktokIcon from '../../assets/logos/tik-tok.png';
+import blogImg from '../../assets/iStock-blog.jpg';
+import trainingAppImg from '../../assets/hero4.jpg';
+import emailImg from '../../assets/email.jpg';
 
 export default function Footer() {
 
@@ -115,9 +118,9 @@ export default function Footer() {
                 <div className='footer-links-right-container'>
                     <h4 className='mb-4 font-semibold desktop-more-header'>MORE ABOUT US</h4>
                     <div className='links-right-wrapper'>
-                        <div className='right-link-container1'><div className='right-link-label'>BLOG</div></div>
-                        <div className='right-link-container2'><div className='right-link-label'>TRAINING APP</div></div>
-                        <div className='right-link-container3'><div className='right-link-label'>EMAIL SIGN UP</div></div>
+                        <div className='right-link-container1'><img src={blogImg} alt="" /><div className='right-link-label'>BLOG</div></div>
+                        <div className='right-link-container2'><img src={trainingAppImg} alt="" /><div className='right-link-label'>TRAINING APP</div></div>
+                        <div className='right-link-container3'><img src={emailImg} alt="" /><div className='right-link-label'>EMAIL SIGN UP</div></div>
                     </div>
                 </div>
             </section>

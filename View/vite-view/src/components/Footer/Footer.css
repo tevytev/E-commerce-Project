@@ -66,41 +66,30 @@
 }
 
 .right-link-container1 {
-    aspect-ratio: 3 / 2;
-    height: 100%;
-    min-height: 117px;
-    background-image: url('../../assets/iStock-blog.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
+    width: 100%;
+    height: auto;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: flex-end;
     cursor: pointer;
 }
 
 .right-link-container2 {
-    aspect-ratio: 3 / 2;
-    height: 100%;
-    min-height: 117px;
-    background-image: url('../../assets/hero4.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    width: 100%;
+    height: auto;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: flex-end;
     cursor: pointer;
 }
 
 .right-link-container3 {
-    aspect-ratio: 3 / 2;
-    height: 100%;
-    min-height: 117px;
-    background-image: url('../../assets/email.jpg');
-    background-size: cover;
-    background-position: bottom;
-    background-repeat: no-repeat;
+    width: 100%;
+    height: auto;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: flex-end;
     cursor: pointer;
@@ -251,10 +240,6 @@
 
     .footer-links-right-container {
         width: 100%;
-    }
-
-    .links-right-wrapper {
-        height: auto;
     }
 
     .footer-dropdown-container {
@@ -411,7 +396,6 @@
 
     .links-right-wrapper {
         min-width: 550px;
-        min-height: 117px;
         grid-template-columns: 32% 32% 32%;
         /* grid-auto-rows: 32%; */
         column-gap: .5rem;
