@@ -370,7 +370,7 @@ const DSGN = db.dsgn;
         }
     });
 
-//   })();
+  })();
 
 // exporting the module
 module.exports = {
