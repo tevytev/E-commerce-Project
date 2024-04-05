@@ -147,18 +147,18 @@ router.get('/google/callback',
     })
 );
 
-// router.get('/protected', isLoggedIn, (req, res) => {
-//     res.json(req.user);
-// });
+router.get('/protected', isLoggedIn, (req, res) => {
+    res.json(req.user);
+});
 
-// router.get('/otherprotected', (req, res) => {
-//     // res.json(req.user);
-//     if (req.session.passport) {
-//         res.send('hello world');
-//     } else {
-//         res.sendStatus(401);
-//     }
-// })
+router.get('/otherprotected', (req, res) => {
+    // res.json(req.user);
+    if (req.session.passport) {
+        res.send('hello world');
+    } else {
+        res.sendStatus(401);
+    }
+})
 
 router.get('/auth/failure', (req, res) => {
     res.send('something went wrong..');
