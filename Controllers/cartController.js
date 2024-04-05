@@ -9,18 +9,36 @@ const Stock = db.stock;
 
 const getCart = async (req, res) => {
 
+    const oAuthProvidedId = req.session.passport.user.providedId
+
     const userId = req?.session?.passport ? req.session.passport.user.id : req.session.user.id;
 
-    const cart = await Cart.findOne({
+    if (userId) {
+        const cart = await Cart.findOne({
         where: { userId: userId },
         include: Stock
-      });
+    });
 
-    if (cart) {
-        return res.status(200).send(cart);
-    } else {
-        return res.status(404).send('user cart not found')
+        if (cart) {
+            return res.status(200).send(cart);
+        } else {
+            return res.status(404).send('user cart not found')
+        }
+
+    } else if (oAuthProvidedId) {
+
+        const cart = await Cart.findOne({
+            where: { providedId: oAuthProvidedId },
+            include: Stock
+        });
+    
+        if (cart) {
+            return res.status(200).send(cart);
+        } else {
+            return res.status(404).send('user cart not found')
+        }
     }
+    
 };
 
 const insertIntoCartStocks = async (req, res) => {
