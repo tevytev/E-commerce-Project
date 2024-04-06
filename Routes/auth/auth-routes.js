@@ -135,30 +135,30 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
     res.send(req.session.passport.user);
 });
 
-router.get('/oauth2/google',
+router.get('/auth/google',
   passport.authenticate('google', { scope:
       [ 'email', 'profile' ] }
 ));
 
-router.get('/google/oauth2/callback',
+router.get('/google/callback',
     passport.authenticate( 'google', {
         successRedirect: 'https://tevdev-ecommerce.com',
         failureRedirect: '/auth/failure',
     })
 );
 
-router.get('/protected', isLoggedIn, (req, res) => {
-    res.json(req.user);
-});
+// router.get('/protected', isLoggedIn, (req, res) => {
+//     res.json(req.user);
+// });
 
-router.get('/otherprotected', (req, res) => {
-    // res.json(req.user);
-    if (req.session.passport) {
-        res.send('hello world');
-    } else {
-        res.sendStatus(401);
-    }
-})
+// router.get('/otherprotected', (req, res) => {
+//     // res.json(req.user);
+//     if (req.session.passport) {
+//         res.send('hello world');
+//     } else {
+//         res.sendStatus(401);
+//     }
+// })
 
 router.get('/auth/failure', (req, res) => {
     res.send('something went wrong..');
