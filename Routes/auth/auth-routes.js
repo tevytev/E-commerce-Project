@@ -136,8 +136,7 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
 });
 
 router.get('/auth/google',
-  passport.authenticate('google', { scope:
-      [ 'email', 'profile' ] }
+  passport.authenticate('google', { scope: [ 'email', 'profile' ] }
 ));
 
 router.get('/google/callback',
