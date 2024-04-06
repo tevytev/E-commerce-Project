@@ -180,7 +180,6 @@ const googleStrategy = new GoogleStrategy({
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
   callbackURL: "https://api.tevdev-ecommerce.com/api/users/google/callback",
   passReqToCallback   : true,
-  proxy: true
 },
 async function(request, accessToken, refreshToken, profile, done) {
 
