@@ -190,7 +190,7 @@ async function(request, accessToken, refreshToken, profile, done) {
       defaults: {
         providedId: profile.id,
         userName: profile.displayName,
-        email: profile.emails[0],
+        email: "tev@google.com",
         loginType: profile.provider,
       }
     });
