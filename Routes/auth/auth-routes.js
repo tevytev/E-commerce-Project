@@ -146,10 +146,6 @@ router.get('/google/callback',
     })
 );
 
-// router.get('/protected', isLoggedIn, (req, res) => {
-//     res.json(req.user);
-// });
-
 // router.get('/otherprotected', (req, res) => {
 //     // res.json(req.user);
 //     if (req.session.passport) {
