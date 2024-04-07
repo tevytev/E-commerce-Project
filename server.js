@@ -184,28 +184,28 @@ const googleStrategy = new GoogleStrategy({
 async function(request, accessToken, refreshToken, profile, done) {
 
   console.log(profile);
-  try {
-    const [user, created] = await OAuthUser.findOrCreate({
-      where: { providedId: profile.id },
-      defaults: {
-        providedId: profile.id,
-        userName: profile.displayName,
-        email: profile.emails[0].value,
-        loginType: profile.provider,
-      }
-    });
+  // try {
+  //   const [user, created] = await OAuthUser.findOrCreate({
+  //     where: { providedId: profile.id },
+  //     defaults: {
+  //       providedId: profile.id,
+  //       userName: profile.displayName,
+  //       email: profile.emails[0].value,
+  //       loginType: profile.provider,
+  //     }
+  //   });
 
-    if (user) {
-      if (created) {
-        const cart = await Cart.create();
-        await user.setCart(cart);
-      }
-      return done(null, user);
-    }
+  //   if (user) {
+  //     if (created) {
+  //       const cart = await Cart.create();
+  //       await user.setCart(cart);
+  //     }
+  //     return done(null, user);
+  //   }
 
-  } catch (error) {
-    return done(error);
-  }
+  // } catch (error) {
+  //   return done(error);
+  // }
 })
 
 passport.use(strategy);
