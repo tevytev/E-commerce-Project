@@ -183,6 +183,7 @@ const googleStrategy = new GoogleStrategy({
 },
 async function(request, accessToken, refreshToken, profile, done) {
 
+  console.log(profile);
   try {
     const [user, created] = await OAuthUser.findOrCreate({
       where: { providedId: profile.id },
