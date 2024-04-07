@@ -189,7 +189,7 @@ async function(request, accessToken, refreshToken, profile, done) {
       defaults: {
         providedId: profile.id,
         userName: profile.displayName,
-        email: profile.email,
+        email: profile.emails[0].value,
         loginType: profile.provider,
       }
     });
