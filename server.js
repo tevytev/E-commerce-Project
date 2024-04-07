@@ -110,7 +110,7 @@ app.use(
       secure: true,
       httpOnly: true,
       sameSite: 'lax',
-      domain: 'tevdev-ecommerce.com'
+      domain: 'api.tevdev-ecommerce.com'
     }
   })
 );

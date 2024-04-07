@@ -29,7 +29,7 @@ export default function Home({ setWishlistPopup, setWishlistBubble, setWishList,
           console.log(response);
 
           const userData = {
-            userName: response.data.UserName,
+            userName: response.data.displayName,
             email: response.data.email
           }
 
