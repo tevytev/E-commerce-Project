@@ -143,7 +143,12 @@ router.get('/google/callback',
     passport.authenticate( 'google', {
         successRedirect: 'https://tevdev-ecommerce.com',
         failureRedirect: '/auth/failure',
-    })
+    }), (req, res) => {
+        if (req.session.passport) {
+            console.log(req.session.passport.user);
+        }
+        
+    }
 );
 
 // router.get('/otherprotected', (req, res) => {
@@ -159,7 +164,7 @@ router.get('/auth/failure', (req, res) => {
     res.send('something went wrong..');
 })
 
-// router.get('/persist', (req, res) => {
+// router.get('/persistOAuth', (req, res) => {
 //     if (req.session.passport) {
 //         // res.json({
 //         //     "userName": req.session.passport.user.userName,
