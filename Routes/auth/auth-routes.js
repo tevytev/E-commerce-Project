@@ -141,7 +141,7 @@ router.get('/auth/google',
 
 router.get('/google/callback',
     passport.authenticate( 'google', {
-        successRedirect: '/',
+        successRedirect: 'https://tevdev-ecommerce.com',
         failureRedirect: '/auth/failure',
     })
 );
