@@ -10,9 +10,30 @@ import SaleProductsScrollable from "../../components/scrollables/SaleProductsScr
 import DsgnScrollable from "../../components/scrollables/DsgnScrollable/DsgnScrollable";
 import "./Home.css";
 
-const PERSIST_URL = '/api/users/persist'
+const PERSIST_URL = '/api/users/persistOAuth'
 
 export default function Home({ setWishlistPopup, setWishlistBubble, setWishList, setCart, isLoggedIn, setIsLoggedIn, setUser}) {
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await axios.get(PERSIST_URL,
+                      {
+                        headers: { 
+                            "Content-Type": "application/json" 
+                        },
+                        withCredentials: true
+                    });
+        
+        if (response.status === 200) {
+          console.log(response);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+
+    })();
+  }, [])
 
   const navigate = useNavigate();
 

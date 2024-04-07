@@ -110,7 +110,7 @@ app.use(
       secure: true,
       httpOnly: true,
       sameSite: 'lax',
-      // domain: 'e-commerce-project-server.onrender.com'
+      domain: 'tevdev-ecommerce.com'
     }
   })
 );
