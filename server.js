@@ -26,6 +26,7 @@ const swaggerUi = require('swagger-ui-express');
 
 const User = db.users;
 const Cart = db.carts;
+const Wishlist = db.wishlist;
 const OAuthUser = db.oAuthUsers;
 
 const swaggerDefinition = {
@@ -199,6 +200,9 @@ async function(request, accessToken, refreshToken, profile, done) {
       if (created) {
         const cart = await Cart.create();
         await user.setCart(cart);
+
+        const wishlist = await Wishlist.create();
+        await user.setWishlist(wishlist);
       }
       return done(null, user);
     }
