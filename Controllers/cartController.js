@@ -50,22 +50,14 @@ const insertIntoCartStocks = async (req, res) => {
     const productId = req.params.productId;
     const productQuantity = req.body.quantity;
     const productSize = req.body.size;
-
-    try {
-        
-        if (userId) {
-            const cart = await Cart.findOne({
-                where: {
-                    userId: userId
-                }
-            });
-        } else {
-            const cart = await Cart.findOne({
-                where: {
-                    OAuth2UserProvidedId: oAuthProvidedId
-                }
-            });
-        }
+    
+    if (userId) {
+        try {
+        const cart = await Cart.findOne({
+            where: {
+                userId: userId
+            }
+        });
 
         const product = await Product.findOne({
             where: {
@@ -100,28 +92,16 @@ const insertIntoCartStocks = async (req, res) => {
                         price: Number(repeatedItemWithSize.price) + Number((product.price * productQuantity))
                     });
 
-                    if (userId) {
-                        const newCart = await Cart.findOne({
-                            where: {
-                                userId: userId
-                            },
-                            include: Stock
-                        });
-                    } else {
-                        const newCart = await Cart.findOne({
-                            where: {
-                                OAuth2UserProvidedId: oAuthProvidedId
-                            },
-                            include: Stock
-                        });
-                    }
-
-                    
+                    const newCart = await Cart.findOne({
+                        where: {
+                            userId: userId
+                        },
+                        include: Stock
+                    });
     
                     return res.status(201).send(newCart);
 
                 } else {
-
                     await CartStocks.create({
                         productName: product.name,
                         price: product.price,
@@ -133,22 +113,13 @@ const insertIntoCartStocks = async (req, res) => {
                         stockId: productStock.id,
                         new: product.new
                     });
-
-                    if (userId) {
-                        const newCart = await Cart.findOne({
-                            where: {
-                                userId: userId
-                            },
-                            include: Stock
-                        });
-                    } else {
-                        const newCart = await Cart.findOne({
-                            where: {
-                                OAuth2UserProvidedId: oAuthProvidedId
-                            },
-                            include: Stock
-                        });
-                    }
+                    // await cart.addProduct(product, { quantity: productQuantity, size: productSize });
+                    const newCart = await Cart.findOne({
+                        where: {
+                            userId: userId
+                        },
+                        include: Stock
+                    });
     
                     return res.status(201).send(newCart);
 
@@ -165,21 +136,12 @@ const insertIntoCartStocks = async (req, res) => {
                     new: product.new
                 } });
                 
-                if (userId) {
-                    const newCart = await Cart.findOne({
-                        where: {
-                            userId: userId
-                        },
-                        include: Stock
-                    });
-                } else {
-                    const newCart = await Cart.findOne({
-                        where: {
-                            OAuth2UserProvidedId: oAuthProvidedId
-                        },
-                        include: Stock
-                    });
-                }
+                const newCart = await Cart.findOne({
+                    where: {
+                        userId: userId
+                    },
+                    include: Stock
+                });
 
                 return res.status(201).send(newCart);
             }
@@ -190,6 +152,109 @@ const insertIntoCartStocks = async (req, res) => {
     } catch (error) {
         console.log(error);
     }
+    } else if (oAuthProvidedId) {
+        try {
+            const cart = await Cart.findOne({
+                where: {
+                    OAuth2UserProvidedId: oAuthProvidedId
+                }
+            });
+    
+            const product = await Product.findOne({
+                where: {
+                    id: productId
+                }
+            });
+    
+            const productStock = await Stock.findOne({
+                where: {
+                    productId: productId,
+                    productSize: productSize
+                }
+            });
+    
+            if (cart && product) {
+    
+    
+                // check if user is adding a repeat product to cart, incrementing the quantity
+                const repeatProductCheck = await cart.hasStock(productStock);
+                if (repeatProductCheck) {
+    
+                    const repeatedItemWithSize = await CartStocks.findOne({
+                        where: {
+                            stockId: productStock.id,
+                            size: productSize
+                        }
+                    });
+    
+                    if (repeatedItemWithSize) {
+                        await repeatedItemWithSize.update({
+                            quantity: Number(repeatedItemWithSize.quantity) + Number(productQuantity),
+                            price: Number(repeatedItemWithSize.price) + Number((product.price * productQuantity))
+                        });
+    
+                        const newCart = await Cart.findOne({
+                            where: {
+                                OAuth2UserProvidedId: oAuthProvidedId
+                            },
+                            include: Stock
+                        });
+        
+                        return res.status(201).send(newCart);
+    
+                    } else {
+                        await CartStocks.create({
+                            productName: product.name,
+                            price: product.price,
+                            salePrice: product.salePrice ? product.salePrice : null,
+                            quantity: productQuantity,
+                            size: productSize,
+                            gender: product.gender,
+                            cartId: cart.id,
+                            stockId: productStock.id,
+                            new: product.new
+                        });
+                        // await cart.addProduct(product, { quantity: productQuantity, size: productSize });
+                        const newCart = await Cart.findOne({
+                            where: {
+                                OAuth2UserProvidedId: oAuthProvidedId
+                            },
+                            include: Stock
+                        });
+        
+                        return res.status(201).send(newCart);
+    
+                    }
+                // if user is adding a new product to cart then only add item with quantity of one
+                } else {
+                    await cart.addStock(productStock, { through: { 
+                        productName: product.name, 
+                        price: (product.price * productQuantity), 
+                        salePrice: product.salePrice !== null ? (product.salePrice * productQuantity) : null,
+                        quantity: productQuantity, 
+                        size: productSize, 
+                        gender: product.gender,
+                        new: product.new
+                    } });
+                    
+                    const newCart = await Cart.findOne({
+                        where: {
+                            OAuth2UserProvidedId: oAuthProvidedId
+                        },
+                        include: Stock
+                    });
+    
+                    return res.status(201).send(newCart);
+                }
+            } else {
+                res.status(400);
+            }
+    
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    
 
 };
 
