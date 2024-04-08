@@ -260,13 +260,16 @@ const insertIntoCartStocks = async (req, res) => {
 
 const updateCartQuantity = async (req, res) => {
 
+    const oAuthProvidedId = req.session.passport.user.providedId;
+
     const userId = req.session.passport ? req.session.passport.user.id : req.session.user.id;
 
     const productId = req.body.productId;
     const newProductQuantity = req.body.quantity;
     const productSize = req.body.size;
 
-    try {
+    if (userId) {
+        try {
         const cart = await Cart.findOne({
             where: {
                 userId: userId
@@ -308,57 +311,149 @@ const updateCartQuantity = async (req, res) => {
     } catch (error) {
         console.log(error);
     }
+    } else if (oAuthProvidedId) {
+        try {
+            const cart = await Cart.findOne({
+                where: {
+                    OAuth2UserProvidedId: oAuthProvidedId
+                }
+            });
+    
+            const product = await Product.findOne({
+                where: {
+                    id: productId
+                }
+            });
+    
+            const productStock = await Stock.findOne({
+                where: {
+                    productId: productId,
+                    productSize: productSize
+                }
+            });
+    
+            if (productStock) {
+    
+                const cartStock = await CartStocks.findOne({
+                    where: {
+                        stockId: productStock.id,
+                        size: productSize
+                    }
+                });
+    
+                await cartStock.update({
+                    quantity: newProductQuantity,
+                    price: Number(product.price) * Number(newProductQuantity),
+                    salePrice: product.salePrice === null ? null : Number(product.salePrice) * Number(newProductQuantity)
+                });
+    
+                return res.status(200).send(cartStock);
+            }
+    
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    
 }
 
 const deleteCartStocks = async (req, res) => {
+
+    const oAuthProvidedId = req.session.passport.user.providedId;
 
     const userId = req.session.passport ? req.session.passport.user.id : req.session.user.id;
 
     const productId = req.params.productId;
     const productSize = req.query.size;
 
-    try {
-        const cart = await Cart.findOne({
-            where: {
-                userId: userId
-            }
-        });
-
-        const product = await Product.findOne({
-            where: {
-                id: productId
-            }
-        });
-
-        const productStock = await Stock.findOne({
-            where: {
-                productId: productId,
-                productSize: productSize
-            }
-        });
-
-        if (productStock) {
-
-            const cartStock = await CartStocks.destroy({
-                where: {
-                    stockId: productStock.id,
-                    size: productSize
-                }
-            });
-
-            const newCart = await Cart.findOne({
+    if (userId) {
+        try {
+            const cart = await Cart.findOne({
                 where: {
                     userId: userId
-                },
-                include: Stock
+                }
             });
-
-            return res.status(200).send(newCart);
-        }
-        
-    } catch (error) {
-        console.log(error);
-    }    
+    
+            const product = await Product.findOne({
+                where: {
+                    id: productId
+                }
+            });
+    
+            const productStock = await Stock.findOne({
+                where: {
+                    productId: productId,
+                    productSize: productSize
+                }
+            });
+    
+            if (productStock) {
+    
+                const cartStock = await CartStocks.destroy({
+                    where: {
+                        stockId: productStock.id,
+                        size: productSize
+                    }
+                });
+    
+                const newCart = await Cart.findOne({
+                    where: {
+                        userId: userId
+                    },
+                    include: Stock
+                });
+    
+                return res.status(200).send(newCart);
+            }
+            
+        } catch (error) {
+            console.log(error);
+        }    
+    } else if (oAuthProvidedId) {
+        try {
+            const cart = await Cart.findOne({
+                where: {
+                    OAuth2UserProvidedId: oAuthProvidedId
+                }
+            });
+    
+            const product = await Product.findOne({
+                where: {
+                    id: productId
+                }
+            });
+    
+            const productStock = await Stock.findOne({
+                where: {
+                    productId: productId,
+                    productSize: productSize
+                }
+            });
+    
+            if (productStock) {
+    
+                const cartStock = await CartStocks.destroy({
+                    where: {
+                        stockId: productStock.id,
+                        size: productSize
+                    }
+                });
+    
+                const newCart = await Cart.findOne({
+                    where: {
+                        OAuth2UserProvidedId: oAuthProvidedId
+                    },
+                    include: Stock
+                });
+    
+                return res.status(200).send(newCart);
+            }
+            
+        } catch (error) {
+            console.log(error);
+        }    
+    }
 };
 
 const checkoutCart = async (req, res) => {
