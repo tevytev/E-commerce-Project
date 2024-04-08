@@ -9,7 +9,7 @@ const Stock = db.stock;
 
 const getCart = async (req, res) => {
 
-    const oAuthProvidedId = req.session.passport.user.providedId
+    const oAuthProvidedId = req.session.passport.user.providedId;
 
     const userId = req?.session?.passport ? req.session.passport.user.id : req.session.user.id;
 
@@ -43,6 +43,8 @@ const getCart = async (req, res) => {
 
 const insertIntoCartStocks = async (req, res) => {
 
+    const oAuthProvidedId = req.session.passport.user.providedId;
+
     let userId = req.session.passport ? req.session.passport.user.id : req.session.user.id;
 
     const productId = req.params.productId;
@@ -50,11 +52,20 @@ const insertIntoCartStocks = async (req, res) => {
     const productSize = req.body.size;
 
     try {
-        const cart = await Cart.findOne({
-            where: {
-                userId: userId
-            }
-        });
+        
+        if (userId) {
+            const cart = await Cart.findOne({
+                where: {
+                    userId: userId
+                }
+            });
+        } else {
+            const cart = await Cart.findOne({
+                where: {
+                    OAuth2UserProvidedId: oAuthProvidedId
+                }
+            });
+        }
 
         const product = await Product.findOne({
             where: {
@@ -89,16 +100,28 @@ const insertIntoCartStocks = async (req, res) => {
                         price: Number(repeatedItemWithSize.price) + Number((product.price * productQuantity))
                     });
 
-                    const newCart = await Cart.findOne({
-                        where: {
-                            userId: userId
-                        },
-                        include: Stock
-                    });
+                    if (userId) {
+                        const newCart = await Cart.findOne({
+                            where: {
+                                userId: userId
+                            },
+                            include: Stock
+                        });
+                    } else {
+                        const newCart = await Cart.findOne({
+                            where: {
+                                OAuth2UserProvidedId: oAuthProvidedId
+                            },
+                            include: Stock
+                        });
+                    }
+
+                    
     
                     return res.status(201).send(newCart);
 
                 } else {
+
                     await CartStocks.create({
                         productName: product.name,
                         price: product.price,
@@ -110,13 +133,22 @@ const insertIntoCartStocks = async (req, res) => {
                         stockId: productStock.id,
                         new: product.new
                     });
-                    // await cart.addProduct(product, { quantity: productQuantity, size: productSize });
-                    const newCart = await Cart.findOne({
-                        where: {
-                            userId: userId
-                        },
-                        include: Stock
-                    });
+
+                    if (userId) {
+                        const newCart = await Cart.findOne({
+                            where: {
+                                userId: userId
+                            },
+                            include: Stock
+                        });
+                    } else {
+                        const newCart = await Cart.findOne({
+                            where: {
+                                OAuth2UserProvidedId: oAuthProvidedId
+                            },
+                            include: Stock
+                        });
+                    }
     
                     return res.status(201).send(newCart);
 
@@ -133,12 +165,21 @@ const insertIntoCartStocks = async (req, res) => {
                     new: product.new
                 } });
                 
-                const newCart = await Cart.findOne({
-                    where: {
-                        userId: userId
-                    },
-                    include: Stock
-                });
+                if (userId) {
+                    const newCart = await Cart.findOne({
+                        where: {
+                            userId: userId
+                        },
+                        include: Stock
+                    });
+                } else {
+                    const newCart = await Cart.findOne({
+                        where: {
+                            OAuth2UserProvidedId: oAuthProvidedId
+                        },
+                        include: Stock
+                    });
+                }
 
                 return res.status(201).send(newCart);
             }
