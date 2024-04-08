@@ -73,7 +73,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 const corsOptions = {
   origin:'https://tevdev-ecommerce.com',
-  methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
+  methods: ["POST", "PUT", "GET", "DELETE", "OPTIONS", "HEAD"],
   credentials: true,
   optionSuccessStatus: 200,
   allowedHeaders: [
