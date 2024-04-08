@@ -28,7 +28,7 @@ const getCart = async (req, res) => {
     } else if (oAuthProvidedId) {
 
         const cart = await Cart.findOne({
-            where: { providedId: oAuthProvidedId },
+            where: { OAuth2UserProvidedId: oAuthProvidedId },
             include: Stock
         });
     

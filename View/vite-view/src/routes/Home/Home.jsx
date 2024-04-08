@@ -28,15 +28,15 @@ export default function Home({ setWishlistPopup, setWishlistBubble, setWishList,
         if (response.status === 200) {
           console.log(response);
 
-          // const userData = {
-          //   userName: response.data.displayName,
-          //   email: response.data.email
-          // }
+          const userData = {
+            userName: response.data.userName,
+            email: response.data.email
+          }
 
-          // window.localStorage.setItem('isLoggedIn', JSON.stringify(true));
-          // setIsLoggedIn(JSON.parse(window.localStorage.getItem('isLoggedIn')));
-          // window.localStorage.setItem('userData', JSON.stringify(userData));
-          // setUser(window.localStorage.getItem('userData'));
+          window.localStorage.setItem('isLoggedIn', JSON.stringify(true));
+          setIsLoggedIn(JSON.parse(window.localStorage.getItem('isLoggedIn')));
+          window.localStorage.setItem('userData', JSON.stringify(userData));
+          setUser(window.localStorage.getItem('userData'));
         }
       } catch (error) {
         console.log(error);
