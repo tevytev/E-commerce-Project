@@ -83,7 +83,7 @@ export default function QuickCartItem(props) {
         return () => {
 
         }
-    }, [quickCartItems, itemObj]);
+    }, []);
 
     useEffect(() => {
 
