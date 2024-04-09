@@ -66,6 +66,7 @@ export default function QuickCartItem(props) {
         setItemSize(itemObj.size);
         setProductId(itemObj.productId);
         setSalePrice(itemObj.salePrice ? itemObj.salePrice / itemObj.quantity : null);
+        setTotalPrice(itemPrice * itemQuantity);
         if (itemObj.salePrice) {
             setSaleProduct(true);
         } else {
