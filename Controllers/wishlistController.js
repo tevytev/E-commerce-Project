@@ -5,8 +5,7 @@ const Product = db.products;
 
 const getWishlist = async (req, res) => {
 
-    const oAuthProvidedId = req.session.passport.user.providedId;
-
+    const oAuthProvidedId = req.session.passport.user.providedId ? req.session.passport.user.providedId : null;
     const userId = req?.session?.passport ? req.session.passport.user.id : req.session.user.id;
 
     const { category } = req.query;
@@ -588,8 +587,7 @@ const getWishlist = async (req, res) => {
 
 const getWishlistByClothingType = async (req, res) => {
     
-    const oAuthProvidedId = req.session.passport.user.providedId;
-
+    const oAuthProvidedId = req.session.passport.user.providedId ? req.session.passport.user.providedId : null;
     const userId = req?.session?.passport ? req.session.passport.user.id : req.session.user.id;
 
     const { clothingType } = req.params;
@@ -899,8 +897,7 @@ const getWishlistByClothingType = async (req, res) => {
 
 const insertIntoWishlistProducts = async (req, res) => {
     
-    const oAuthProvidedId = req.session.passport.user.providedId;
-    
+    const oAuthProvidedId = req.session.passport.user.providedId ? req.session.passport.user.providedId : null;    
     const userId = req?.session?.passport ? req.session.passport.user.id : req.session.user.id;
 
     const productId = req.body.productId;
@@ -980,8 +977,7 @@ const insertIntoWishlistProducts = async (req, res) => {
 
 const removeWishlistProduct = async (req, res) => {
 
-    const oAuthProvidedId = req.session.passport.user.providedId;
-
+    const oAuthProvidedId = req.session.passport.user.providedId ? req.session.passport.user.providedId : null;
     const userId = req?.session?.passport ? req.session.passport.user.id : req.session.user.id;
 
     const productId = req.params.productId;
@@ -1055,8 +1051,7 @@ const removeWishlistProduct = async (req, res) => {
 
 const lookUpProduct = async (req, res) => {
 
-    const oAuthProvidedId = req.session.passport.user.providedId;
-
+    const oAuthProvidedId = req.session.passport.user.providedId ? req.session.passport.user.providedId : null;
     const userId = req?.session?.passport ? req.session.passport.user.id : req.session.user.id;
 
     const productId = req.params.productId;
