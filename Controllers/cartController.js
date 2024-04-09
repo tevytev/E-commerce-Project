@@ -9,7 +9,7 @@ const Stock = db.stock;
 
 const getCart = async (req, res) => {
 
-    const oAuthProvidedId = req.session.passport.user.providedId ? req.session.passport.user.providedId : null
+    const oAuthProvidedId = req?.session?.passport ? req.session.passport.user.providedId : null
     const userId = req?.session?.passport ? req.session.passport.user.id : req.session.user.id;
 
     if (userId) {
@@ -42,7 +42,7 @@ const getCart = async (req, res) => {
 
 const insertIntoCartStocks = async (req, res) => {
 
-    const oAuthProvidedId = req.session.passport.user.providedId ? req.session.passport.user.providedId : null;
+    const oAuthProvidedId = req?.session?.passport ? req.session.passport.user.providedId : null
     let userId = req.session.passport ? req.session.passport.user.id : req.session.user.id;
 
     const productId = req.params.productId;
@@ -258,7 +258,7 @@ const insertIntoCartStocks = async (req, res) => {
 
 const updateCartQuantity = async (req, res) => {
 
-    const oAuthProvidedId = req.session.passport.user.providedId ? req.session.passport.user.providedId : null;
+    const oAuthProvidedId = req?.session?.passport ? req.session.passport.user.providedId : null
     const userId = req.session.passport ? req.session.passport.user.id : req.session.user.id;
 
     const productId = req.body.productId;
@@ -357,7 +357,7 @@ const updateCartQuantity = async (req, res) => {
 
 const deleteCartStocks = async (req, res) => {
 
-    const oAuthProvidedId = req.session.passport.user.providedId ? req.session.passport.user.providedId : null;
+    const oAuthProvidedId = req?.session?.passport ? req.session.passport.user.providedId : null
     const userId = req.session.passport ? req.session.passport.user.id : req.session.user.id;
 
     const productId = req.params.productId;
