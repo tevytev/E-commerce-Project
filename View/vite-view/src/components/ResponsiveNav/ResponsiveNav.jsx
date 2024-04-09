@@ -215,6 +215,7 @@ export default function ResponsiveNav(props) {
                         <div className="responsive-nav-content">
                             <div className='responsive-nav-inner-container'>
                                 <ul>
+                                    <li><Link onClick={handleNavClose} to={'/men/products/filter/tops'}>All Tops</Link></li>
                                     <li><Link onClick={handleNavClose} to={'/men/products/filter/t-shirts'}>T-shirts</Link></li>
                                     <li><Link onClick={handleNavClose} to={'/men/products/filter/longsleeves'}>Long Sleeves</Link></li>
                                     <li><Link onClick={handleNavClose} to={'/men/products/filter/hoodies'}>Hoodies</Link></li>
@@ -232,6 +233,7 @@ export default function ResponsiveNav(props) {
                         <div className="responsive-nav-content">
                             <div className='responsive-nav-inner-container'>
                                 <ul>
+                                    <li><Link onClick={handleNavClose} to={'/men/products/filter/bottoms'}>All Bottoms</Link></li>
                                     <li><Link onClick={handleNavClose} to={'/men/products/filter/shorts'}>Shorts</Link></li>
                                     <li><Link onClick={handleNavClose} to={'/men/products/filter/pants'}>Pants</Link></li>
                                     <li><Link onClick={handleNavClose} to={'/men/products/filter/sweatpants'}>Sweatpants</Link></li>
@@ -301,7 +303,6 @@ export default function ResponsiveNav(props) {
                             <div className="responsive-nav-content">
                                 <div className='responsive-nav-inner-container'>
                                     <ul>
-                                        
                                         <li><Link onClick={handleNavClose} to={'/women/products/filter/sportsbras'}>Sports Bras</Link></li>
                                         <li><Link onClick={handleNavClose} to={'/women/products/filter/leggings'}>Leggings</Link></li>
                                         <li><Link onClick={handleNavClose} to={'/women/products/filter/shorts'}>Shorts</Link></li>
@@ -319,6 +320,7 @@ export default function ResponsiveNav(props) {
                             <div className="responsive-nav-content">
                                 <div className='responsive-nav-inner-container'>
                                     <ul>
+                                        <li><Link onClick={handleNavClose} to={'/women/products/filter/tops'}>All Tops</Link></li>
                                         <li><Link onClick={handleNavClose} to={'/women/products/filter/sportsbras'}>Sports Bras</Link></li>
                                         <li><Link onClick={handleNavClose} to={'/women/products/filter/t-shirts'}>T-shirts</Link></li>
                                         <li><Link onClick={handleNavClose} to={'/women/products/filter/longsleeves'}>Long Sleeves</Link></li>
@@ -337,6 +339,7 @@ export default function ResponsiveNav(props) {
                             <div className="responsive-nav-content">
                                 <div className='responsive-nav-inner-container'>
                                     <ul>
+                                        <li><Link onClick={handleNavClose} to={'/women/products/filter/bottoms'}>All Bottoms</Link></li>
                                         <li><Link onClick={handleNavClose} to={'/women/products/filter/leggings'}>Leggings</Link></li>
                                         <li><Link onClick={handleNavClose} to={'/women/products/filter/shorts'}>Shorts</Link></li>
                                         <li><Link onClick={handleNavClose} to={'/women/products/filter/sweatpants'}>Sweatpants</Link></li>

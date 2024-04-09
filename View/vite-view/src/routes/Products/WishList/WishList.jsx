@@ -23,7 +23,7 @@ export default function WishList(props) {
     const [userScrollY, setUserScrollY] = useState(window.scrollY);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [activeFilterTotal, setActiveFilterTotal] = useState(0);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const handleResize = () => {
@@ -107,8 +107,14 @@ export default function WishList(props) {
                                       },
                                       withCredentials: true
                                   });
+
+                                  if (!isLoading) {
+                                    setIsLoading(true);
+                                  }
                 
                                   if (response.status === 200) {
+
+                                    setIsLoading(false);
 
                                     if (priceFilter === 'high to low') {
                                         const priceAdjustedArr = response.data.products.sort((a,b) => {
@@ -158,6 +164,8 @@ export default function WishList(props) {
                                     return setProducts(response.data.products);
                                   }
                             } catch (error) {
+                                
+                                setIsLoading(false);
                                 if (error?.response?.status === 404) {
                                     return setProducts([]);
                                 }
@@ -180,7 +188,14 @@ export default function WishList(props) {
                                 window.scrollTo(0, 0);
                                 return setProducts(response.data.products);
                                 }
+
+                                if (!isLoading) {
+                                    setIsLoading(true);
+                                  }
+
                         } catch (error) {
+
+                            setIsLoading(false);
                             if (error?.response?.status === 404) {
                                 return setProducts([]);
                             }
@@ -201,8 +216,14 @@ export default function WishList(props) {
                                       },
                                       withCredentials: true
                                   });
+
+                                  if (!isLoading) {
+                                    setIsLoading(true);
+                                  }
                 
                                   if (response.status === 200) {
+
+                                    setIsLoading(false);
 
                                     if (priceFilter === 'high to low') {
                                         const priceAdjustedArr = response.data.products.sort((a,b) => {
@@ -252,6 +273,8 @@ export default function WishList(props) {
                                     return setProducts(response.data.products);
                                   }
                             } catch (error) {
+
+                                setIsLoading(false);
                                 if (error?.response?.status === 404) {
                                     return setProducts([]);
                                 }
@@ -269,12 +292,19 @@ export default function WishList(props) {
                                     },
                                     withCredentials: true
                                 });
+
+                                if (!isLoading) {
+                                    setIsLoading(true);
+                                  }
             
                                 if (response.status === 200) {
+
+                                setIsLoading(false);
                                 window.scrollTo(0, 0);
                                 return setProducts(response.data.products);
                                 }
                         } catch (error) {
+                            setIsLoading(false);
                             if (error?.response?.status === 404) {
                                 return setProducts([]);
                             }
@@ -296,8 +326,14 @@ export default function WishList(props) {
                               },
                               withCredentials: true
                           });
+
+                          if (!isLoading) {
+                            setIsLoading(true);
+                          }
         
                           if (response) {
+
+                            setIsLoading(false);
 
                             if (priceFilter === 'high to low') {
                                 const priceAdjustedArr = response.data.products.sort((a,b) => {
@@ -347,6 +383,8 @@ export default function WishList(props) {
                             return setProducts(response.data.products);
                           }
                     } catch (error) {
+
+                        setIsLoading(false);
                         console.log(error);
                     }
                 } else {
@@ -358,12 +396,19 @@ export default function WishList(props) {
                           },
                           withCredentials: true
                       });
+
+                      if (!isLoading) {
+                        setIsLoading(true);
+                      }
     
                       if (response) {
+
+                        setIsLoading(false);
                         window.scrollTo(0, 0);
                         return setProducts(response.data.products);
                       }
                 } catch (error) {
+                    setIsLoading(false);
                     console.log(error)
                 }
                 }
@@ -377,8 +422,14 @@ export default function WishList(props) {
                               },
                               withCredentials: true
                           });
+
+                          if (!isLoading) {
+                            setIsLoading(true);
+                          }
         
                           if (response.status === 200) {
+
+                            setIsLoading(false);
 
                             if (priceFilter === 'high to low') {
                                 const priceAdjustedArr = response.data.products.sort((a,b) => {
@@ -428,6 +479,7 @@ export default function WishList(props) {
                             return setProducts(response.data.products);
                           }
                     } catch (error) {
+                        setIsLoading(false);
                         console.log(error);
                     }
                 } else {
@@ -439,12 +491,17 @@ export default function WishList(props) {
                           },
                           withCredentials: true
                       });
+
+                      if (!isLoading) {
+                        setIsLoading(true);
+                      }
     
                       if (response.status === 200) {
                         window.scrollTo(0, 0);
                         return setProducts(response.data.products);
                       }
                 } catch (error) {
+                    setIsLoading(false);
                     console.log(error)
                 }
                 }
@@ -628,8 +685,14 @@ export default function WishList(props) {
                                           },
                                           withCredentials: true
                                       });
+
+                                      if (!isLoading) {
+                                        setIsLoading(true);
+                                      }
                     
                                       if (response.status === 200) {
+
+                                        setIsLoading(false);
                                         
                                         if (priceFilter === 'high to low') {
                                         const priceAdjustedArr = response.data.products.sort((a,b) => {
@@ -661,6 +724,8 @@ export default function WishList(props) {
                                         return setProducts(response.data.products);
                                       }
                                 } catch (error) {
+
+                                    setIsLoading(false);
                                     if (error?.response?.status === 404) {
                                         return setProducts([]);
                                     }
@@ -678,14 +743,21 @@ export default function WishList(props) {
                                         },
                                         withCredentials: true
                                     });
+
+                                    if (!isLoading) {
+                                        setIsLoading(true);
+                                      }
                 
                                     if (response.status === 200) {
+                                    setIsLoading(false);
                                     window.scrollTo(0, 0);
                                     console.log(response.data.products);
                                     // console.log(priceAdjustedArr);
                                     return setProducts(response.data.products);
                                     }
                             } catch (error) {
+
+                                setIsLoading(false);
                                 if (error?.response?.status === 404) {
                                     return setProducts([]);
                                 }
@@ -705,8 +777,14 @@ export default function WishList(props) {
                                           },
                                           withCredentials: true
                                       });
+
+                                      if (!isLoading) {
+                                        setIsLoading(true);
+                                      }
                     
                                       if (response.status === 200) {
+
+                                        setIsLoading(false);
 
                                         if (priceFilter === 'high to low') {
                                         const priceAdjustedArr = response.data.products.sort((a,b) => {
@@ -738,6 +816,7 @@ export default function WishList(props) {
                                         return setProducts(response.data.products);
                                       }
                                 } catch (error) {
+                                    setIsLoading(false);
                                     if (error?.response?.status === 404) {
                                         return setProducts([]);
                                     }
@@ -755,12 +834,18 @@ export default function WishList(props) {
                                           },
                                           withCredentials: true
                                       });
+
+                                      if (!isLoading) {
+                                        setIsLoading(true);
+                                      }
                     
                                       if (response.status === 200) {
+                                        setIsLoading(false);
                                         window.scrollTo(0, 0);
                                         return setProducts(response.data.products);
                                       }
                                 } catch (error) {
+                                    setIsLoading(false);
                                     if (error?.response?.status === 404) {
                                         return setProducts([]);
                                     }
@@ -781,8 +866,14 @@ export default function WishList(props) {
                                           },
                                           withCredentials: true
                                       });
+
+                                      if (!isLoading) {
+                                        setIsLoading(true);
+                                      }
                     
                                       if (response.status === 200) {
+
+                                        setIsLoading(false);
 
                                         if (priceFilter === 'high to low') {
                                         const priceAdjustedArr = response.data.products.sort((a,b) => {
@@ -814,6 +905,8 @@ export default function WishList(props) {
                                         return setProducts(response.data.products);
                                       }
                                 } catch (error) {
+
+                                    setIsLoading(false);
                                     if (error?.response?.status === 404) {
                                         return setProducts([]);
                                     }
@@ -831,12 +924,18 @@ export default function WishList(props) {
                                           },
                                           withCredentials: true
                                       });
+
+                                      if (!isLoading) {
+                                        setIsLoading(true);
+                                      }
                     
                                       if (response.status === 200) {
+                                        setIsLoading(false);
                                         window.scrollTo(0, 0);
                                         return setProducts(response.data.products);
                                       }
                                 } catch (error) {
+                                    setIsLoading(false);
                                     if (error?.response?.status === 404) {
                                         return setProducts([]);
                                     }
@@ -860,8 +959,14 @@ export default function WishList(props) {
                                           },
                                           withCredentials: true
                                       });
+
+                                      if (!isLoading) {
+                                        setIsLoading(true);
+                                      }
                     
                                       if (response.status === 200) {
+
+                                        setIsLoading(false);
 
                                         if (priceFilter === 'high to low') {
                                         const priceAdjustedArr = response.data.products.sort((a,b) => {
@@ -893,6 +998,7 @@ export default function WishList(props) {
                                         return setProducts(response.data.products);
                                       }
                                 } catch (error) {
+                                    setIsLoading(false);
                                     if (error?.response?.status === 404) {
                                         return setProducts([]);
                                     }
@@ -910,12 +1016,18 @@ export default function WishList(props) {
                                         },
                                         withCredentials: true
                                     });
+
+                                    if (!isLoading) {
+                                        setIsLoading(true);
+                                      }
                 
                                     if (response.status === 200) {
+                                        setIsLoading(false);
                                     window.scrollTo(0, 0);
                                     return setProducts(response.data.products);
                                     }
                             } catch (error) {
+                                setIsLoading(false);
                                 if (error?.response?.status === 404) {
                                     return setProducts([]);
                                 }
@@ -935,8 +1047,14 @@ export default function WishList(props) {
                                           },
                                           withCredentials: true
                                       });
+                                      
+                                      if (!isLoading) {
+                                        setIsLoading(true);
+                                      }
                     
                                       if (response.status === 200) {
+
+                                        setIsLoading(false);
 
                                         if (priceFilter === 'high to low') {
                                         const priceAdjustedArr = response.data.products.sort((a,b) => {
@@ -968,6 +1086,7 @@ export default function WishList(props) {
                                         return setProducts(response.data.products);
                                       }
                                 } catch (error) {
+                                    setIsLoading(false);
                                     if (error?.response?.status === 404) {
                                         return setProducts([]);
                                     }
@@ -985,12 +1104,19 @@ export default function WishList(props) {
                                           },
                                           withCredentials: true
                                       });
+
+                                      if (!isLoading) {
+                                        setIsLoading(true);
+                                      }
                     
                                       if (response.status === 200) {
+
+                                        setIsLoading(false);
                                         window.scrollTo(0, 0);
                                         return setProducts(response.data.products);
                                       }
                                 } catch (error) {
+                                    setIsLoading(false);
                                     if (error?.response?.status === 404) {
                                         return setProducts([]);
                                     }
@@ -1011,8 +1137,14 @@ export default function WishList(props) {
                                           },
                                           withCredentials: true
                                       });
+
+                                      if (!isLoading) {
+                                        setIsLoading(true);
+                                      }
                     
                                       if (response.status === 200) {
+
+                                        setIsLoading(false);
 
                                         if (priceFilter === 'high to low') {
                                         const priceAdjustedArr = response.data.products.sort((a,b) => {
@@ -1044,6 +1176,8 @@ export default function WishList(props) {
                                         return setProducts(response.data.products);
                                       }
                                 } catch (error) {
+
+                                    setIsLoading(false);
                                     if (error?.response?.status === 404) {
                                         return setProducts([]);
                                     }
@@ -1061,12 +1195,19 @@ export default function WishList(props) {
                                           },
                                           withCredentials: true
                                       });
+
+                                      if (!isLoading) {
+                                        setIsLoading(true);
+                                      }
                     
                                       if (response.status === 200) {
+
+                                        setIsLoading(false);
                                         window.scrollTo(0, 0);
                                         return setProducts(response.data.products);
                                       }
                                 } catch (error) {
+                                    setIsLoading(false);
                                     if (error?.response?.status === 404) {
                                         return setProducts([]);
                                     }
@@ -1106,8 +1247,14 @@ export default function WishList(props) {
                                           },
                                           withCredentials: true
                                       });
+
+                                      if (!isLoading) {
+                                        setIsLoading(true);
+                                      }
                     
                                       if (response.status === 200) {
+
+                                        setIsLoading(false);
 
                                         if (priceFilter === 'high to low') {
                                         const priceAdjustedArr = response.data.products.sort((a,b) => {
@@ -1139,6 +1286,7 @@ export default function WishList(props) {
                                         return setProducts(response.data.products);
                                       }
                                 } catch (error) {
+                                    setIsLoading(false);
                                     if (error?.response?.status === 404) {
                                         return setProducts([]);
                                     }
@@ -1156,12 +1304,18 @@ export default function WishList(props) {
                                           },
                                           withCredentials: true
                                       });
+
+                                      if (!isLoading) {
+                                        setIsLoading(true);
+                                      }
                     
                                       if (response.status === 200) {
+                                        setIsLoading(false);
                                         window.scrollTo(0, 0);
                                         return setProducts(response.data.products);
                                       }
                                 } catch (error) {
+                                    setIsLoading(false);
                                     if (error?.response?.status === 404) {
                                         return setProducts([]);
                                     }
@@ -1186,8 +1340,14 @@ export default function WishList(props) {
                                       },
                                       withCredentials: true
                                   });
+
+                                  if (!isLoading) {
+                                    setIsLoading(true);
+                                  }
                 
                                   if (response.status === 200) {
+
+                                    setIsLoading(false);
 
                                     if (priceFilter === 'high to low') {
                                         const priceAdjustedArr = response.data.products.sort((a,b) => {
@@ -1219,6 +1379,7 @@ export default function WishList(props) {
                                     return setProducts(response.data.products);
                                   }
                             } catch (error) {
+                                setIsLoading(false);
                                 if (error?.response?.status === 404) {
                                     return setProducts([]);
                                 }
@@ -1236,12 +1397,18 @@ export default function WishList(props) {
                                       },
                                       withCredentials: true
                                   });
+
+                                  if (!isLoading) {
+                                    setIsLoading(true);
+                                  }
                 
                                   if (response.status === 200) {
+                                    setIsLoading(false);
                                     window.scrollTo(0, 0);
                                     return setProducts(response.data.products);
                                   }
                             } catch (error) {
+                                setIsLoading(false);
                                 if (error?.response?.status === 404) {
                                     return setProducts([]);
                                 }
@@ -1266,8 +1433,14 @@ export default function WishList(props) {
                                       },
                                       withCredentials: true
                                   });
+
+                                  if (!isLoading) {
+                                    setIsLoading(true);
+                                  }
                 
                                   if (response.status === 200) {
+
+                                    setIsLoading(false);
 
                                     if (priceFilter === 'high to low') {
                                         const priceAdjustedArr = response.data.products.sort((a,b) => {
@@ -1299,6 +1472,7 @@ export default function WishList(props) {
                                     return setProducts(response.data.products);
                                   }
                             } catch (error) {
+                                setIsLoading(false);
                                 if (error?.response?.status === 404) {
                                     return setProducts([]);
                                 }
@@ -1316,12 +1490,18 @@ export default function WishList(props) {
                                       },
                                       withCredentials: true
                                   });
+
+                                  if (!isLoading) {
+                                    setIsLoading(true);
+                                  }
                 
                                   if (response.status === 200) {
+                                    setIsLoading(false);
                                     window.scrollTo(0, 0);
                                     return setProducts(response.data.products);
                                   }
                             } catch (error) {
+                                setIsLoading(false);
                                 if (error?.response?.status === 404) {
                                     return setProducts([]);
                                 }
@@ -1346,8 +1526,14 @@ export default function WishList(props) {
                                   },
                                   withCredentials: true
                               });
+
+                              if (!isLoading) {
+                                setIsLoading(true);
+                              }
             
                               if (response.status === 200) {
+
+                                setIsLoading(false);
 
                                 if (priceFilter === 'high to low') {
                                     const priceAdjustedArr = response.data.products.sort((a,b) => {
@@ -1397,6 +1583,7 @@ export default function WishList(props) {
                                 return setProducts(response.data.products);
                               }
                         } catch (error) {
+                            setIsLoading(false);
                             if (error?.response?.status === 404) {
                                 return setProducts([]);
                             }
@@ -1414,12 +1601,18 @@ export default function WishList(props) {
                                 },
                                 withCredentials: true
                             });
+
+                            if (!isLoading) {
+                                setIsLoading(true);
+                              }
         
                             if (response.status === 200) {
+                                setIsLoading(false);
                             window.scrollTo(0, 0);
                             return setProducts(response.data.products);
                             }
                     } catch (error) {
+                        setIsLoading(false);
                         if (error?.response?.status === 404) {
                             return setProducts([]);
                         }
@@ -1440,8 +1633,14 @@ export default function WishList(props) {
                                   },
                                   withCredentials: true
                               });
+
+                              if (!isLoading) {
+                                setIsLoading(true);
+                              }
             
                               if (response.status === 200) {
+
+                                setIsLoading(false);
 
                                 if (priceFilter === 'high to low') {
                                     const priceAdjustedArr = response.data.products.sort((a,b) => {
@@ -1491,6 +1690,7 @@ export default function WishList(props) {
                                 return setProducts(response.data.products);
                               }
                         } catch (error) {
+                            setIsLoading(false);
                             if (error?.response?.status === 404) {
                                 return setProducts([]);
                             }
@@ -1508,12 +1708,18 @@ export default function WishList(props) {
                                 },
                                 withCredentials: true
                             });
+
+                            if (!isLoading) {
+                                setIsLoading(true);
+                              }
         
                             if (response.status === 200) {
+                                setIsLoading(false);
                             window.scrollTo(0, 0);
                             return setProducts(response.data.products);
                             }
                     } catch (error) {
+                        setIsLoading(false);
                         if (error?.response?.status === 404) {
                             return setProducts([]);
                         }

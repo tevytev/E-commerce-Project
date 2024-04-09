@@ -55,23 +55,9 @@ export default function MenProductDetails(props) {
     }, [windowWidth]);
 
     useEffect(() => {
-        document.getElementById('small-desktop-image-container').scrollBy((mobileGalleryWidth * -1), 0);
+        document.getElementById('small-desktop-image-container').scrollTo(0, 0);
         setActiveMobileImg(1);
     }, [product]);
-
-    useEffect(() => {
-        
-        let galleryWidthTreshold = mobileGalleryWidth / 3;
-
-        if (userScrollMobileGallery >= 0 && userScrollMobileGallery < (galleryWidthTreshold / 2)) {
-            setActiveMobileImg(1);
-        } if (userScrollMobileGallery >= (galleryWidthTreshold / 2) && userScrollMobileGallery < galleryWidthTreshold * 1.5) {
-            setActiveMobileImg(2);
-        } if (userScrollMobileGallery >= galleryWidthTreshold * 1.5) {
-            setActiveMobileImg(3);
-        }
-
-    }, [userScrollMobileGallery]);
 
     useEffect(() => {
         const ymlScrollContainer = document.getElementById('yml-product-container');
