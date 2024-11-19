@@ -99,7 +99,7 @@ app.use(cors(corsOptions));
 // if (!dbConnectionString.includes('sslmode=require')) {
 //   dbConnectionString += '&sslmode=require';
 // }
-console.log(`this is the env: ${process.env.DB_CONNECTION}`)
+// console.log(`this is the env: ${process.env.DB_CONNECTION}`)
 // console.log(`this is the appended str: ${dbConnectionString}`);
 
 const PostgresqlStore = genFunc(session);
