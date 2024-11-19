@@ -72,9 +72,6 @@ app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-
-// PRODUCTION
-
 const corsOptions = {
   origin:'https://tevdev-ecommerce.com',
   methods: ["POST", "PUT", "GET", "DELETE", "OPTIONS", "HEAD"],
@@ -89,24 +86,8 @@ const corsOptions = {
   ]
 };
 
-
-// // DEVELOPMENT BELOW
-// const corsOptions = {
-//   origin:'http://localhost:5173/',
-//   methods: ["POST", "PUT", "GET", "DELETE", "OPTIONS", "HEAD"],
-//   credentials: true,
-//   optionSuccessStatus: 200,
-//   allowedHeaders: [
-//     "Set-Cookie",
-//     "Content-Type",
-//     "Access-Control-Allow-Origin",
-//     "Access-Control-Allow-Credentials",
-//     "withCredentials"
-//   ]
-// };
-
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", 'http://localhost:5173/');
+  res.setHeader("Access-Control-Allow-Origin", 'https://tevdev-ecommerce.com');
   next();
 })
 
@@ -117,28 +98,6 @@ const sessionStore = new PostgresqlStore({
   conString: process.env.DB_CONNECTION,
 });
 
-// PRODUCTION
-
-// app.use(
-//   session({
-//     secret: process.env.SECRETKEY,
-//     resave: false,
-//     saveUninitialized: false,
-//     store: sessionStore,
-//     name: 'auth-cookie',
-//     proxy: true,
-//     cookie: {
-//       maxAge: 24 * 60 * 60 * 1000,
-//       secure: true,
-//       httpOnly: true,
-//       sameSite: 'lax',
-//       domain: 'tevdev-ecommerce.com'
-//     }
-//   })
-// );
-
-
-// DEVELOPMENT BELOW
 app.use(
   session({
     secret: process.env.SECRETKEY,
@@ -152,7 +111,7 @@ app.use(
       secure: true,
       httpOnly: true,
       sameSite: 'lax',
-      domain: 'localhost'
+      domain: 'tevdev-ecommerce.com'
     }
   })
 );

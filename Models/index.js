@@ -1,7 +1,6 @@
 // importing modules
 require('dotenv').config();
 const { Sequelize, DataTypes } = require('sequelize');
-const { PostgresDialect } = require('@sequelize/postgres');
 const { UserModel } = require('./User/userModel.js');
 const { ProductModel } = require('./Product/productModel.js');
 const { ProductStockeModel } = require('./Product/productStockModel.js');
@@ -16,21 +15,7 @@ const { SessionModel } = require('./Session/SessionModel.js');
 //port for my database is 5432
 //database name is newecom
 
-
-// Original connection
 const sequelize = new Sequelize(process.env.DB_CONNECTION, { dialect: "postgres" });
-
-// new connection
-// const sequelize = new Sequelize({
-//     dialect: 'postgres',
-//     database: 'newecom',
-//     user: 'tevincheatham',
-//     password: 'mypass',
-//     host: 'localhost',
-//     port: 5432,
-//     ssl: true,
-//     clientMinMessages: 'notice',
-//   });
 
 // checking if connection is done
 sequelize.authenticate().then(() => {
