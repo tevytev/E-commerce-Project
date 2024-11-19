@@ -14,13 +14,8 @@ const { SessionModel } = require('./Session/SessionModel.js');
 //Database connection with dialect of postgres specifying the database we are using
 //port for my database is 5432
 //database name is newecom
-let dbConnectionString = process.env.DB_CONNECTION;
 
-// Append sslmode=require if it's missing
-if (!dbConnectionString.includes('sslmode=require')) {
-  dbConnectionString += '&sslmode=require';
-}
-const sequelize = new Sequelize(dbConnectionString, { dialect: "postgres" });
+const sequelize = new Sequelize(process.env.DB_CONNECTION, { dialect: "postgres" });
 // const sequelize = new Sequelize({
 //     dialect: 'postgres',
 //     host: process.env.DB_HOST,     // Use the Render DB host (e.g., 'your-db-hostname.render.com')

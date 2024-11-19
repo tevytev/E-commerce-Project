@@ -96,21 +96,21 @@ app.use(cors(corsOptions));
 let dbConnectionString = process.env.DB_CONNECTION;
 
 // Append sslmode=require if it's missing
-if (!dbConnectionString.includes('sslmode=require')) {
-  dbConnectionString += '&sslmode=require';
-}
+// if (!dbConnectionString.includes('sslmode=require')) {
+//   dbConnectionString += '&sslmode=require';
+// }
 console.log(`this is the env: ${process.env.DB_CONNECTION}`)
-console.log(`this is the appended str: ${dbConnectionString}`);
+// console.log(`this is the appended str: ${dbConnectionString}`);
 
 const PostgresqlStore = genFunc(session);
 const sessionStore = new PostgresqlStore({
   conString: dbConnectionString,
-  options: {
-    ssl: {
-      require: true,               // Enforce SSL
-      rejectUnauthorized: false,   // Accept self-signed certificates
-    }
-  }
+  // options: {
+  //   ssl: {
+  //     require: true,               // Enforce SSL
+  //     rejectUnauthorized: false,   // Accept self-signed certificates
+  //   }
+  // }
 });
 
 app.use(
