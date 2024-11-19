@@ -29,7 +29,6 @@ const sequelize = new Sequelize({
         rejectUnauthorized: false,   // Allow self-signed certificates
       },
     },
-    logging: console.log,            // Optional: Log SQL queries for debugging
 });
 
 // checking if connection is done

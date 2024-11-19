@@ -238,4 +238,5 @@ app.use('/api/wishlist', wishlistRoutes);
 // listening to server connection
 app.listen(PORT, () => {
     console.log(`Server is connected on ${PORT}`)
+    console.log(process.env.DB_CONNECTION)
 });
