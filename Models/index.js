@@ -14,22 +14,27 @@ const { SessionModel } = require('./Session/SessionModel.js');
 //Database connection with dialect of postgres specifying the database we are using
 //port for my database is 5432
 //database name is newecom
+let dbConnectionString = process.env.DB_CONNECTION;
 
-// const sequelize = new Sequelize(process.env.DB_CONNECTION, { dialect: "postgres" });
-const sequelize = new Sequelize({
-    dialect: 'postgres',
-    host: process.env.DB_HOST,     // Use the Render DB host (e.g., 'your-db-hostname.render.com')
-    port: process.env.PORT,     // Usually 5432 for PostgreSQL
-    database: process.env.DB_NAME, // Your database name
-    username: process.env.DB_USER, // Your database username
-    password: process.env.DB_PASSWORD, // Your database password
-    dialectOptions: {
-      ssl: {
-        require: true,               // Ensure SSL is required
-        rejectUnauthorized: false,   // Allow self-signed certificates
-      },
-    },
-});
+// Append sslmode=require if it's missing
+if (!dbConnectionString.includes('sslmode=require')) {
+  dbConnectionString += '&sslmode=require';
+}
+const sequelize = new Sequelize(dbConnectionString, { dialect: "postgres" });
+// const sequelize = new Sequelize({
+//     dialect: 'postgres',
+//     host: process.env.DB_HOST,     // Use the Render DB host (e.g., 'your-db-hostname.render.com')
+//     port: process.env.PORT,     // Usually 5432 for PostgreSQL
+//     database: process.env.DB_NAME, // Your database name
+//     username: process.env.DB_USER, // Your database username
+//     password: process.env.DB_PASSWORD, // Your database password
+//     dialectOptions: {
+//       ssl: {
+//         require: true,               // Ensure SSL is required
+//         rejectUnauthorized: false,   // Allow self-signed certificates
+//       },
+//     },
+// });
 
 // checking if connection is done
 sequelize.authenticate().then(() => {

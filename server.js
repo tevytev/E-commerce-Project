@@ -99,6 +99,8 @@ let dbConnectionString = process.env.DB_CONNECTION;
 if (!dbConnectionString.includes('sslmode=require')) {
   dbConnectionString += '&sslmode=require';
 }
+console.log(`this is the env: ${process.env.DB_CONNECTION}`)
+console.log(`this is the appended str: ${dbConnectionString}`);
 
 const PostgresqlStore = genFunc(session);
 const sessionStore = new PostgresqlStore({
@@ -241,8 +243,6 @@ app.use('/api/wishlist', wishlistRoutes);
 
 // // // routes for the order API
 // app.use('/api/orders', orderRoutes);
-
-console.log(process.env.DB_CONNECTION)
 
 
 // listening to server connection
