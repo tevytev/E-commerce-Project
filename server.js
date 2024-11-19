@@ -104,7 +104,7 @@ console.log(`this is the env: ${process.env.DB_CONNECTION}`)
 
 const PostgresqlStore = genFunc(session);
 const sessionStore = new PostgresqlStore({
-  conString: dbConnectionString,
+  conString: process.env.DB_CONNECTION,
   // options: {
   //   ssl: {
   //     require: true,               // Enforce SSL
