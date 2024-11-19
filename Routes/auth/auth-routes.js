@@ -1,11 +1,10 @@
-const express = require('express');
-const { signup, logout } = require('../../Controllers/registrationController');
-const passport = require('passport');
-
+const express = require("express");
+const { signup, logout } = require("../../Controllers/registrationController");
+const passport = require("passport");
 
 // userAuth.userAuthorization < Add this back to user info and update
 function isLoggedIn(req, res, next) {
-    req.user ? next() : res.sendStatus(401);
+  req.user ? next() : res.sendStatus(401);
 }
 
 const router = express.Router();
@@ -88,9 +87,9 @@ const router = express.Router();
  *                   type: string
  *                   description: The user's email.
  *                   example: Cookie@example.com
- *       
+ *
  */
-router.post('/signup', signup);
+router.post("/signup", signup);
 
 // login route
 /**
@@ -131,49 +130,41 @@ router.post('/signup', signup);
  *                   description: The user's email.
  *                   example: Cookie@example.com
  */
-router.post('/login', passport.authenticate('local'), (req, res) => {
-    res.send(req.session.passport.user);
+router.post("/login", passport.authenticate("local"), (req, res) => {
+  res.send(req.session.passport.user);
 });
 
-router.get('/auth/google',
-  passport.authenticate('google', { scope: ['email', 'profile'] }
-));
-
-router.get('/google/callback',
-    passport.authenticate( 'google', {
-        successRedirect: 'https://tevdev-ecommerce.com/home',
-        failureRedirect: '/auth/failure',
-    }), (req, res) => {
-        if (req.session.passport) {
-            console.log(req.session.passport.user);
-        }
-        
-    }
+router.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["email", "profile"] })
 );
 
-// router.get('/otherprotected', (req, res) => {
-//     // res.json(req.user);
-//     if (req.session.passport) {
-//         res.send('hello world');
-//     } else {
-//         res.sendStatus(401);
-//     }
-// })
-
-router.get('/auth/failure', (req, res) => {
-    res.send('something went wrong..');
-})
-
-router.get('/persistOAuth', (req, res) => {
+router.get(
+  "/google/callback",
+  passport.authenticate("google", {
+    successRedirect: "https://tevdev-ecommerce.com/home",
+    failureRedirect: "/auth/failure",
+  }),
+  (req, res) => {
     if (req.session.passport) {
-        res.json(req.session.passport.user);
-    } else {
-        res.sendStatus(401);
+      console.log(req.session.passport.user);
     }
-})
+  }
+);
 
+router.get("/auth/failure", (req, res) => {
+  res.send("something went wrong..");
+});
+
+router.get("/persistOAuth", (req, res) => {
+  if (req.session.passport) {
+    res.json(req.session.passport.user);
+  } else {
+    res.sendStatus(401);
+  }
+});
 
 // logout route
-router.post('/logout', logout);
+router.post("/logout", logout);
 
 module.exports = router;

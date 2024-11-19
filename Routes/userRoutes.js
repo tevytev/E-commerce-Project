@@ -1,10 +1,13 @@
-const express = require('express');
-const userController = require('../Controllers/registrationController');
-const { sessionStatus, persistLogin, logout } = require('../Controllers/registrationController');
-const { getUserInfo, editUserInfo } = require('../Controllers/userController');
-const userAuth = require('../Middleware/userMiddleware/userAuth');
-const passport = require('passport');
-
+const express = require("express");
+const userController = require("../Controllers/registrationController");
+const {
+  sessionStatus,
+  persistLogin,
+  logout,
+} = require("../Controllers/registrationController");
+const { getUserInfo, editUserInfo } = require("../Controllers/userController");
+const userAuth = require("../Middleware/userMiddleware/userAuth");
+const passport = require("passport");
 
 // userAuth.userAuthorization < Add this back to user info and update
 
@@ -40,15 +43,13 @@ const router = express.Router();
  *           example: 2023-09-25 21:21:42.581-04
  */
 
-
-
 // auto login route
-router.post('/persist', persistLogin);
+router.post("/persist", persistLogin);
 
-router.get('/session', sessionStatus);
+router.get("/session", sessionStatus);
 
 // logout route
-router.get('/logout', userAuth.userAuthorization, logout);
+router.get("/logout", userAuth.userAuthorization, logout);
 
 // get specific user info
 /**
@@ -81,7 +82,7 @@ router.get('/logout', userAuth.userAuthorization, logout);
  *                   description: The user's email.
  *                   example: Cookie@example.com
  */
-router.get('/:userId', getUserInfo);
+router.get("/:userId", getUserInfo);
 
 // update user info
 /**
@@ -122,16 +123,14 @@ router.get('/:userId', getUserInfo);
  *                   description: The user's email.
  *                   example: NewEmail@example.com
  */
-router.put('/update', editUserInfo);
+router.put("/update", editUserInfo);
 
-
-router.post('/persist', (req, res) => {
-    if (req.user || req.session.authenticated === true) {
-        res.send(req.user);
-    } else {
-        res.send('please sign in');
-    }
+router.post("/persist", (req, res) => {
+  if (req.user || req.session.authenticated === true) {
+    res.send(req.user);
+  } else {
+    res.send("please sign in");
+  }
 });
-
 
 module.exports = router;

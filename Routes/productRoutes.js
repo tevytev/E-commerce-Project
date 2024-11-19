@@ -1,22 +1,24 @@
-const express = require('express');
-const productController = require('../Controllers/productController');
-const { 
-    getAllProducts,
-    getProductById,
-    getAllProductsByGender,
-    getProductsByClothingType,
-    getNewProducts,
-    getSaleProducts,
-    getDsgnStudioProducts,
-    searchForProduct
+const express = require("express");
+const productController = require("../Controllers/productController");
+const {
+  getAllProducts,
+  getProductById,
+  getAllProductsByGender,
+  getProductsByClothingType,
+  getNewProducts,
+  getSaleProducts,
+  getDsgnStudioProducts,
+  searchForProduct,
 } = productController;
-const { adjustPriceRange } = require('../Middleware/productMiddleware/productPricing');
-const { findFit } = require('../Middleware/productMiddleware/fit');
-const userAuth = require('../Middleware/userMiddleware/userAuth');
+const {
+  adjustPriceRange,
+} = require("../Middleware/productMiddleware/productPricing");
+const { findFit } = require("../Middleware/productMiddleware/fit");
+const userAuth = require("../Middleware/userMiddleware/userAuth");
 
 const router = express.Router();
 
-router.use('/', adjustPriceRange);
+router.use("/", adjustPriceRange);
 
 // Product Component
 /**
@@ -81,21 +83,21 @@ router.use('/', adjustPriceRange);
  *                     description: The product's category.
  *                     example: shirts
  */
-router.get('/', getAllProducts);
+router.get("/", getAllProducts);
 
 // router.get('/', (req, res) => {
 //     res.send(req.session)
 // });
 
-router.get('/clothingType/:clothingType', getProductsByClothingType);
+router.get("/clothingType/:clothingType", getProductsByClothingType);
 
-router.get('/new', getNewProducts);
+router.get("/new", getNewProducts);
 
-router.get('/sale', getSaleProducts);
+router.get("/sale", getSaleProducts);
 
-router.get('/dsgn', getDsgnStudioProducts);
+router.get("/dsgn", getDsgnStudioProducts);
 
-router.get('/search', searchForProduct);
+router.get("/search", searchForProduct);
 
 // router.get('/gender/:fit', getAllProductsByGender);
 
@@ -134,9 +136,8 @@ router.get('/search', searchForProduct);
  *                   type: string
  *                   description: The product's category.
  *                   example: shirts
- *                 
+ *
  */
-router.get('/:productId', getProductById);
-
+router.get("/:productId", getProductById);
 
 module.exports = router;

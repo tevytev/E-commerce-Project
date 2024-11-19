@@ -1,13 +1,15 @@
-const express = require('express');
-const userAuth = require('../Middleware/userMiddleware/userAuth');
-const { getAllOrders, getOrderById } = require('../Controllers/orderController');
+const express = require("express");
+const userAuth = require("../Middleware/userMiddleware/userAuth");
+const {
+  getAllOrders,
+  getOrderById,
+} = require("../Controllers/orderController");
 
 const router = express.Router();
 
 // user authorization middleware
 
-router.use('/', userAuth.userAuthorization);
-
+router.use("/", userAuth.userAuthorization);
 
 // Order component
 /**
@@ -127,9 +129,9 @@ router.use('/', userAuth.userAuthorization);
  *                               type: integer
  *                               description: The product's ID.
  *                               example: 2
- * 
+ *
  */
-router.get('/', getAllOrders);
+router.get("/", getAllOrders);
 
 // get user order by orderId
 /**
@@ -213,8 +215,8 @@ router.get('/', getAllOrders);
  *                             type: integer
  *                             description: The product's ID.
  *                             example: 2
- * 
+ *
  */
-router.get('/:orderId', getOrderById);
+router.get("/:orderId", getOrderById);
 
 module.exports = router;

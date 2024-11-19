@@ -15,6 +15,7 @@ const { SessionModel } = require('./Session/SessionModel.js');
 //port for my database is 5432
 //database name is newecom
 
+
 // const sequelize = new Sequelize(process.env.DB_CONNECTION, { dialect: "postgres" });
 const sequelize = new Sequelize({
     dialect: 'postgres',

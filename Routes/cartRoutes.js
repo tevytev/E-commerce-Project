@@ -1,22 +1,28 @@
-const express = require('express');
-const userAuth = require('../Middleware/userMiddleware/userAuth');
+const express = require("express");
+const userAuth = require("../Middleware/userMiddleware/userAuth");
 // const { findUserCart } = require('../Middleware/cartMiddleware/findCart');
-const { getCart, insertIntoCartStocks, deleteCartStocks, checkoutCart, updateCartQuantity } = require('../Controllers/cartController');
-const { paymentAuth } = require('../Middleware/cartMiddleware/paymentProcess');
+const {
+  getCart,
+  insertIntoCartStocks,
+  deleteCartStocks,
+  checkoutCart,
+  updateCartQuantity,
+} = require("../Controllers/cartController");
+const { paymentAuth } = require("../Middleware/cartMiddleware/paymentProcess");
 
 const router = express.Router();
 
 const isLoggedIn = (req, res, next) => {
-    if (req.session?.passport?.user) {
-        next();
-    } else if (req.session?.user) {
-        next();
-    } else {
-        res.sendStatus(401);
-    }
-}
+  if (req.session?.passport?.user) {
+    next();
+  } else if (req.session?.user) {
+    next();
+  } else {
+    res.sendStatus(401);
+  }
+};
 // User authorization and cart validation middlewares
-router.use('/', isLoggedIn);
+router.use("/", isLoggedIn);
 
 // Cart component
 /**
@@ -135,7 +141,7 @@ router.use('/', isLoggedIn);
  *                             description: The product's ID.
  *                             example: 2
  */
-router.get('/', getCart);
+router.get("/", getCart);
 
 // Add product to user cart
 /**
@@ -220,10 +226,10 @@ router.get('/', getCart);
  *                             description: The product's ID.
  *                             example: 2
  */
-router.post('/:productId', insertIntoCartStocks);
+router.post("/:productId", insertIntoCartStocks);
 
 // Update quantity of item in user cart
-router.post('/update/quantity', updateCartQuantity);
+router.post("/update/quantity", updateCartQuantity);
 
 // Delete item from user cart
 /**
@@ -308,7 +314,7 @@ router.post('/update/quantity', updateCartQuantity);
  *                             description: The product's ID.
  *                             example: 2
  */
-router.delete('/:productId', deleteCartStocks);
+router.delete("/:productId", deleteCartStocks);
 
 // checkout user cart
 /**
@@ -404,6 +410,6 @@ router.delete('/:productId', deleteCartStocks);
  *                             description: The product's ID.
  *                             example: 2
  */
-router.post('/:cartId/checkout', paymentAuth, checkoutCart);
+router.post("/:cartId/checkout", paymentAuth, checkoutCart);
 
 module.exports = router;
