@@ -93,7 +93,7 @@ app.use((req, res, next) => {
 
 app.use(cors(corsOptions));
 
-let dbConnectionString = process.env.DB_CONNECTION;
+// let dbConnectionString = process.env.DB_CONNECTION;
 
 // Append sslmode=require if it's missing
 // if (!dbConnectionString.includes('sslmode=require')) {
