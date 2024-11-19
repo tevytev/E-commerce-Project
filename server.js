@@ -62,7 +62,7 @@ const options = {
 const swaggerSpec = swaggerJSDoc(options);
 
 // setting up port
-const PORT = process.enPv.PORT;
+const PORT = process.env.PORT;
 
 // assigning the variable app to express
 const app = express();
