@@ -1,28 +1,28 @@
 // importing modules
 require('dotenv').config();
-const express = require('express');
-const sequelize = require('sequelize');
-const cookieParser = require('cookie-parser');
-const { db } = require('./Models');
-const userRoutes = require('./Routes/userRoutes');
-const authRoutes = require('./Routes/auth/auth-routes');
-const productRoutes = require('./Routes/productRoutes');
-const cartRoutes = require('./Routes/cartRoutes');
-const orderRoutes = require('./Routes/orderRoutes');
-const wishlistRoutes = require('./Routes/wishlistRoutes');
-const cors = require('cors');
-const bodyParser = require('body-parser');
+import express from 'express';
+import sequelize from 'sequelize';
+import cookieParser from 'cookie-parser';
+import { db } from './Models';
+import userRoutes from './Routes/userRoutes';
+import authRoutes from './Routes/auth/auth-routes';
+import productRoutes from './Routes/productRoutes';
+import cartRoutes from './Routes/cartRoutes';
+import orderRoutes from './Routes/orderRoutes';
+import wishlistRoutes from './Routes/wishlistRoutes';
+import cors from 'cors';
+import { json, urlencoded } from 'body-parser';
 
-const session = require('express-session');
-const passport = require('passport');
-const LocalStrategy = require("passport-local").Strategy;
-const GoogleStrategy = require('passport-google-oauth2').Strategy;
+import session from 'express-session';
+import { initialize, session as _session, serializeUser, deserializeUser, use } from 'passport';
+import { Strategy as LocalStrategy } from "passport-local";
+import { Strategy as GoogleStrategy } from 'passport-google-oauth2';
 
-const bcrypt = require('bcrypt');
-const genFunc = require('connect-pg-simple');
+import { compare } from 'bcrypt';
+import genFunc from 'connect-pg-simple';
 // const MemoryStore = require('memorystore')(session)
-const swaggerJSDoc = require('swagger-jsdoc');
-const swaggerUi = require('swagger-ui-express');
+import swaggerJSDoc from 'swagger-jsdoc';
+import { serve, setup } from 'swagger-ui-express';
 
 const User = db.users;
 const Cart = db.carts;
@@ -66,11 +66,11 @@ const PORT = process.env.PORT;
 
 // assigning the variable app to express
 const app = express();
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/docs', serve, setup(swaggerSpec));
 
 // middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(json());
+app.use(urlencoded({ extended: false }));
 
 const corsOptions = {
   origin:'https://tevdev-ecommerce.com',
@@ -122,14 +122,14 @@ app.use(
   })
 );
 
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(initialize());
+app.use(_session());
 
-passport.serializeUser((user, done) => {
+serializeUser((user, done) => {
   return done(null, user);
 });
 
-passport.deserializeUser(async (user, done) => {
+deserializeUser(async (user, done) => {
   if (user?.providedId) {
     try {
       const deserializdeUser = await OAuthUser.findByPk(user.providedId);
@@ -158,7 +158,7 @@ async (username, password, done) => {
         if (!user) {
             return done(null, false, { message: 'Incorrect username.' }) 
         }
-        const passVal = await bcrypt.compare(password, user.password);
+        const passVal = await compare(password, user.password);
         if (!passVal) {
             return done(null, false, { message: 'Incorrect password.' })
         }
@@ -218,8 +218,8 @@ async function(request, accessToken, refreshToken, profile, done) {
   }
 })
 
-passport.use(strategy);
-passport.use(googleStrategy);
+use(strategy);
+use(googleStrategy);
 
 // routes for the user API
 app.use('/api/users', authRoutes);
@@ -235,8 +235,10 @@ app.use('/api/wishlist', wishlistRoutes);
 // // // routes for the order API
 // app.use('/api/orders', orderRoutes);
 
+console.log(process.env.DB_CONNECTION)
+
+
 // listening to server connection
 app.listen(PORT, () => {
     console.log(`Server is connected on ${PORT}`)
-    console.log(process.env.DB_CONNECTION)
 });

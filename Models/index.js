@@ -169,6 +169,8 @@ const DSGN = db.dsgn;
     await db.sequelize.sync({ force: true }).then(() => {
 
         console.log("db has been re sync");
+        console.log(process.env.DB_CONNECTION)
+
 
         // creating instances of products
         
