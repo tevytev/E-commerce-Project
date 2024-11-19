@@ -95,21 +95,13 @@ app.use(cors(corsOptions));
 
 const PostgresqlStore = genFunc(session);
 const sessionStore = new PostgresqlStore({
-  conString: {
-    dialect: 'postgres',
-    host: process.env.DB_HOST,     // Use the Render DB host (e.g., 'your-db-hostname.render.com')
-    port: process.env.PORT,     // Usually 5432 for PostgreSQL
-    database: process.env.DB_NAME, // Your database name
-    username: process.env.DB_USER, // Your database username
-    password: process.env.DB_PASSWORD, // Your database password
-    dialectOptions: {
-      ssl: {
-        require: true,               // Ensure SSL is required
-        rejectUnauthorized: false,   // Allow self-signed certificates
-      },
-    },
-    logging: console.log,            // Optional: Log SQL queries for debugging
-},
+  conString: process.env.DB_CONNECTION,
+  options: {
+    ssl: {
+      require: true,               // Enforce SSL
+      rejectUnauthorized: false,   // Accept self-signed certificates
+    }
+  }
 });
 
 app.use(
