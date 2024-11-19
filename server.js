@@ -93,9 +93,16 @@ app.use((req, res, next) => {
 
 app.use(cors(corsOptions));
 
+let dbConnectionString = process.env.DB_CONNECTION;
+
+// Append sslmode=require if it's missing
+if (!dbConnectionString.includes('sslmode=require')) {
+  dbConnectionString += '&sslmode=require';
+}
+
 const PostgresqlStore = genFunc(session);
 const sessionStore = new PostgresqlStore({
-  conString: process.env.DB_CONNECTION,
+  conString: dbConnectionString,
   options: {
     ssl: {
       require: true,               // Enforce SSL
